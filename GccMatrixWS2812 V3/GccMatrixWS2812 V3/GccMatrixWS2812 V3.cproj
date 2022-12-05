@@ -298,7 +298,7 @@
     <Compile Include="src\DrvWs2812.s">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\Joystick.c">
+    <Compile Include="src\JoystickButton.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\JoystickButton.h">

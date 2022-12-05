@@ -1,9 +1,3 @@
-/*
- * Joystick.c
- *
- * Created: 2/12/2022 12:06:22
- *  Author: NinoM
- */ 
 #include <asf.h>
 #include <stdint.h>				//Standard types
 #include <avr/interrupt.h>

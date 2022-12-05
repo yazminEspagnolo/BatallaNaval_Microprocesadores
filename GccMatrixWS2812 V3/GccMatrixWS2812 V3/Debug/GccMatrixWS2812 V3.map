@@ -20,12 +20,12 @@ Digit_values        0x4               src/Display_ss.o
 Matriz_P1           0xc0              src/main.o
 USART_ReceiveBuffer
                     0x1               src/UART.o
-ispressed           0x2               src/Joystick.o
+ispressed           0x2               src/JoystickButton.o
 msgg                0xa               src/UART.o
 Matriz_P2           0xc0              src/main.o
 adc_value           0x2               src/ADC.o
-ijoy                0x2               src/Joystick.o
-jjoy                0x2               src/Joystick.o
+ijoy                0x2               src/JoystickButton.o
+jjoy                0x2               src/JoystickButton.o
 USART_TransmitBuffer
                     0x1               src/UART.o
 p2disp              0x2               src/main.o
@@ -130,50 +130,50 @@ Discarded input sections
  .debug_macro   0x00000000       0x6c src/Display_ss.o
  .data          0x00000000        0x0 src/DrvWs2812.o
  .bss           0x00000000        0x0 src/DrvWs2812.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .group         0x00000000        0x8 src/Joystick.o
- .text          0x00000000        0x0 src/Joystick.o
- .data          0x00000000        0x0 src/Joystick.o
- .bss           0x00000000        0x0 src/Joystick.o
- .debug_macro   0x00000000       0x10 src/Joystick.o
- .debug_macro   0x00000000      0x1c9 src/Joystick.o
- .debug_macro   0x00000000      0x2fc src/Joystick.o
- .debug_macro   0x00000000       0x9e src/Joystick.o
- .debug_macro   0x00000000     0x1411 src/Joystick.o
- .debug_macro   0x00000000      0x13a src/Joystick.o
- .debug_macro   0x00000000       0xbd src/Joystick.o
- .debug_macro   0x00000000       0x34 src/Joystick.o
- .debug_macro   0x00000000       0x18 src/Joystick.o
- .debug_macro   0x00000000       0x6c src/Joystick.o
- .debug_macro   0x00000000       0x1c src/Joystick.o
- .debug_macro   0x00000000       0x16 src/Joystick.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .group         0x00000000        0x8 src/JoystickButton.o
+ .text          0x00000000        0x0 src/JoystickButton.o
+ .data          0x00000000        0x0 src/JoystickButton.o
+ .bss           0x00000000        0x0 src/JoystickButton.o
+ .debug_macro   0x00000000       0x10 src/JoystickButton.o
+ .debug_macro   0x00000000      0x1c9 src/JoystickButton.o
+ .debug_macro   0x00000000      0x2fc src/JoystickButton.o
+ .debug_macro   0x00000000       0x9e src/JoystickButton.o
+ .debug_macro   0x00000000     0x1411 src/JoystickButton.o
+ .debug_macro   0x00000000      0x13a src/JoystickButton.o
+ .debug_macro   0x00000000       0xbd src/JoystickButton.o
+ .debug_macro   0x00000000       0x34 src/JoystickButton.o
+ .debug_macro   0x00000000       0x18 src/JoystickButton.o
+ .debug_macro   0x00000000       0x6c src/JoystickButton.o
+ .debug_macro   0x00000000       0x1c src/JoystickButton.o
+ .debug_macro   0x00000000       0x16 src/JoystickButton.o
  .group         0x00000000        0x8 src/Timer.o
  .group         0x00000000        0x8 src/Timer.o
  .group         0x00000000        0x8 src/Timer.o
@@ -538,7 +538,7 @@ LOAD src/cqueue.o
 LOAD src/C_CheckByte.o
 LOAD src/Display_ss.o
 LOAD src/DrvWs2812.o
-LOAD src/Joystick.o
+LOAD src/JoystickButton.o
 LOAD src/Timer.o
 LOAD src/UART.o
 LOAD src/ASF/mega/boards/atmega328p_xplained_mini/init.o
@@ -774,10 +774,10 @@ END GROUP
  .text.set_P2   0x000002b8       0x26 src/Display_ss.o
                 0x000002b8                set_P2
  .text.button_check
-                0x000002de       0x18 src/Joystick.o
+                0x000002de       0x18 src/JoystickButton.o
                 0x000002de                button_check
  .text.Joystick
-                0x000002f6       0xfe src/Joystick.o
+                0x000002f6       0xfe src/JoystickButton.o
                 0x000002f6                Joystick
  .text.init_RTI
                 0x000003f4       0x12 src/Timer.o
@@ -907,7 +907,7 @@ END GROUP
  *(COMMON)
  COMMON         0x0080013f        0x4 src/Display_ss.o
                 0x0080013f                Digit_values
- COMMON         0x00800143        0x6 src/Joystick.o
+ COMMON         0x00800143        0x6 src/JoystickButton.o
                 0x00800143                ispressed
                 0x00800145                ijoy
                 0x00800147                jjoy
@@ -974,7 +974,7 @@ END GROUP
                                  0x31 (size before relaxing)
  .comment       0x00000030       0x31 src/cqueue.o
  .comment       0x00000030       0x31 src/Display_ss.o
- .comment       0x00000030       0x31 src/Joystick.o
+ .comment       0x00000030       0x31 src/JoystickButton.o
  .comment       0x00000030       0x31 src/Timer.o
  .comment       0x00000030       0x31 src/UART.o
  .comment       0x00000030       0x31 src/main.o
@@ -1014,7 +1014,7 @@ END GROUP
  .debug_aranges
                 0x000000e8       0x20 src/DrvWs2812.o
  .debug_aranges
-                0x00000108       0x28 src/Joystick.o
+                0x00000108       0x28 src/JoystickButton.o
  .debug_aranges
                 0x00000130       0x28 src/Timer.o
  .debug_aranges
@@ -1034,7 +1034,7 @@ END GROUP
  .debug_info    0x00000816      0x120 src/cqueue.o
  .debug_info    0x00000936      0x1d2 src/Display_ss.o
  .debug_info    0x00000b08       0x72 src/DrvWs2812.o
- .debug_info    0x00000b7a      0x1a1 src/Joystick.o
+ .debug_info    0x00000b7a      0x1a1 src/JoystickButton.o
  .debug_info    0x00000d1b      0x165 src/Timer.o
  .debug_info    0x00000e80      0x4fa src/UART.o
  .debug_info    0x0000137a      0x8b1 src/main.o
@@ -1048,12 +1048,12 @@ END GROUP
  .debug_abbrev  0x00000671       0xba src/cqueue.o
  .debug_abbrev  0x0000072b       0xd7 src/Display_ss.o
  .debug_abbrev  0x00000802       0x14 src/DrvWs2812.o
- .debug_abbrev  0x00000816       0xa5 src/Joystick.o
+ .debug_abbrev  0x00000816       0xa5 src/JoystickButton.o
  .debug_abbrev  0x000008bb       0xa3 src/Timer.o
  .debug_abbrev  0x0000095e      0x287 src/UART.o
  .debug_abbrev  0x00000be5      0x2cc src/main.o
 
-.debug_line     0x00000000     0x22d2
+.debug_line     0x00000000     0x22d8
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x134 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_line    0x00000134      0x363 src/ADC.o
@@ -1062,22 +1062,22 @@ END GROUP
  .debug_line    0x00000641       0xe0 src/cqueue.o
  .debug_line    0x00000721      0x2b4 src/Display_ss.o
  .debug_line    0x000009d5      0x1eb src/DrvWs2812.o
- .debug_line    0x00000bc0      0x554 src/Joystick.o
- .debug_line    0x00001114      0x545 src/Timer.o
- .debug_line    0x00001659      0x4ac src/UART.o
- .debug_line    0x00001b05      0x7cd src/main.o
+ .debug_line    0x00000bc0      0x55a src/JoystickButton.o
+ .debug_line    0x0000111a      0x545 src/Timer.o
+ .debug_line    0x0000165f      0x4ac src/UART.o
+ .debug_line    0x00001b0b      0x7cd src/main.o
 
 .debug_frame    0x00000000      0x3cc
  *(.debug_frame)
  .debug_frame   0x00000000       0x54 src/ADC.o
  .debug_frame   0x00000054       0x54 src/cqueue.o
  .debug_frame   0x000000a8       0x60 src/Display_ss.o
- .debug_frame   0x00000108       0x34 src/Joystick.o
+ .debug_frame   0x00000108       0x34 src/JoystickButton.o
  .debug_frame   0x0000013c       0x88 src/Timer.o
  .debug_frame   0x000001c4      0x154 src/UART.o
  .debug_frame   0x00000318       0xb4 src/main.o
 
-.debug_str      0x00000000    0x11bc3
+.debug_str      0x00000000    0x11c13
  *(.debug_str)
  .debug_str     0x00000000      0x208 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_str     0x00000208     0x6e88 src/ADC.o
@@ -1086,13 +1086,13 @@ END GROUP
                                0x2ba6 (size before relaxing)
  .debug_str     0x00007106      0x121 src/Display_ss.o
                                0x6890 (size before relaxing)
- .debug_str     0x00007227     0x9d4a src/Joystick.o
-                              0x10996 (size before relaxing)
- .debug_str     0x00010f71      0x193 src/Timer.o
+ .debug_str     0x00007227     0x9d9a src/JoystickButton.o
+                              0x109a9 (size before relaxing)
+ .debug_str     0x00010fc1      0x193 src/Timer.o
                               0x10b33 (size before relaxing)
- .debug_str     0x00011104      0x498 src/UART.o
+ .debug_str     0x00011154      0x498 src/UART.o
                                0x778a (size before relaxing)
- .debug_str     0x0001159c      0x627 src/main.o
+ .debug_str     0x000115ec      0x627 src/main.o
                               0x115f5 (size before relaxing)
 
 .debug_loc      0x00000000      0x6fd
@@ -1127,7 +1127,7 @@ END GROUP
  .debug_ranges  0x00000000       0x28 src/ADC.o
  .debug_ranges  0x00000028       0x28 src/cqueue.o
  .debug_ranges  0x00000050       0x28 src/Display_ss.o
- .debug_ranges  0x00000078       0x18 src/Joystick.o
+ .debug_ranges  0x00000078       0x18 src/JoystickButton.o
  .debug_ranges  0x00000090       0x18 src/Timer.o
  .debug_ranges  0x000000a8       0x68 src/UART.o
  .debug_ranges  0x00000110       0x38 src/main.o
@@ -1154,24 +1154,24 @@ END GROUP
  .debug_macro   0x00002b94      0xb98 src/cqueue.o
  .debug_macro   0x0000372c       0x10 src/cqueue.o
  .debug_macro   0x0000373c      0xc1b src/Display_ss.o
- .debug_macro   0x00004357      0xd1c src/Joystick.o
- .debug_macro   0x00005073      0x71d src/Joystick.o
- .debug_macro   0x00005790       0x22 src/Joystick.o
- .debug_macro   0x000057b2      0x16d src/Joystick.o
- .debug_macro   0x0000591f       0x35 src/Joystick.o
- .debug_macro   0x00005954       0x66 src/Joystick.o
- .debug_macro   0x000059ba       0x43 src/Joystick.o
- .debug_macro   0x000059fd       0x69 src/Joystick.o
- .debug_macro   0x00005a66       0x2b src/Joystick.o
- .debug_macro   0x00005a91       0x10 src/Joystick.o
- .debug_macro   0x00005aa1       0xe2 src/Joystick.o
- .debug_macro   0x00005b83       0x40 src/Joystick.o
- .debug_macro   0x00005bc3      0x100 src/Joystick.o
- .debug_macro   0x00005cc3       0x56 src/Joystick.o
- .debug_macro   0x00005d19       0x40 src/Joystick.o
- .debug_macro   0x00005d59      0x2df src/Joystick.o
- .debug_macro   0x00006038       0x1c src/Joystick.o
- .debug_macro   0x00006054       0x58 src/Joystick.o
+ .debug_macro   0x00004357      0xd1c src/JoystickButton.o
+ .debug_macro   0x00005073      0x71d src/JoystickButton.o
+ .debug_macro   0x00005790       0x22 src/JoystickButton.o
+ .debug_macro   0x000057b2      0x16d src/JoystickButton.o
+ .debug_macro   0x0000591f       0x35 src/JoystickButton.o
+ .debug_macro   0x00005954       0x66 src/JoystickButton.o
+ .debug_macro   0x000059ba       0x43 src/JoystickButton.o
+ .debug_macro   0x000059fd       0x69 src/JoystickButton.o
+ .debug_macro   0x00005a66       0x2b src/JoystickButton.o
+ .debug_macro   0x00005a91       0x10 src/JoystickButton.o
+ .debug_macro   0x00005aa1       0xe2 src/JoystickButton.o
+ .debug_macro   0x00005b83       0x40 src/JoystickButton.o
+ .debug_macro   0x00005bc3      0x100 src/JoystickButton.o
+ .debug_macro   0x00005cc3       0x56 src/JoystickButton.o
+ .debug_macro   0x00005d19       0x40 src/JoystickButton.o
+ .debug_macro   0x00005d59      0x2df src/JoystickButton.o
+ .debug_macro   0x00006038       0x1c src/JoystickButton.o
+ .debug_macro   0x00006054       0x58 src/JoystickButton.o
  .debug_macro   0x000060ac      0xd7d src/Timer.o
  .debug_macro   0x00006e29      0xcd2 src/UART.o
  .debug_macro   0x00007afb       0x16 src/UART.o

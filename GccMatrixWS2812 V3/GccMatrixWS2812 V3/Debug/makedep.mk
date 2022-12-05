@@ -16,7 +16,7 @@ src\Display_ss.c
 
 src\DrvWs2812.s
 
-src\Joystick.c
+src\JoystickButton.c
 
 src\Timer.c
 
