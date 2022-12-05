@@ -1,0 +1,337 @@
+   1               		.file	"Joystick.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               		.cfi_sections	.debug_frame
+  10               		.section	.text.button_check,"ax",@progbits
+  11               	.global	button_check
+  13               	button_check:
+  14               	.LFB66:
+  15               		.file 1 "../src/Joystick.c"
+   1:../src/Joystick.c **** /*
+   2:../src/Joystick.c ****  * Joystick.c
+   3:../src/Joystick.c ****  *
+   4:../src/Joystick.c ****  * Created: 2/12/2022 12:06:22
+   5:../src/Joystick.c ****  *  Author: NinoM
+   6:../src/Joystick.c ****  */ 
+   7:../src/Joystick.c **** #include <asf.h>
+   8:../src/Joystick.c **** #include <stdint.h>				//Standard types
+   9:../src/Joystick.c **** #include <avr/interrupt.h>
+  10:../src/Joystick.c **** 
+  11:../src/Joystick.c **** #include "ADC.h"
+  12:../src/Joystick.c **** #include "UART.h"
+  13:../src/Joystick.c **** #include "Timer.h"
+  14:../src/Joystick.c **** #include "JoystickButton.h"
+  15:../src/Joystick.c **** 
+  16:../src/Joystick.c **** 
+  17:../src/Joystick.c **** volatile int ijoy,jjoy;
+  18:../src/Joystick.c **** volatile int ispressed;
+  19:../src/Joystick.c **** void Joystick(void)
+  20:../src/Joystick.c **** {
+  21:../src/Joystick.c **** 	if (button_check() == 0)
+  22:../src/Joystick.c **** 	{
+  23:../src/Joystick.c **** 		/*UART_putstring("Boton apretado \n");*/
+  24:../src/Joystick.c **** 	}
+  25:../src/Joystick.c **** 	else if ((read_VRX()  >= 700))
+  26:../src/Joystick.c **** 	{
+  27:../src/Joystick.c **** 		if (ijoy < 7)
+  28:../src/Joystick.c **** 		{
+  29:../src/Joystick.c **** 			ijoy++; //se mueve 1 a la derecha
+  30:../src/Joystick.c **** 			send_num(ijoy);
+  31:../src/Joystick.c **** 		}
+  32:../src/Joystick.c **** 	}
+  33:../src/Joystick.c **** 	else if ((read_VRX()  ==  0) && (read_VRY()  >=  0) && (read_VRY()  <=  1023))
+  34:../src/Joystick.c **** 	{
+  35:../src/Joystick.c **** 		if (ijoy > 0)
+  36:../src/Joystick.c **** 		{
+  37:../src/Joystick.c **** 			ijoy--; //se mueve 1 a la izquierda
+  38:../src/Joystick.c **** 			send_num(ijoy);
+  39:../src/Joystick.c **** 		}
+  40:../src/Joystick.c **** 	}
+  41:../src/Joystick.c **** 
+  42:../src/Joystick.c **** 	else if ((read_VRX()  >=  0) && (read_VRX()  <=  1023) && (read_VRY()  >=  0) && (read_VRY()  <=  
+  43:../src/Joystick.c **** 	{
+  44:../src/Joystick.c **** 		if (jjoy < 7)
+  45:../src/Joystick.c **** 		{
+  46:../src/Joystick.c **** 			jjoy++; //se mueve 1 hacia arriba
+  47:../src/Joystick.c **** 			send_num(jjoy);
+  48:../src/Joystick.c **** 		}
+  49:../src/Joystick.c **** 	}
+  50:../src/Joystick.c **** 	else if ((read_VRX()  >=  0) && (read_VRX()  <=  1023) && (read_VRY()  >=  700)&& (read_VRY()  <= 
+  51:../src/Joystick.c **** 	{
+  52:../src/Joystick.c **** 		if (jjoy > 0)
+  53:../src/Joystick.c **** 		{
+  54:../src/Joystick.c **** 			jjoy--; //se mueve 1 hacia abajo
+  55:../src/Joystick.c **** 			send_num(jjoy);
+  56:../src/Joystick.c **** 		}
+  57:../src/Joystick.c **** 	}
+  58:../src/Joystick.c **** 	else
+  59:../src/Joystick.c **** 	{
+  60:../src/Joystick.c **** // 		UART_putstring("VECTOR X: ");
+  61:../src/Joystick.c **** // 		send_num(read_VRX());
+  62:../src/Joystick.c **** // 		UART_putstring("\n");
+  63:../src/Joystick.c **** // 		UART_putstring("VECTOR Y: ");
+  64:../src/Joystick.c **** // 		send_num(read_VRY());
+  65:../src/Joystick.c **** // 		UART_putstring("\n");
+  66:../src/Joystick.c **** 	}
+  67:../src/Joystick.c **** 		
+  68:../src/Joystick.c **** }
+  69:../src/Joystick.c **** 
+  70:../src/Joystick.c **** 
+  71:../src/Joystick.c **** 
+  72:../src/Joystick.c **** uint8_t button_check(void)
+  73:../src/Joystick.c **** {
+  16               		.loc 1 73 0
+  17               		.cfi_startproc
+  18               	/* prologue: function */
+  19               	/* frame size = 0 */
+  20               	/* stack size = 0 */
+  21               	.L__stack_usage = 0
+  74:../src/Joystick.c **** 	ispressed = (PIND & (1<<6));
+  22               		.loc 1 74 0
+  23 0000 89B1      		in r24,0x9
+  24               		.loc 1 74 0
+  25 0002 8074      		andi r24,lo8(64)
+  26 0004 90E0      		ldi r25,0
+  27               		.loc 1 74 0
+  28 0006 9093 0000 		sts ispressed+1,r25
+  29 000a 8093 0000 		sts ispressed,r24
+  75:../src/Joystick.c **** 	return (ispressed);
+  30               		.loc 1 75 0
+  31 000e 8091 0000 		lds r24,ispressed
+  32 0012 9091 0000 		lds r25,ispressed+1
+  76:../src/Joystick.c **** }
+  33               		.loc 1 76 0
+  34 0016 0895      		ret
+  35               		.cfi_endproc
+  36               	.LFE66:
+  38               		.section	.text.Joystick,"ax",@progbits
+  39               	.global	Joystick
+  41               	Joystick:
+  42               	.LFB65:
+  20:../src/Joystick.c **** 	if (button_check() == 0)
+  43               		.loc 1 20 0
+  44               		.cfi_startproc
+  45               	/* prologue: function */
+  46               	/* frame size = 0 */
+  47               	/* stack size = 0 */
+  48               	.L__stack_usage = 0
+  21:../src/Joystick.c **** 	{
+  49               		.loc 1 21 0
+  50 0000 0E94 0000 		call button_check
+  51               	.LVL0:
+  52 0004 8823      		tst r24
+  53 0006 01F4      		brne .+2
+  54 0008 00C0      		rjmp .L2
+  25:../src/Joystick.c **** 	{
+  55               		.loc 1 25 0
+  56 000a 0E94 0000 		call read_VRX
+  57               	.LVL1:
+  58 000e 8C3B      		cpi r24,-68
+  59 0010 9240      		sbci r25,2
+  60 0012 00F0      		brlo .L4
+  27:../src/Joystick.c **** 		{
+  61               		.loc 1 27 0
+  62 0014 8091 0000 		lds r24,ijoy
+  63 0018 9091 0000 		lds r25,ijoy+1
+  64 001c 0797      		sbiw r24,7
+  65 001e 04F0      		brlt .+2
+  66 0020 00C0      		rjmp .L2
+  29:../src/Joystick.c **** 			send_num(ijoy);
+  67               		.loc 1 29 0
+  68 0022 8091 0000 		lds r24,ijoy
+  69 0026 9091 0000 		lds r25,ijoy+1
+  70 002a 0196      		adiw r24,1
+  71 002c 9093 0000 		sts ijoy+1,r25
+  72 0030 8093 0000 		sts ijoy,r24
+  30:../src/Joystick.c **** 		}
+  73               		.loc 1 30 0
+  74 0034 8091 0000 		lds r24,ijoy
+  75 0038 9091 0000 		lds r25,ijoy+1
+  76 003c 0E94 0000 		call send_num
+  77               	.LVL2:
+  78 0040 0895      		ret
+  79               	.L4:
+  33:../src/Joystick.c **** 	{
+  80               		.loc 1 33 0
+  81 0042 0E94 0000 		call read_VRX
+  82               	.LVL3:
+  83 0046 892B      		or r24,r25
+  84 0048 01F4      		brne .L5
+  33:../src/Joystick.c **** 	{
+  85               		.loc 1 33 0 is_stmt 0 discriminator 1
+  86 004a 0E94 0000 		call read_VRY
+  87               	.LVL4:
+  88 004e 0E94 0000 		call read_VRY
+  89               	.LVL5:
+  90 0052 8115      		cp r24,__zero_reg__
+  91 0054 9440      		sbci r25,4
+  92 0056 00F4      		brsh .L5
+  35:../src/Joystick.c **** 		{
+  93               		.loc 1 35 0 is_stmt 1
+  94 0058 8091 0000 		lds r24,ijoy
+  95 005c 9091 0000 		lds r25,ijoy+1
+  96 0060 1816      		cp __zero_reg__,r24
+  97 0062 1906      		cpc __zero_reg__,r25
+  98 0064 04F0      		brlt .+2
+  99 0066 00C0      		rjmp .L2
+  37:../src/Joystick.c **** 			send_num(ijoy);
+ 100               		.loc 1 37 0
+ 101 0068 8091 0000 		lds r24,ijoy
+ 102 006c 9091 0000 		lds r25,ijoy+1
+ 103 0070 0197      		sbiw r24,1
+ 104 0072 9093 0000 		sts ijoy+1,r25
+ 105 0076 8093 0000 		sts ijoy,r24
+  38:../src/Joystick.c **** 		}
+ 106               		.loc 1 38 0
+ 107 007a 8091 0000 		lds r24,ijoy
+ 108 007e 9091 0000 		lds r25,ijoy+1
+ 109 0082 0E94 0000 		call send_num
+ 110               	.LVL6:
+ 111 0086 0895      		ret
+ 112               	.L5:
+  42:../src/Joystick.c **** 	{
+ 113               		.loc 1 42 0
+ 114 0088 0E94 0000 		call read_VRX
+ 115               	.LVL7:
+ 116 008c 0E94 0000 		call read_VRX
+ 117               	.LVL8:
+ 118 0090 8115      		cp r24,__zero_reg__
+ 119 0092 9440      		sbci r25,4
+ 120 0094 00F4      		brsh .L6
+  42:../src/Joystick.c **** 	{
+ 121               		.loc 1 42 0 is_stmt 0 discriminator 2
+ 122 0096 0E94 0000 		call read_VRY
+ 123               	.LVL9:
+ 124 009a 0E94 0000 		call read_VRY
+ 125               	.LVL10:
+ 126 009e 893C      		cpi r24,-55
+ 127 00a0 9105      		cpc r25,__zero_reg__
+ 128 00a2 00F4      		brsh .L6
+  44:../src/Joystick.c **** 		{
+ 129               		.loc 1 44 0 is_stmt 1
+ 130 00a4 8091 0000 		lds r24,jjoy
+ 131 00a8 9091 0000 		lds r25,jjoy+1
+ 132 00ac 0797      		sbiw r24,7
+ 133 00ae 04F4      		brge .L2
+  46:../src/Joystick.c **** 			send_num(jjoy);
+ 134               		.loc 1 46 0
+ 135 00b0 8091 0000 		lds r24,jjoy
+ 136 00b4 9091 0000 		lds r25,jjoy+1
+ 137 00b8 0196      		adiw r24,1
+ 138 00ba 9093 0000 		sts jjoy+1,r25
+ 139 00be 8093 0000 		sts jjoy,r24
+  47:../src/Joystick.c **** 		}
+ 140               		.loc 1 47 0
+ 141 00c2 8091 0000 		lds r24,jjoy
+ 142 00c6 9091 0000 		lds r25,jjoy+1
+ 143 00ca 0E94 0000 		call send_num
+ 144               	.LVL11:
+ 145 00ce 0895      		ret
+ 146               	.L6:
+  50:../src/Joystick.c **** 	{
+ 147               		.loc 1 50 0
+ 148 00d0 0E94 0000 		call read_VRX
+ 149               	.LVL12:
+ 150 00d4 0E94 0000 		call read_VRX
+ 151               	.LVL13:
+ 152 00d8 8115      		cp r24,__zero_reg__
+ 153 00da 9440      		sbci r25,4
+ 154 00dc 00F4      		brsh .L2
+  50:../src/Joystick.c **** 	{
+ 155               		.loc 1 50 0 is_stmt 0 discriminator 2
+ 156 00de 0E94 0000 		call read_VRY
+ 157               	.LVL14:
+ 158 00e2 8C3B      		cpi r24,-68
+ 159 00e4 9240      		sbci r25,2
+ 160 00e6 00F0      		brlo .L2
+  50:../src/Joystick.c **** 	{
+ 161               		.loc 1 50 0 discriminator 3
+ 162 00e8 0E94 0000 		call read_VRY
+ 163               	.LVL15:
+ 164 00ec 8115      		cp r24,__zero_reg__
+ 165 00ee 9440      		sbci r25,4
+ 166 00f0 00F4      		brsh .L2
+  52:../src/Joystick.c **** 		{
+ 167               		.loc 1 52 0 is_stmt 1
+ 168 00f2 8091 0000 		lds r24,jjoy
+ 169 00f6 9091 0000 		lds r25,jjoy+1
+ 170 00fa 1816      		cp __zero_reg__,r24
+ 171 00fc 1906      		cpc __zero_reg__,r25
+ 172 00fe 04F4      		brge .L2
+  54:../src/Joystick.c **** 			send_num(jjoy);
+ 173               		.loc 1 54 0
+ 174 0100 8091 0000 		lds r24,jjoy
+ 175 0104 9091 0000 		lds r25,jjoy+1
+ 176 0108 0197      		sbiw r24,1
+ 177 010a 9093 0000 		sts jjoy+1,r25
+ 178 010e 8093 0000 		sts jjoy,r24
+  55:../src/Joystick.c **** 		}
+ 179               		.loc 1 55 0
+ 180 0112 8091 0000 		lds r24,jjoy
+ 181 0116 9091 0000 		lds r25,jjoy+1
+ 182 011a 0E94 0000 		call send_num
+ 183               	.LVL16:
+ 184               	.L2:
+ 185 011e 0895      		ret
+ 186               		.cfi_endproc
+ 187               	.LFE65:
+ 189               		.comm	ispressed,2,1
+ 190               		.comm	jjoy,2,1
+ 191               		.comm	ijoy,2,1
+ 192               		.text
+ 193               	.Letext0:
+ 194               		.file 2 "../src/ADC.h"
+ 195               		.file 3 "../src/UART.h"
+ 196               		.file 4 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\in
+DEFINED SYMBOLS
+                            *ABS*:00000000 Joystick.c
+          Joystick.s:2      *ABS*:0000003e __SP_H__
+          Joystick.s:3      *ABS*:0000003d __SP_L__
+          Joystick.s:4      *ABS*:0000003f __SREG__
+          Joystick.s:5      *ABS*:00000000 __tmp_reg__
+          Joystick.s:6      *ABS*:00000001 __zero_reg__
+          Joystick.s:13     .text.button_check:00000000 button_check
+                            *COM*:00000002 ispressed
+          Joystick.s:41     .text.Joystick:00000000 Joystick
+                            *COM*:00000002 ijoy
+                            *COM*:00000002 jjoy
+                           .group:00000000 wm4.parts.h.38.424177e1c4c7502bdf2cd6eac0e66f1e
+                           .group:00000000 wm4.sfr_defs.h.36.473802ecbcb5d4d38de6c7efbfcd3c60
+                           .group:00000000 wm4.stdint.h.41.052d062c327f27e210bb72c3d087afe5
+                           .group:00000000 wm4.inttypes.h.96.afb9c4be73a069861f8689c997efc518
+                           .group:00000000 wm4.sfr_defs.h.128.38ceebe2fb099c106e85a566519e0f1a
+                           .group:00000000 wm4.iom328p.h.44.29c929f46483155923fc58520c74ebf7
+                           .group:00000000 wm4.portpins.h.34.21289185946cbf62723ecc8db6cdc3ff
+                           .group:00000000 wm4.common.h.35.c7e66042b2128622b9d3bddccc9a39f4
+                           .group:00000000 wm4.version.h.54.85699b1a50c61c991a37d67b69e79e95
+                           .group:00000000 wm4.fuse.h.36.5c373c650020c0efef2cbaa98ea802c3
+                           .group:00000000 wm4.lock.h.36.51f311078904691e8f8c3d70111251d8
+                           .group:00000000 wm4.stdbool.h.29.07dce69c3b78884144b7f7bd19483461
+                           .group:00000000 wm4.stddef.h.39.99b5021e28f91cdb161c889e07266673
+                           .group:00000000 wm4.stdlib.h.40.248a6087ef49adb4f4328833c0282d4b
+                           .group:00000000 wm4.stddef.h.161.19e15733342b50ead2919490b095303e
+                           .group:00000000 wm4.stdlib.h.51.3a36e1d757b19eb9d8852fbf8bb7cd30
+                           .group:00000000 wm4.compiler.h.71.f9633126e8a32454fdb20497dc57808e
+                           .group:00000000 wm4.interrupt.h.36.b2193b640edda749ea0a45a8be5976c8
+                           .group:00000000 wm4.interrupt_avr8.h.89.988a0fb0a0728821bb2ce6a5fad9a217
+                           .group:00000000 wm4.pgmspace.h.83.7bf4a326041279617a872e0717310315
+                           .group:00000000 wm4.pgmspace.h.98.de80e653d80602932888d287eea24d43
+                           .group:00000000 wm4.progmem.h.56.1d8b28eb4bdbace2fba3d4aa9d1800d3
+                           .group:00000000 wm4.compiler.h.162.3bca7208a79b237ff211f6b945969fd5
+                           .group:00000000 wm4.ioport.h.38.48f501ae460febc49dd950c4a2361938
+                           .group:00000000 wm4.mega_gpio.h.43.3e8869bf7dde66f4dae42caccabdc28f
+                           .group:00000000 wm4.board.h.41.2d9694df0f6b670341666b9015632b94
+                           .group:00000000 wm4.led.h.38.8c4408d5cc264ea8e7bbcc0ac6971d10
+                           .group:00000000 wm4.atmega328p_xplained_mini.h.47.411278661c63ad4794d5f415bca0f65b
+                           .group:00000000 wm4.ADC.h.10.4375d630963ad1b8b9d883a341299c49
+
+UNDEFINED SYMBOLS
+read_VRX
+send_num
+read_VRY
+__do_clear_bss

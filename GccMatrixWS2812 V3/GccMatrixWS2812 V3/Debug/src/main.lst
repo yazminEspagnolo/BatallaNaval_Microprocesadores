@@ -1,0 +1,1912 @@
+   1               		.file	"main.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               		.cfi_sections	.debug_frame
+  10               		.section	.text.Mostrar_Matriz_2,"ax",@progbits
+  11               	.global	Mostrar_Matriz_2
+  13               	Mostrar_Matriz_2:
+  14               	.LFB73:
+  15               		.file 1 "../src/main.c"
+   1:../src/main.c **** #include <asf.h>
+   2:../src/main.c **** #include <stdint.h>
+   3:../src/main.c **** #define F_CPU 16000000UL // Defining the CPU Frequency
+   4:../src/main.c **** #include <util/delay.h>  // Generates a Blocking Delay+
+   5:../src/main.c **** #include <stdio.h>
+   6:../src/main.c **** #include <inttypes.h>
+   7:../src/main.c **** 
+   8:../src/main.c **** 
+   9:../src/main.c **** #include "UART.h"
+  10:../src/main.c **** #include "ADC.h"
+  11:../src/main.c **** #include "Timer.h"
+  12:../src/main.c **** #include "JoystickButton.h"
+  13:../src/main.c **** #include "C_CheckByte.h"
+  14:../src/main.c **** #include "Display_ss.h"
+  15:../src/main.c **** #include <stdlib.h>
+  16:../src/main.c **** #include <string.h>
+  17:../src/main.c **** //extern uint8_t JoystickButton(void);
+  18:../src/main.c **** /*
+  19:../src/main.c **** GccWS2812_V3
+  20:../src/main.c **** This version works like the assembly version "ws2812 efecto1"
+  21:../src/main.c **** The main differences are:
+  22:../src/main.c **** 1- The Assembly code is the same but the compiler is the GCC version
+  23:../src/main.c ****    so pay attention to the differences.
+  24:../src/main.c **** Eg.: .equ is replaced by #define , HIGH and LOW is replaced by hi8 and lo8
+  25:../src/main.c ****      The argument of the latter macros (hi8,lo8) is not more 2*Address_Label
+  26:../src/main.c **** 	 #define __SFR_OFFSET 0 must be defined
+  27:../src/main.c **** 	 Macros syntax is different
+  28:../src/main.c **** 	 .def is replaced with #define 
+  29:../src/main.c **** 	 Tables in program segment are defined using .byte (not .db)
+  30:../src/main.c **** */
+  31:../src/main.c **** 
+  32:../src/main.c **** 
+  33:../src/main.c **** 
+  34:../src/main.c **** typedef struct 
+  35:../src/main.c **** 		{
+  36:../src/main.c **** 			uint8_t green;   // WS2812 order (GRB)
+  37:../src/main.c **** 			uint8_t red;
+  38:../src/main.c **** 			uint8_t blue;
+  39:../src/main.c **** 		} RGBled;
+  40:../src/main.c **** 		
+  41:../src/main.c **** 
+  42:../src/main.c **** 
+  43:../src/main.c **** typedef RGBled (*P2RGB) ;
+  44:../src/main.c **** 
+  45:../src/main.c **** // Variables
+  46:../src/main.c **** 
+  47:../src/main.c **** P2RGB p2disp;
+  48:../src/main.c **** 
+  49:../src/main.c **** RGBled disparado={100,0,0}; // DISPARADO VERDE
+  50:../src/main.c **** RGBled hundido={0,100,0}; // HUNDIDO ROJO
+  51:../src/main.c **** RGBled agua={0,0,100}; // AGUA AZUL
+  52:../src/main.c **** RGBled tocado={100,100,25}; // TOCADO AMARILLO
+  53:../src/main.c **** RGBled Apagado={0,0,0}; // LED APAGADO
+  54:../src/main.c **** RGBled puntero = {10, 10, 0}; // PUNTERO DEL JOYSTICK
+  55:../src/main.c **** RGBled Matriz_RGB[8][8];
+  56:../src/main.c **** 
+  57:../src/main.c **** #define submarine (1<<6)
+  58:../src/main.c **** #define cargoBoat (1<<7)
+  59:../src/main.c **** 
+  60:../src/main.c **** uint16_t ContadorPuntero = 0;
+  61:../src/main.c **** 
+  62:../src/main.c **** const uint16_t derecha_min = 800;
+  63:../src/main.c **** const uint16_t derecha_max = 1023;
+  64:../src/main.c **** const uint16_t izquierda_min = 200;
+  65:../src/main.c **** const uint16_t izquierda_max = 0;
+  66:../src/main.c **** const uint16_t abajo_min = 800;
+  67:../src/main.c **** const uint16_t abajo_max = 1023;
+  68:../src/main.c **** const uint16_t arriba_min = 200;
+  69:../src/main.c **** const uint16_t arriba_max = 0;	
+  70:../src/main.c **** 	
+  71:../src/main.c **** 
+  72:../src/main.c **** 		
+  73:../src/main.c **** // Assembly function
+  74:../src/main.c **** extern void init_ws2812(void);
+  75:../src/main.c **** extern void wrt_ws2812(P2RGB);
+  76:../src/main.c **** 
+  77:../src/main.c **** // Local prototypes
+  78:../src/main.c **** void Mostrar_Matriz_2(void);
+  79:../src/main.c **** void Mostrar_Matriz_1(void);
+  80:../src/main.c **** void softdelay(void);
+  81:../src/main.c **** void clear_disp(void);
+  82:../src/main.c **** char msg[] = "Hello from ATmega328p\r\n  ";
+  83:../src/main.c **** 
+  84:../src/main.c **** volatile uint16_t ijoy; //filas
+  85:../src/main.c **** volatile uint16_t jjoy; //columnas
+  86:../src/main.c **** 
+  87:../src/main.c **** void ADCTestBench(void);
+  88:../src/main.c **** 
+  89:../src/main.c **** // Prototypes Display
+  90:../src/main.c **** void display_init(void);
+  91:../src/main.c **** void set_P1(void);
+  92:../src/main.c **** void set_P2(void);
+  93:../src/main.c **** 
+  94:../src/main.c **** // void Disparado(uint16_t i, uint16_t j);
+  95:../src/main.c **** // void Hundido(uint16_t i, uint16_t j);
+  96:../src/main.c **** // void Tocado(uint16_t i, uint16_t j);
+  97:../src/main.c **** // void Agua(uint16_t i, uint16_t j);
+  98:../src/main.c **** RGBled Matriz_P1[8][8]; //matriz jugador 1
+  99:../src/main.c **** RGBled Matriz_P2[8][8]; //matriz jugador 2
+ 100:../src/main.c **** 
+ 101:../src/main.c **** //void mostrar_Matriz(RGBled *);
+ 102:../src/main.c **** void embarcacion(char b[3]);
+ 103:../src/main.c **** void PunteroDelJuegoP1(void);
+ 104:../src/main.c **** void PunteroDelJuegoP2(void);
+ 105:../src/main.c **** 
+ 106:../src/main.c **** extern void joybutton_Init(void);
+ 107:../src/main.c **** 
+ 108:../src/main.c **** uint8_t button_press(void);
+ 109:../src/main.c **** volatile uint8_t ispressed;
+ 110:../src/main.c **** 
+ 111:../src/main.c **** volatile uint8_t Turno;
+ 112:../src/main.c **** 
+ 113:../src/main.c **** 
+ 114:../src/main.c **** 
+ 115:../src/main.c **** int main (void)
+ 116:../src/main.c **** {		
+ 117:../src/main.c **** 			init_ws2812();		//Initialize RGB Display driver
+ 118:../src/main.c **** 			init_RTI();			//Initialize Periodic Real Time Interrupt(Timer)
+ 119:../src/main.c **** 			UART_Init();		//Initialize serial port driver (UART)
+ 120:../src/main.c **** 			adc_init();			//Initialize Analog to digital converter (Joystick)
+ 121:../src/main.c **** 			joybutton_Init();
+ 122:../src/main.c **** 			display_init();
+ 123:../src/main.c **** 		
+ 124:../src/main.c **** 			p2disp=&Matriz_RGB[0][0];
+ 125:../src/main.c **** 			
+ 126:../src/main.c **** 			
+ 127:../src/main.c **** 		for(int r=0;r<=7;r++)
+ 128:../src/main.c **** 			for(int c=0;c<=7;c++)
+ 129:../src/main.c **** 				Matriz_RGB[r][c]=Apagado;
+ 130:../src/main.c **** 				
+ 131:../src/main.c **** 		UART_putstring("Hola");
+ 132:../src/main.c ****  			
+ 133:../src/main.c ****  		for(int r=0;r<=7;r++)
+ 134:../src/main.c **** 			for(int c=0;c<=7;c++)
+ 135:../src/main.c **** 				Matriz_P1[r][c]=Apagado;
+ 136:../src/main.c **** 			
+ 137:../src/main.c **** 			for(int r=0;r<=7;r++)
+ 138:../src/main.c **** 				for(int c=0;c<=7;c++)
+ 139:../src/main.c **** 					Matriz_P2[r][c]=Apagado;
+ 140:../src/main.c **** 					
+ 141:../src/main.c **** 		clear_disp();
+ 142:../src/main.c **** 					
+ 143:../src/main.c **** // 		for( k=0;k<=7;k++)
+ 144:../src/main.c **** // 			{
+ 145:../src/main.c **** // 			Matriz_P1[k][0]=tocado;
+ 146:../src/main.c **** // 			Matriz_P1[k][4]=tocado;
+ 147:../src/main.c **** // 			Matriz_P1[k][7]=tocado;
+ 148:../src/main.c **** // 			}
+ 149:../src/main.c **** // 			
+ 150:../src/main.c **** // 		for( k=0;k<=7;k++)
+ 151:../src/main.c **** // 			{
+ 152:../src/main.c **** // 			Matriz_P2[k][0]=hundido;
+ 153:../src/main.c **** // 			Matriz_P2[k][4]=hundido;
+ 154:../src/main.c **** // 			Matriz_P2[k][7]=hundido;
+ 155:../src/main.c **** // 			}
+ 156:../src/main.c **** 			
+ 157:../src/main.c **** 			
+ 158:../src/main.c **** 			
+ 159:../src/main.c **** 			sei();					// Enable global Interrupts
+ 160:../src/main.c **** 
+ 161:../src/main.c **** 			while(1)
+ 162:../src/main.c **** 			{
+ 163:../src/main.c **** 				if (Turno == 1)
+ 164:../src/main.c **** 				{
+ 165:../src/main.c **** 					set_P1();
+ 166:../src/main.c **** 					while (Turno == 1)
+ 167:../src/main.c **** 					{
+ 168:../src/main.c **** 						clear_disp();
+ 169:../src/main.c **** 						
+ 170:../src/main.c **** 						Mostrar_Matriz_2();
+ 171:../src/main.c **** 						Matriz_RGB[ijoy][jjoy] = puntero;
+ 172:../src/main.c **** 						_delay_ms(50);
+ 173:../src/main.c **** 						wrt_ws2812(p2disp);
+ 174:../src/main.c **** 					}
+ 175:../src/main.c **** 				}
+ 176:../src/main.c **** 				
+ 177:../src/main.c **** 				else if (Turno == 2)
+ 178:../src/main.c **** 				{
+ 179:../src/main.c **** 					set_P2();
+ 180:../src/main.c **** 					while (Turno == 2)
+ 181:../src/main.c **** 					{
+ 182:../src/main.c **** 						clear_disp();
+ 183:../src/main.c **** 						Mostrar_Matriz_1();
+ 184:../src/main.c **** 						Matriz_RGB[ijoy][jjoy] = puntero;
+ 185:../src/main.c **** 						_delay_ms(50);
+ 186:../src/main.c **** 						wrt_ws2812(p2disp);
+ 187:../src/main.c **** 					}
+ 188:../src/main.c **** 				}
+ 189:../src/main.c **** 			}
+ 190:../src/main.c **** 
+ 191:../src/main.c **** // 			clear_disp();
+ 192:../src/main.c **** // 	        wrt_ws2812(p2disp);
+ 193:../src/main.c **** // 			
+ 194:../src/main.c **** // 			_delay_ms(500);
+ 195:../src/main.c **** // 			
+ 196:../src/main.c **** // 			
+ 197:../src/main.c **** // 			for(k=0;k<=7;k++)
+ 198:../src/main.c **** // 			{
+ 199:../src/main.c **** // 			Matriz_RGB[k][0]=Rojo;
+ 200:../src/main.c **** // 			Matriz_RGB[k][4]=Verde;
+ 201:../src/main.c **** // 			Matriz_RGB[k][7]=Azul;
+ 202:../src/main.c **** // 			}
+ 203:../src/main.c **** // 
+ 204:../src/main.c **** // 			wrt_ws2812(p2disp);
+ 205:../src/main.c **** // 			
+ 206:../src/main.c **** // 			
+ 207:../src/main.c **** // 			_delay_ms(800);
+ 208:../src/main.c **** // 			clear_disp();
+ 209:../src/main.c **** // 			
+ 210:../src/main.c **** // 			
+ 211:../src/main.c **** // 			for(i=0;i<=3;i++)
+ 212:../src/main.c **** // 			{
+ 213:../src/main.c **** // 				Matriz_RGB[3-i][3-i]=Rojo;
+ 214:../src/main.c **** // 				Matriz_RGB[4+i][3-i]=Verde;
+ 215:../src/main.c **** // 				Matriz_RGB[3-i][4+i]=Verde;
+ 216:../src/main.c **** // 				Matriz_RGB[4+i][4+i]=Rojo;
+ 217:../src/main.c **** // 		
+ 218:../src/main.c **** // 				wrt_ws2812(p2disp);
+ 219:../src/main.c **** // 		
+ 220:../src/main.c **** // 				_delay_ms(500);
+ 221:../src/main.c **** // 				clear_disp();
+ 222:../src/main.c **** // 			}
+ 223:../src/main.c **** // 			
+ 224:../src/main.c **** // 			while(1);
+ 225:../src/main.c **** // 
+ 226:../src/main.c **** // 			//ADCTestBench();
+ 227:../src/main.c **** // 			uart_test();
+ 228:../src/main.c **** // 			//cambiarJugador();
+ 229:../src/main.c **** // 			joybutton_Init();
+ 230:../src/main.c **** // 			//joybuttonpress_Check();
+ 231:../src/main.c **** // 			Matriz_P1[3][5] = 7;
+ 232:../src/main.c **** // 			mostrar_Matriz_1();
+ 233:../src/main.c **** // 			//mostrar_Matriz();
+ 234:../src/main.c **** }
+ 235:../src/main.c **** 
+ 236:../src/main.c **** 
+ 237:../src/main.c **** // void Disparado(uint16_t i, uint16_t j)
+ 238:../src/main.c **** // {
+ 239:../src/main.c **** // 	Matriz[i][4]=Verde;
+ 240:../src/main.c **** // }
+ 241:../src/main.c **** // 
+ 242:../src/main.c **** // void Hundido(uint16_t i, uint16_t j)
+ 243:../src/main.c **** // {
+ 244:../src/main.c **** // 	Matriz[i][0]=Rojo;
+ 245:../src/main.c **** // }
+ 246:../src/main.c **** // 
+ 247:../src/main.c **** // void Tocado(uint16_t i, uint16_t j)
+ 248:../src/main.c **** // {
+ 249:../src/main.c **** // 	Matriz[i][2]=Amarillo;
+ 250:../src/main.c **** // }
+ 251:../src/main.c **** // 
+ 252:../src/main.c **** // void Agua(uint16_t i, uint16_t j)
+ 253:../src/main.c **** // {
+ 254:../src/main.c **** // 	Matriz[i][7]=Azul;
+ 255:../src/main.c **** // }
+ 256:../src/main.c **** /*
+ 257:../src/main.c **** void mostrar_Matriz( Matriz)
+ 258:../src/main.c **** {
+ 259:../src/main.c **** 	int i,j;
+ 260:../src/main.c **** 	
+ 261:../src/main.c **** 	for (i=1; i<8; i++)
+ 262:../src/main.c **** 	{
+ 263:../src/main.c **** 		for (j=1; j<8; j++)
+ 264:../src/main.c **** 		{
+ 265:../src/main.c **** 			printf("|%c|\t",Matriz[i][j]);
+ 266:../src/main.c **** 		}
+ 267:../src/main.c **** 		printf("\n\n");
+ 268:../src/main.c **** 	}
+ 269:../src/main.c **** }
+ 270:../src/main.c **** 
+ 271:../src/main.c **** */
+ 272:../src/main.c **** 
+ 273:../src/main.c **** 
+ 274:../src/main.c **** 
+ 275:../src/main.c **** 
+ 276:../src/main.c **** // void mostrar_Matriz_1(void)
+ 277:../src/main.c **** // {
+ 278:../src/main.c **** // 	for(int r=0;r<=7;r++)
+ 279:../src/main.c **** //	{
+ 280:../src/main.c **** // 		for(int c=0;c<=7;c++)
+ 281:../src/main.c **** // 		{
+ 282:../src/main.c **** // 			Matriz[r][c]=Azul;
+ 283:../src/main.c **** // 		}
+ 284:../src/main.c **** // 	}
+ 285:../src/main.c **** // }
+ 286:../src/main.c **** 
+ 287:../src/main.c **** void Mostrar_Matriz_2(void)
+ 288:../src/main.c **** {
+  16               		.loc 1 288 0
+  17               		.cfi_startproc
+  18 0000 CF93      		push r28
+  19               	.LCFI0:
+  20               		.cfi_def_cfa_offset 3
+  21               		.cfi_offset 28, -2
+  22 0002 DF93      		push r29
+  23               	.LCFI1:
+  24               		.cfi_def_cfa_offset 4
+  25               		.cfi_offset 29, -3
+  26               	/* prologue: function */
+  27               	/* frame size = 0 */
+  28               	/* stack size = 2 */
+  29               	.L__stack_usage = 2
+  30               	.LVL0:
+  31 0004 E0E0      		ldi r30,lo8(Matriz_P2)
+  32 0006 F0E0      		ldi r31,hi8(Matriz_P2)
+  33 0008 60E0      		ldi r22,lo8(Matriz_RGB)
+  34 000a 70E0      		ldi r23,hi8(Matriz_RGB)
+  35 000c C0E0      		ldi r28,lo8(Matriz_P2+192)
+  36 000e D0E0      		ldi r29,hi8(Matriz_P2+192)
+  37 0010 00C0      		rjmp .L2
+  38               	.LVL1:
+  39               	.L3:
+  40               	.LBB22:
+  41               	.LBB23:
+ 289:../src/main.c **** 	for (int i=0; i<=7; i++)
+ 290:../src/main.c **** 		for (int j=0; j<=7; j++)
+ 291:../src/main.c **** 			Matriz_RGB[i][j] = Matriz_P2[i][j];
+  42               		.loc 1 291 0 discriminator 3
+  43 0012 2191      		ld r18,Z+
+  44 0014 3191      		ld r19,Z+
+  45 0016 4191      		ld r20,Z+
+  46 0018 2D93      		st X+,r18
+  47 001a 3D93      		st X+,r19
+  48 001c 4D93      		st X+,r20
+  49               	.LVL2:
+ 290:../src/main.c **** 			Matriz_RGB[i][j] = Matriz_P2[i][j];
+  50               		.loc 1 290 0 discriminator 3
+  51 001e E817      		cp r30,r24
+  52 0020 F907      		cpc r31,r25
+  53 0022 01F4      		brne .L3
+  54 0024 685E      		subi r22,-24
+  55 0026 7F4F      		sbci r23,-1
+  56 0028 FC01      		movw r30,r24
+  57               	.LBE23:
+ 289:../src/main.c **** 	for (int i=0; i<=7; i++)
+  58               		.loc 1 289 0 discriminator 2
+  59 002a C817      		cp r28,r24
+  60 002c D907      		cpc r29,r25
+  61 002e 01F0      		breq .L1
+  62               	.L2:
+  63               	.LVL3:
+  64 0030 CF01      		movw r24,r30
+  65 0032 4896      		adiw r24,24
+  66               	.LBE22:
+ 288:../src/main.c **** 	for (int i=0; i<=7; i++)
+  67               		.loc 1 288 0 discriminator 1
+  68 0034 DB01      		movw r26,r22
+  69 0036 00C0      		rjmp .L3
+  70               	.LVL4:
+  71               	.L1:
+  72               	/* epilogue start */
+ 292:../src/main.c **** }
+  73               		.loc 1 292 0
+  74 0038 DF91      		pop r29
+  75 003a CF91      		pop r28
+  76 003c 0895      		ret
+  77               		.cfi_endproc
+  78               	.LFE73:
+  80               		.section	.text.Mostrar_Matriz_1,"ax",@progbits
+  81               	.global	Mostrar_Matriz_1
+  83               	Mostrar_Matriz_1:
+  84               	.LFB74:
+ 293:../src/main.c **** 
+ 294:../src/main.c **** void Mostrar_Matriz_1(void)
+ 295:../src/main.c **** {
+  85               		.loc 1 295 0
+  86               		.cfi_startproc
+  87 0000 CF93      		push r28
+  88               	.LCFI2:
+  89               		.cfi_def_cfa_offset 3
+  90               		.cfi_offset 28, -2
+  91 0002 DF93      		push r29
+  92               	.LCFI3:
+  93               		.cfi_def_cfa_offset 4
+  94               		.cfi_offset 29, -3
+  95               	/* prologue: function */
+  96               	/* frame size = 0 */
+  97               	/* stack size = 2 */
+  98               	.L__stack_usage = 2
+  99               	.LVL5:
+ 100 0004 E0E0      		ldi r30,lo8(Matriz_P1)
+ 101 0006 F0E0      		ldi r31,hi8(Matriz_P1)
+ 102 0008 60E0      		ldi r22,lo8(Matriz_RGB)
+ 103 000a 70E0      		ldi r23,hi8(Matriz_RGB)
+ 104 000c C0E0      		ldi r28,lo8(Matriz_P1+192)
+ 105 000e D0E0      		ldi r29,hi8(Matriz_P1+192)
+ 106 0010 00C0      		rjmp .L7
+ 107               	.LVL6:
+ 108               	.L8:
+ 109               	.LBB24:
+ 110               	.LBB25:
+ 296:../src/main.c **** 	for (int i=0; i<=7; i++)
+ 297:../src/main.c **** 		for (int j=0; j<=7; j++)
+ 298:../src/main.c **** 			Matriz_RGB[i][j] = Matriz_P1[i][j];
+ 111               		.loc 1 298 0 discriminator 3
+ 112 0012 2191      		ld r18,Z+
+ 113 0014 3191      		ld r19,Z+
+ 114 0016 4191      		ld r20,Z+
+ 115 0018 2D93      		st X+,r18
+ 116 001a 3D93      		st X+,r19
+ 117 001c 4D93      		st X+,r20
+ 118               	.LVL7:
+ 297:../src/main.c **** 			Matriz_RGB[i][j] = Matriz_P1[i][j];
+ 119               		.loc 1 297 0 discriminator 3
+ 120 001e E817      		cp r30,r24
+ 121 0020 F907      		cpc r31,r25
+ 122 0022 01F4      		brne .L8
+ 123 0024 685E      		subi r22,-24
+ 124 0026 7F4F      		sbci r23,-1
+ 125 0028 FC01      		movw r30,r24
+ 126               	.LBE25:
+ 296:../src/main.c **** 	for (int i=0; i<=7; i++)
+ 127               		.loc 1 296 0 discriminator 2
+ 128 002a C817      		cp r28,r24
+ 129 002c D907      		cpc r29,r25
+ 130 002e 01F0      		breq .L6
+ 131               	.L7:
+ 132               	.LVL8:
+ 133 0030 CF01      		movw r24,r30
+ 134 0032 4896      		adiw r24,24
+ 135               	.LBE24:
+ 295:../src/main.c **** 	for (int i=0; i<=7; i++)
+ 136               		.loc 1 295 0 discriminator 1
+ 137 0034 DB01      		movw r26,r22
+ 138 0036 00C0      		rjmp .L8
+ 139               	.LVL9:
+ 140               	.L6:
+ 141               	/* epilogue start */
+ 299:../src/main.c **** }
+ 142               		.loc 1 299 0
+ 143 0038 DF91      		pop r29
+ 144 003a CF91      		pop r28
+ 145 003c 0895      		ret
+ 146               		.cfi_endproc
+ 147               	.LFE74:
+ 149               		.section	.text.clear_disp,"ax",@progbits
+ 150               	.global	clear_disp
+ 152               	clear_disp:
+ 153               	.LFB75:
+ 300:../src/main.c **** 
+ 301:../src/main.c **** 
+ 302:../src/main.c **** /*
+ 303:../src/main.c **** void embarcacion(char b[3])
+ 304:../src/main.c **** {
+ 305:../src/main.c **** 	int i, j;
+ 306:../src/main.c **** //	int x=65, y=0;
+ 307:../src/main.c **** 	for(i=0; i<3;)
+ 308:../src/main.c **** 	{
+ 309:../src/main.c **** 		//printf("LA UBICACION DEl BARCO %i: ",(x, y));
+ 310:../src/main.c **** 		//scanf("%c",&b[i]);         // lee lo que se ingresa por teclado.
+ 311:../src/main.c **** 		//fflush(stdin);             // limpia el buffer de entrada (lo que se ingresa por teclado).
+ 312:../src/main.c **** 		if (b[i]>=65 && b[i]<=72)  // De A a H código ascii.
+ 313:../src/main.c **** 		{
+ 314:../src/main.c **** 			x=b[i];
+ 315:../src/main.c **** 			if(b[j]>=0 && b[j]<=7); // De 0 a 7
+ 316:../src/main.c **** 			{
+ 317:../src/main.c **** 				y=b[j];
+ 318:../src/main.c **** 			}
+ 319:../src/main.c **** 		}
+ 320:../src/main.c **** 		//else if printf("INGRESA UNA LETRA QUE SE ENCUENTRE DENTRO DEL TABLERO\n");
+ 321:../src/main.c **** 		//else if printf("INGRESA UN NÚMERO QUE SE ENCUENTRE DENTRO DEL TABLERO\n");
+ 322:../src/main.c **** 
+ 323:../src/main.c **** 		
+ 324:../src/main.c **** 	}
+ 325:../src/main.c **** }
+ 326:../src/main.c **** */
+ 327:../src/main.c **** 
+ 328:../src/main.c **** void clear_disp(void)
+ 329:../src/main.c **** {
+ 154               		.loc 1 329 0
+ 155               		.cfi_startproc
+ 156               	/* prologue: function */
+ 157               	/* frame size = 0 */
+ 158               	/* stack size = 0 */
+ 159               	.L__stack_usage = 0
+ 330:../src/main.c **** 	cli();
+ 160               		.loc 1 330 0
+ 161               	/* #APP */
+ 162               	 ;  330 "../src/main.c" 1
+ 163 0000 F894      		cli
+ 164               	 ;  0 "" 2
+ 165               	.LVL10:
+ 166               	/* #NOAPP */
+ 167 0002 E0E0      		ldi r30,lo8(Matriz_RGB)
+ 168 0004 F0E0      		ldi r31,hi8(Matriz_RGB)
+ 169 0006 40E0      		ldi r20,lo8(Matriz_RGB+192)
+ 170 0008 50E0      		ldi r21,hi8(Matriz_RGB+192)
+ 171 000a 00C0      		rjmp .L12
+ 172               	.LVL11:
+ 173               	.L13:
+ 174               	.LBB26:
+ 175               	.LBB27:
+ 331:../src/main.c **** 	for(int r=0;r<=7;r++)
+ 332:../src/main.c **** 		for(int c=0;c<=7;c++)
+ 333:../src/main.c **** 				Matriz_RGB[r][c]=Apagado;
+ 176               		.loc 1 333 0 discriminator 3
+ 177 000c 8091 0000 		lds r24,Apagado
+ 178 0010 9091 0000 		lds r25,Apagado+1
+ 179 0014 A091 0000 		lds r26,Apagado+2
+ 180 0018 8193      		st Z+,r24
+ 181 001a 9193      		st Z+,r25
+ 182 001c A193      		st Z+,r26
+ 183               	.LVL12:
+ 332:../src/main.c **** 				Matriz_RGB[r][c]=Apagado;
+ 184               		.loc 1 332 0 discriminator 3
+ 185 001e E217      		cp r30,r18
+ 186 0020 F307      		cpc r31,r19
+ 187 0022 01F4      		brne .L13
+ 188 0024 F901      		movw r30,r18
+ 189               	.LBE27:
+ 331:../src/main.c **** 	for(int r=0;r<=7;r++)
+ 190               		.loc 1 331 0 discriminator 2
+ 191 0026 4217      		cp r20,r18
+ 192 0028 5307      		cpc r21,r19
+ 193 002a 01F0      		breq .L14
+ 194               	.L12:
+ 195               	.LVL13:
+ 196 002c 9F01      		movw r18,r30
+ 197 002e 285E      		subi r18,-24
+ 198 0030 3F4F      		sbci r19,-1
+ 199 0032 00C0      		rjmp .L13
+ 200               	.LVL14:
+ 201               	.L14:
+ 202               	.LBE26:
+ 334:../src/main.c **** 	sei();
+ 203               		.loc 1 334 0
+ 204               	/* #APP */
+ 205               	 ;  334 "../src/main.c" 1
+ 206 0034 7894      		sei
+ 207               	 ;  0 "" 2
+ 208               	/* #NOAPP */
+ 209 0036 0895      		ret
+ 210               		.cfi_endproc
+ 211               	.LFE75:
+ 213               		.section	.rodata.str1.1,"aMS",@progbits,1
+ 214               	.LC0:
+ 215 0000 486F 6C61 		.string	"Hola"
+ 215      00
+ 216               		.section	.text.main,"ax",@progbits
+ 217               	.global	main
+ 219               	main:
+ 220               	.LFB72:
+ 116:../src/main.c **** 			init_ws2812();		//Initialize RGB Display driver
+ 221               		.loc 1 116 0
+ 222               		.cfi_startproc
+ 223               	/* prologue: function */
+ 224               	/* frame size = 0 */
+ 225               	/* stack size = 0 */
+ 226               	.L__stack_usage = 0
+ 117:../src/main.c **** 			init_RTI();			//Initialize Periodic Real Time Interrupt(Timer)
+ 227               		.loc 1 117 0
+ 228 0000 0E94 0000 		call init_ws2812
+ 229               	.LVL15:
+ 118:../src/main.c **** 			UART_Init();		//Initialize serial port driver (UART)
+ 230               		.loc 1 118 0
+ 231 0004 0E94 0000 		call init_RTI
+ 232               	.LVL16:
+ 119:../src/main.c **** 			adc_init();			//Initialize Analog to digital converter (Joystick)
+ 233               		.loc 1 119 0
+ 234 0008 0E94 0000 		call UART_Init
+ 235               	.LVL17:
+ 120:../src/main.c **** 			joybutton_Init();
+ 236               		.loc 1 120 0
+ 237 000c 0E94 0000 		call adc_init
+ 238               	.LVL18:
+ 121:../src/main.c **** 			display_init();
+ 239               		.loc 1 121 0
+ 240 0010 0E94 0000 		call joybutton_Init
+ 241               	.LVL19:
+ 122:../src/main.c **** 		
+ 242               		.loc 1 122 0
+ 243 0014 0E94 0000 		call display_init
+ 244               	.LVL20:
+ 124:../src/main.c **** 			
+ 245               		.loc 1 124 0
+ 246 0018 80E0      		ldi r24,lo8(Matriz_RGB)
+ 247 001a 90E0      		ldi r25,hi8(Matriz_RGB)
+ 248 001c 9093 0000 		sts p2disp+1,r25
+ 249 0020 8093 0000 		sts p2disp,r24
+ 250               	.LVL21:
+ 251 0024 FC01      		movw r30,r24
+ 252 0026 20E0      		ldi r18,lo8(Matriz_RGB+192)
+ 253 0028 30E0      		ldi r19,hi8(Matriz_RGB+192)
+ 254 002a 00C0      		rjmp .L17
+ 255               	.LVL22:
+ 256               	.L18:
+ 257               	.LBB28:
+ 258               	.LBB29:
+ 129:../src/main.c **** 				
+ 259               		.loc 1 129 0 discriminator 3
+ 260 002c C090 0000 		lds r12,Apagado
+ 261 0030 D090 0000 		lds r13,Apagado+1
+ 262 0034 E090 0000 		lds r14,Apagado+2
+ 263 0038 C192      		st Z+,r12
+ 264 003a D192      		st Z+,r13
+ 265 003c E192      		st Z+,r14
+ 266               	.LVL23:
+ 128:../src/main.c **** 				Matriz_RGB[r][c]=Apagado;
+ 267               		.loc 1 128 0 discriminator 3
+ 268 003e 8E17      		cp r24,r30
+ 269 0040 9F07      		cpc r25,r31
+ 270 0042 01F4      		brne .L18
+ 271 0044 FC01      		movw r30,r24
+ 272               	.LBE29:
+ 127:../src/main.c **** 			for(int c=0;c<=7;c++)
+ 273               		.loc 1 127 0 discriminator 2
+ 274 0046 8217      		cp r24,r18
+ 275 0048 9307      		cpc r25,r19
+ 276 004a 01F0      		breq .L19
+ 277               	.L17:
+ 278               	.LVL24:
+ 279 004c CF01      		movw r24,r30
+ 280 004e 4896      		adiw r24,24
+ 281 0050 00C0      		rjmp .L18
+ 282               	.LVL25:
+ 283               	.L19:
+ 284               	.LBE28:
+ 131:../src/main.c ****  			
+ 285               		.loc 1 131 0
+ 286 0052 80E0      		ldi r24,lo8(.LC0)
+ 287 0054 90E0      		ldi r25,hi8(.LC0)
+ 288 0056 0E94 0000 		call UART_putstring
+ 289               	.LVL26:
+ 290 005a E0E0      		ldi r30,lo8(Matriz_P1)
+ 291 005c F0E0      		ldi r31,hi8(Matriz_P1)
+ 292 005e 20E0      		ldi r18,lo8(Matriz_P1+192)
+ 293 0060 30E0      		ldi r19,hi8(Matriz_P1+192)
+ 294 0062 00C0      		rjmp .L20
+ 295               	.LVL27:
+ 296               	.L21:
+ 297               	.LBB30:
+ 298               	.LBB31:
+ 135:../src/main.c **** 			
+ 299               		.loc 1 135 0 discriminator 3
+ 300 0064 C090 0000 		lds r12,Apagado
+ 301 0068 D090 0000 		lds r13,Apagado+1
+ 302 006c E090 0000 		lds r14,Apagado+2
+ 303 0070 C192      		st Z+,r12
+ 304 0072 D192      		st Z+,r13
+ 305 0074 E192      		st Z+,r14
+ 306               	.LVL28:
+ 134:../src/main.c **** 				Matriz_P1[r][c]=Apagado;
+ 307               		.loc 1 134 0 discriminator 3
+ 308 0076 E817      		cp r30,r24
+ 309 0078 F907      		cpc r31,r25
+ 310 007a 01F4      		brne .L21
+ 311 007c FC01      		movw r30,r24
+ 312               	.LBE31:
+ 133:../src/main.c **** 			for(int c=0;c<=7;c++)
+ 313               		.loc 1 133 0 discriminator 2
+ 314 007e 2817      		cp r18,r24
+ 315 0080 3907      		cpc r19,r25
+ 316 0082 01F4      		brne .L20
+ 317 0084 E0E0      		ldi r30,lo8(Matriz_P2)
+ 318 0086 F0E0      		ldi r31,hi8(Matriz_P2)
+ 319 0088 20E0      		ldi r18,lo8(Matriz_P2+192)
+ 320 008a 30E0      		ldi r19,hi8(Matriz_P2+192)
+ 321 008c 00C0      		rjmp .L22
+ 322               	.L20:
+ 323               	.LVL29:
+ 324 008e CF01      		movw r24,r30
+ 325 0090 4896      		adiw r24,24
+ 326 0092 00C0      		rjmp .L21
+ 327               	.LVL30:
+ 328               	.L23:
+ 329               	.LBE30:
+ 330               	.LBB32:
+ 331               	.LBB33:
+ 139:../src/main.c **** 					
+ 332               		.loc 1 139 0 discriminator 3
+ 333 0094 C090 0000 		lds r12,Apagado
+ 334 0098 D090 0000 		lds r13,Apagado+1
+ 335 009c E090 0000 		lds r14,Apagado+2
+ 336 00a0 C192      		st Z+,r12
+ 337 00a2 D192      		st Z+,r13
+ 338 00a4 E192      		st Z+,r14
+ 339               	.LVL31:
+ 138:../src/main.c **** 					Matriz_P2[r][c]=Apagado;
+ 340               		.loc 1 138 0 discriminator 3
+ 341 00a6 E817      		cp r30,r24
+ 342 00a8 F907      		cpc r31,r25
+ 343 00aa 01F4      		brne .L23
+ 344               	.LVL32:
+ 345 00ac FC01      		movw r30,r24
+ 346               	.LBE33:
+ 137:../src/main.c **** 				for(int c=0;c<=7;c++)
+ 347               		.loc 1 137 0 discriminator 2
+ 348 00ae 8217      		cp r24,r18
+ 349 00b0 9307      		cpc r25,r19
+ 350 00b2 01F0      		breq .L24
+ 351               	.L22:
+ 352               	.LVL33:
+ 353 00b4 CF01      		movw r24,r30
+ 354 00b6 4896      		adiw r24,24
+ 355 00b8 00C0      		rjmp .L23
+ 356               	.LVL34:
+ 357               	.L24:
+ 358               	.LBE32:
+ 141:../src/main.c **** 					
+ 359               		.loc 1 141 0
+ 360 00ba 0E94 0000 		call clear_disp
+ 361               	.LVL35:
+ 159:../src/main.c **** 
+ 362               		.loc 1 159 0
+ 363               	/* #APP */
+ 364               	 ;  159 "../src/main.c" 1
+ 365 00be 7894      		sei
+ 366               	 ;  0 "" 2
+ 367               	/* #NOAPP */
+ 368               	.L25:
+ 163:../src/main.c **** 				{
+ 369               		.loc 1 163 0
+ 370 00c0 8091 0000 		lds r24,Turno
+ 371 00c4 8130      		cpi r24,lo8(1)
+ 372 00c6 01F0      		breq .+2
+ 373 00c8 00C0      		rjmp .L26
+ 165:../src/main.c **** 					while (Turno == 1)
+ 374               		.loc 1 165 0
+ 375 00ca 0E94 0000 		call set_P1
+ 376               	.LVL36:
+ 166:../src/main.c **** 					{
+ 377               		.loc 1 166 0
+ 378 00ce 8091 0000 		lds r24,Turno
+ 379 00d2 8130      		cpi r24,lo8(1)
+ 380 00d4 01F4      		brne .L25
+ 381               	.L30:
+ 168:../src/main.c **** 						
+ 382               		.loc 1 168 0
+ 383 00d6 0E94 0000 		call clear_disp
+ 384               	.LVL37:
+ 170:../src/main.c **** 						Matriz_RGB[ijoy][jjoy] = puntero;
+ 385               		.loc 1 170 0
+ 386 00da 0E94 0000 		call Mostrar_Matriz_2
+ 387               	.LVL38:
+ 171:../src/main.c **** 						_delay_ms(50);
+ 388               		.loc 1 171 0
+ 389 00de 8091 0000 		lds r24,ijoy
+ 390 00e2 9091 0000 		lds r25,ijoy+1
+ 391 00e6 E091 0000 		lds r30,jjoy
+ 392 00ea F091 0000 		lds r31,jjoy+1
+ 393 00ee 9F01      		movw r18,r30
+ 394 00f0 220F      		lsl r18
+ 395 00f2 331F      		rol r19
+ 396 00f4 E20F      		add r30,r18
+ 397 00f6 F31F      		adc r31,r19
+ 398 00f8 9C01      		movw r18,r24
+ 399 00fa 220F      		lsl r18
+ 400 00fc 331F      		rol r19
+ 401 00fe 820F      		add r24,r18
+ 402 0100 931F      		adc r25,r19
+ 403 0102 880F      		lsl r24
+ 404 0104 991F      		rol r25
+ 405 0106 880F      		lsl r24
+ 406 0108 991F      		rol r25
+ 407 010a 880F      		lsl r24
+ 408 010c 991F      		rol r25
+ 409 010e E80F      		add r30,r24
+ 410 0110 F91F      		adc r31,r25
+ 411 0112 E050      		subi r30,lo8(-(Matriz_RGB))
+ 412 0114 F040      		sbci r31,hi8(-(Matriz_RGB))
+ 413 0116 8091 0000 		lds r24,puntero
+ 414 011a 9091 0000 		lds r25,puntero+1
+ 415 011e A091 0000 		lds r26,puntero+2
+ 416 0122 8083      		st Z,r24
+ 417 0124 9183      		std Z+1,r25
+ 418 0126 A283      		std Z+2,r26
+ 419               	.LVL39:
+ 420               	.LBB34:
+ 421               	.LBB35:
+ 422               		.file 2 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\in
+   1:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** /* Copyright (c) 2002, Marek Michalkiewicz
+   2:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    Copyright (c) 2004,2005,2007 Joerg Wunsch
+   3:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    Copyright (c) 2007  Florin-Viorel Petrov
+   4:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    All rights reserved.
+   5:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+   6:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    Redistribution and use in source and binary forms, with or without
+   7:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    modification, are permitted provided that the following conditions are met:
+   8:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+   9:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    * Redistributions of source code must retain the above copyright
+  10:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****      notice, this list of conditions and the following disclaimer.
+  11:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+  12:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    * Redistributions in binary form must reproduce the above copyright
+  13:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****      notice, this list of conditions and the following disclaimer in
+  14:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****      the documentation and/or other materials provided with the
+  15:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****      distribution.
+  16:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+  17:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    * Neither the name of the copyright holders nor the names of
+  18:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****      contributors may be used to endorse or promote products derived
+  19:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****      from this software without specific prior written permission.
+  20:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+  21:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  22:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  23:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  24:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+  25:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  26:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  27:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  28:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  29:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  30:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  31:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****   POSSIBILITY OF SUCH DAMAGE. */
+  32:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+  33:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** /* $Id$ */
+  34:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+  35:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** #ifndef _UTIL_DELAY_H_
+  36:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** #define _UTIL_DELAY_H_ 1
+  37:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+  38:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** #ifndef __DOXYGEN__
+  39:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** #  ifndef __HAS_DELAY_CYCLES
+  40:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** #    define __HAS_DELAY_CYCLES 1
+  41:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** #  endif
+  42:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** #endif  /* __DOXYGEN__ */
+  43:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+  44:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** #include <inttypes.h>
+  45:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** #include <util/delay_basic.h>
+  46:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** #include <math.h>
+  47:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+  48:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** /** \file */
+  49:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** /** \defgroup util_delay <util/delay.h>: Convenience functions for busy-wait delay loops
+  50:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     \code
+  51:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     #define F_CPU 1000000UL  // 1 MHz
+  52:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     //#define F_CPU 14.7456E6
+  53:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     #include <util/delay.h>
+  54:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     \endcode
+  55:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+  56:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     \note As an alternative method, it is possible to pass the
+  57:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     F_CPU macro down to the compiler from the Makefile.
+  58:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     Obviously, in that case, no \c \#define statement should be
+  59:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     used.
+  60:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+  61:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     The functions in this header file are wrappers around the basic
+  62:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     busy-wait functions from <util/delay_basic.h>.  They are meant as
+  63:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     convenience functions where actual time values can be specified
+  64:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     rather than a number of cycles to wait for.  The idea behind is
+  65:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     that compile-time constant expressions will be eliminated by
+  66:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     compiler optimization so floating-point expressions can be used
+  67:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     to calculate the number of delay cycles needed based on the CPU
+  68:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     frequency passed by the macro F_CPU.
+  69:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+  70:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     \note In order for these functions to work as intended, compiler
+  71:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     optimizations <em>must</em> be enabled, and the delay time
+  72:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     <em>must</em> be an expression that is a known constant at
+  73:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     compile-time.  If these requirements are not met, the resulting
+  74:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     delay will be much longer (and basically unpredictable), and
+  75:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     applications that otherwise do not use floating-point calculations
+  76:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     will experience severe code bloat by the floating-point library
+  77:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     routines linked into the application.
+  78:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+  79:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     The functions available allow the specification of microsecond, and
+  80:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     millisecond delays directly, using the application-supplied macro
+  81:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     F_CPU as the CPU clock frequency (in Hertz).
+  82:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+  83:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** */
+  84:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+  85:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** #if !defined(__DOXYGEN__)
+  86:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** static __inline__ void _delay_us(double __us) __attribute__((__always_inline__));
+  87:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** static __inline__ void _delay_ms(double __ms) __attribute__((__always_inline__));
+  88:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** #endif
+  89:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+  90:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** #ifndef F_CPU
+  91:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** /* prevent compiler error by supplying a default */
+  92:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** # warning "F_CPU not defined for <util/delay.h>"
+  93:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** /** \ingroup util_delay
+  94:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     \def F_CPU
+  95:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     \brief CPU frequency in Hz
+  96:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+  97:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     The macro F_CPU specifies the CPU frequency to be considered by
+  98:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     the delay macros.  This macro is normally supplied by the
+  99:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     environment (e.g. from within a project header, or the project's
+ 100:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     Makefile).  The value 1 MHz here is only provided as a "vanilla"
+ 101:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     fallback if no such user-provided definition could be found.
+ 102:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+ 103:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     In terms of the delay functions, the CPU frequency can be given as
+ 104:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     a floating-point constant (e.g. 3.6864E6 for 3.6864 MHz).
+ 105:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     However, the macros in <util/setbaud.h> require it to be an
+ 106:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****     integer value.
+ 107:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****  */
+ 108:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** # define F_CPU 1000000UL
+ 109:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** #endif
+ 110:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+ 111:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** #ifndef __OPTIMIZE__
+ 112:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** # warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+ 113:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** #endif
+ 114:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+ 115:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+ 116:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 117:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****   __STDC_HOSTED__
+ 118:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** #  include <math.h>
+ 119:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** #endif
+ 120:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+ 121:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** /**
+ 122:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    \ingroup util_delay
+ 123:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+ 124:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    Perform a delay of \c __ms milliseconds, using _delay_loop_2().
+ 125:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+ 126:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    The macro F_CPU is supposed to be defined to a
+ 127:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    constant defining the CPU clock frequency (in Hertz).
+ 128:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+ 129:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    The maximal possible delay is 262.14 ms / F_CPU in MHz.
+ 130:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+ 131:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    When the user request delay which exceed the maximum possible one,
+ 132:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    _delay_ms() provides a decreased resolution functionality. In this
+ 133:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    mode _delay_ms() will work with a resolution of 1/10 ms, providing
+ 134:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    delays up to 6.5535 seconds (independent from CPU frequency).  The
+ 135:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    user will not be informed about decreased resolution.
+ 136:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+ 137:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    If the avr-gcc toolchain has __builtin_avr_delay_cycles()
+ 138:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    support, maximal possible delay is 4294967.295 ms/ F_CPU in MHz. For
+ 139:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    values greater than the maximal possible delay, overflows results in
+ 140:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    no delay i.e., 0ms.
+ 141:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+ 142:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    Conversion of \c __ms into clock cycles may not always result in
+ 143:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    integer.  By default, the clock cycles rounded up to next
+ 144:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    integer. This ensures that the user gets at least \c __ms
+ 145:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    microseconds of delay.
+ 146:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+ 147:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    Alternatively, by defining the macro \c __DELAY_ROUND_DOWN__, or
+ 148:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    \c __DELAY_ROUND_CLOSEST__, before including this header file, the
+ 149:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    algorithm can be made to round down, or round to closest integer,
+ 150:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    respectively.
+ 151:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+ 152:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    \note
+ 153:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+ 154:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    The implementation of _delay_ms() based on
+ 155:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    __builtin_avr_delay_cycles() is not backward compatible with older
+ 156:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    implementations.  In order to get functionality backward compatible
+ 157:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    with previous versions, the macro \c "__DELAY_BACKWARD_COMPATIBLE__"
+ 158:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    must be defined before including this header file. Also, the
+ 159:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    backward compatible algorithm will be chosen if the code is
+ 160:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    compiled in a <em>freestanding environment</em> (GCC option
+ 161:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    \c -ffreestanding), as the math functions required for rounding are
+ 162:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****    not available to the compiler then.
+ 163:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+ 164:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****  */
+ 165:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** void
+ 166:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** _delay_ms(double __ms)
+ 167:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** {
+ 168:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 	double __tmp ;
+ 169:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+ 170:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 171:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h ****   __STDC_HOSTED__
+ 172:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 	uint32_t __ticks_dc;
+ 173:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 	extern void __builtin_avr_delay_cycles(unsigned long);
+ 174:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 	__tmp = ((F_CPU) / 1e3) * __ms;
+ 175:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+ 176:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 	#if defined(__DELAY_ROUND_DOWN__)
+ 177:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 		__ticks_dc = (uint32_t)fabs(__tmp);
+ 178:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+ 179:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 	#elif defined(__DELAY_ROUND_CLOSEST__)
+ 180:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 		__ticks_dc = (uint32_t)(fabs(__tmp)+0.5);
+ 181:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+ 182:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 	#else
+ 183:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 		//round up by default
+ 184:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+ 185:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 	#endif
+ 186:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 
+ 187:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h **** 	__builtin_avr_delay_cycles(__ticks_dc);
+ 423               		.loc 2 187 0
+ 424 0128 2FEF      		ldi r18,lo8(159999)
+ 425 012a 80E7      		ldi r24,hi8(159999)
+ 426 012c 92E0      		ldi r25,hlo8(159999)
+ 427 012e 2150      	1:	subi r18,1
+ 428 0130 8040      		sbci r24,0
+ 429 0132 9040      		sbci r25,0
+ 430 0134 01F4      		brne 1b
+ 431 0136 00C0      		rjmp .
+ 432 0138 0000      		nop
+ 433               	.LVL40:
+ 434               	.LBE35:
+ 435               	.LBE34:
+ 173:../src/main.c **** 					}
+ 436               		.loc 1 173 0
+ 437 013a 8091 0000 		lds r24,p2disp
+ 438 013e 9091 0000 		lds r25,p2disp+1
+ 439 0142 0E94 0000 		call wrt_ws2812
+ 440               	.LVL41:
+ 166:../src/main.c **** 					{
+ 441               		.loc 1 166 0
+ 442 0146 8091 0000 		lds r24,Turno
+ 443 014a 8130      		cpi r24,lo8(1)
+ 444 014c 01F0      		breq .L30
+ 445 014e 00C0      		rjmp .L25
+ 446               	.L26:
+ 177:../src/main.c **** 				{
+ 447               		.loc 1 177 0
+ 448 0150 8091 0000 		lds r24,Turno
+ 449 0154 8230      		cpi r24,lo8(2)
+ 450 0156 01F0      		breq .+2
+ 451 0158 00C0      		rjmp .L25
+ 179:../src/main.c **** 					while (Turno == 2)
+ 452               		.loc 1 179 0
+ 453 015a 0E94 0000 		call set_P2
+ 454               	.LVL42:
+ 180:../src/main.c **** 					{
+ 455               		.loc 1 180 0
+ 456 015e 8091 0000 		lds r24,Turno
+ 457 0162 8230      		cpi r24,lo8(2)
+ 458 0164 01F0      		breq .+2
+ 459 0166 00C0      		rjmp .L25
+ 460               	.L31:
+ 182:../src/main.c **** 						Mostrar_Matriz_1();
+ 461               		.loc 1 182 0
+ 462 0168 0E94 0000 		call clear_disp
+ 463               	.LVL43:
+ 183:../src/main.c **** 						Matriz_RGB[ijoy][jjoy] = puntero;
+ 464               		.loc 1 183 0
+ 465 016c 0E94 0000 		call Mostrar_Matriz_1
+ 466               	.LVL44:
+ 184:../src/main.c **** 						_delay_ms(50);
+ 467               		.loc 1 184 0
+ 468 0170 8091 0000 		lds r24,ijoy
+ 469 0174 9091 0000 		lds r25,ijoy+1
+ 470 0178 E091 0000 		lds r30,jjoy
+ 471 017c F091 0000 		lds r31,jjoy+1
+ 472 0180 9F01      		movw r18,r30
+ 473 0182 220F      		lsl r18
+ 474 0184 331F      		rol r19
+ 475 0186 E20F      		add r30,r18
+ 476 0188 F31F      		adc r31,r19
+ 477 018a 9C01      		movw r18,r24
+ 478 018c 220F      		lsl r18
+ 479 018e 331F      		rol r19
+ 480 0190 820F      		add r24,r18
+ 481 0192 931F      		adc r25,r19
+ 482 0194 880F      		lsl r24
+ 483 0196 991F      		rol r25
+ 484 0198 880F      		lsl r24
+ 485 019a 991F      		rol r25
+ 486 019c 880F      		lsl r24
+ 487 019e 991F      		rol r25
+ 488 01a0 E80F      		add r30,r24
+ 489 01a2 F91F      		adc r31,r25
+ 490 01a4 E050      		subi r30,lo8(-(Matriz_RGB))
+ 491 01a6 F040      		sbci r31,hi8(-(Matriz_RGB))
+ 492 01a8 8091 0000 		lds r24,puntero
+ 493 01ac 9091 0000 		lds r25,puntero+1
+ 494 01b0 A091 0000 		lds r26,puntero+2
+ 495 01b4 8083      		st Z,r24
+ 496 01b6 9183      		std Z+1,r25
+ 497 01b8 A283      		std Z+2,r26
+ 498               	.LVL45:
+ 499               	.LBB36:
+ 500               	.LBB37:
+ 501               		.loc 2 187 0
+ 502 01ba 2FEF      		ldi r18,lo8(159999)
+ 503 01bc 80E7      		ldi r24,hi8(159999)
+ 504 01be 92E0      		ldi r25,hlo8(159999)
+ 505 01c0 2150      	1:	subi r18,1
+ 506 01c2 8040      		sbci r24,0
+ 507 01c4 9040      		sbci r25,0
+ 508 01c6 01F4      		brne 1b
+ 509 01c8 00C0      		rjmp .
+ 510 01ca 0000      		nop
+ 511               	.LVL46:
+ 512               	.LBE37:
+ 513               	.LBE36:
+ 186:../src/main.c **** 					}
+ 514               		.loc 1 186 0
+ 515 01cc 8091 0000 		lds r24,p2disp
+ 516 01d0 9091 0000 		lds r25,p2disp+1
+ 517 01d4 0E94 0000 		call wrt_ws2812
+ 518               	.LVL47:
+ 180:../src/main.c **** 					{
+ 519               		.loc 1 180 0
+ 520 01d8 8091 0000 		lds r24,Turno
+ 521 01dc 8230      		cpi r24,lo8(2)
+ 522 01de 01F0      		breq .L31
+ 523 01e0 00C0      		rjmp .L25
+ 524               		.cfi_endproc
+ 525               	.LFE72:
+ 527               		.section	.text.softdelay,"ax",@progbits
+ 528               	.global	softdelay
+ 530               	softdelay:
+ 531               	.LFB76:
+ 335:../src/main.c **** }
+ 336:../src/main.c **** 
+ 337:../src/main.c **** 
+ 338:../src/main.c **** 
+ 339:../src/main.c **** void softdelay(void)
+ 340:../src/main.c **** {
+ 532               		.loc 1 340 0
+ 533               		.cfi_startproc
+ 534 0000 CF93      		push r28
+ 535               	.LCFI4:
+ 536               		.cfi_def_cfa_offset 3
+ 537               		.cfi_offset 28, -2
+ 538 0002 DF93      		push r29
+ 539               	.LCFI5:
+ 540               		.cfi_def_cfa_offset 4
+ 541               		.cfi_offset 29, -3
+ 542 0004 00D0      		rcall .
+ 543 0006 00D0      		rcall .
+ 544               	.LCFI6:
+ 545               		.cfi_def_cfa_offset 8
+ 546 0008 CDB7      		in r28,__SP_L__
+ 547 000a DEB7      		in r29,__SP_H__
+ 548               	.LCFI7:
+ 549               		.cfi_def_cfa_register 28
+ 550               	/* prologue: function */
+ 551               	/* frame size = 4 */
+ 552               	/* stack size = 6 */
+ 553               	.L__stack_usage = 6
+ 341:../src/main.c **** 	volatile long int d;
+ 342:../src/main.c **** 	
+ 343:../src/main.c **** 	for (d=400000;d;d--)
+ 554               		.loc 1 343 0
+ 555 000c 80E8      		ldi r24,lo8(-128)
+ 556 000e 9AE1      		ldi r25,lo8(26)
+ 557 0010 A6E0      		ldi r26,lo8(6)
+ 558 0012 B0E0      		ldi r27,0
+ 559 0014 8983      		std Y+1,r24
+ 560 0016 9A83      		std Y+2,r25
+ 561 0018 AB83      		std Y+3,r26
+ 562 001a BC83      		std Y+4,r27
+ 563 001c 8981      		ldd r24,Y+1
+ 564 001e 9A81      		ldd r25,Y+2
+ 565 0020 AB81      		ldd r26,Y+3
+ 566 0022 BC81      		ldd r27,Y+4
+ 567 0024 892B      		or r24,r25
+ 568 0026 8A2B      		or r24,r26
+ 569 0028 8B2B      		or r24,r27
+ 570 002a 01F0      		breq .L38
+ 571               	.L41:
+ 572               		.loc 1 343 0 is_stmt 0 discriminator 3
+ 573 002c 8981      		ldd r24,Y+1
+ 574 002e 9A81      		ldd r25,Y+2
+ 575 0030 AB81      		ldd r26,Y+3
+ 576 0032 BC81      		ldd r27,Y+4
+ 577 0034 0197      		sbiw r24,1
+ 578 0036 A109      		sbc r26,__zero_reg__
+ 579 0038 B109      		sbc r27,__zero_reg__
+ 580 003a 8983      		std Y+1,r24
+ 581 003c 9A83      		std Y+2,r25
+ 582 003e AB83      		std Y+3,r26
+ 583 0040 BC83      		std Y+4,r27
+ 584 0042 8981      		ldd r24,Y+1
+ 585 0044 9A81      		ldd r25,Y+2
+ 586 0046 AB81      		ldd r26,Y+3
+ 587 0048 BC81      		ldd r27,Y+4
+ 588 004a 892B      		or r24,r25
+ 589 004c 8A2B      		or r24,r26
+ 590 004e 8B2B      		or r24,r27
+ 591 0050 01F4      		brne .L41
+ 592               	.L38:
+ 593               	/* epilogue start */
+ 344:../src/main.c **** 	{
+ 345:../src/main.c **** 	};
+ 346:../src/main.c **** 	
+ 347:../src/main.c **** }
+ 594               		.loc 1 347 0 is_stmt 1
+ 595 0052 0F90      		pop __tmp_reg__
+ 596 0054 0F90      		pop __tmp_reg__
+ 597 0056 0F90      		pop __tmp_reg__
+ 598 0058 0F90      		pop __tmp_reg__
+ 599 005a DF91      		pop r29
+ 600 005c CF91      		pop r28
+ 601 005e 0895      		ret
+ 602               		.cfi_endproc
+ 603               	.LFE76:
+ 605               		.section	.text.ADCTestBench,"ax",@progbits
+ 606               	.global	ADCTestBench
+ 608               	ADCTestBench:
+ 609               	.LFB77:
+ 348:../src/main.c **** 
+ 349:../src/main.c **** 
+ 350:../src/main.c **** void ADCTestBench(void)
+ 351:../src/main.c **** {
+ 610               		.loc 1 351 0
+ 611               		.cfi_startproc
+ 612 0000 CF93      		push r28
+ 613               	.LCFI8:
+ 614               		.cfi_def_cfa_offset 3
+ 615               		.cfi_offset 28, -2
+ 616 0002 DF93      		push r29
+ 617               	.LCFI9:
+ 618               		.cfi_def_cfa_offset 4
+ 619               		.cfi_offset 29, -3
+ 620 0004 00D0      		rcall .
+ 621 0006 00D0      		rcall .
+ 622 0008 1F92      		push __zero_reg__
+ 623               	.LCFI10:
+ 624               		.cfi_def_cfa_offset 9
+ 625 000a CDB7      		in r28,__SP_L__
+ 626 000c DEB7      		in r29,__SP_H__
+ 627               	.LCFI11:
+ 628               		.cfi_def_cfa_register 28
+ 629               	/* prologue: function */
+ 630               	/* frame size = 5 */
+ 631               	/* stack size = 7 */
+ 632               	.L__stack_usage = 7
+ 633               	.L44:
+ 352:../src/main.c **** 	char buffer[5];
+ 353:../src/main.c **** 	
+ 354:../src/main.c **** 	while(1){
+ 355:../src/main.c **** 		
+ 356:../src/main.c **** 		//Read VX
+ 357:../src/main.c **** 		itoa(read_VRX(),(char*)buffer, 10);
+ 634               		.loc 1 357 0 discriminator 1
+ 635 000e 0E94 0000 		call read_VRX
+ 636               	.LVL48:
+ 637               	.LBB38:
+ 638               	.LBB39:
+ 639               		.file 3 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\in
+   1:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /* Copyright (c) 2002, Marek Michalkiewicz
+   2:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    Copyright (c) 2004,2007 Joerg Wunsch
+   3:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+   4:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    Portions of documentation Copyright (c) 1990, 1991, 1993, 1994
+   5:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    The Regents of the University of California.
+   6:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+   7:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    All rights reserved.
+   8:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+   9:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    Redistribution and use in source and binary forms, with or without
+  10:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    modification, are permitted provided that the following conditions are met:
+  11:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+  12:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    * Redistributions of source code must retain the above copyright
+  13:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      notice, this list of conditions and the following disclaimer.
+  14:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+  15:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    * Redistributions in binary form must reproduce the above copyright
+  16:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      notice, this list of conditions and the following disclaimer in
+  17:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      the documentation and/or other materials provided with the
+  18:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      distribution.
+  19:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+  20:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    * Neither the name of the copyright holders nor the names of
+  21:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      contributors may be used to endorse or promote products derived
+  22:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      from this software without specific prior written permission.
+  23:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+  24:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  25:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  26:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  27:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+  28:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  29:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  30:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  31:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  32:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  33:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  34:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****   POSSIBILITY OF SUCH DAMAGE.
+  35:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+  36:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****   $Id$
+  37:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** */
+  38:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+  39:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #ifndef _STDLIB_H_
+  40:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #define	_STDLIB_H_ 1
+  41:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+  42:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #ifndef __ASSEMBLER__
+  43:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+  44:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #ifndef __DOXYGEN__
+  45:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #define __need_NULL
+  46:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #define __need_size_t
+  47:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #define __need_wchar_t
+  48:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #include <stddef.h>
+  49:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+  50:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #ifndef __ptr_t
+  51:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #define __ptr_t void *
+  52:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #endif
+  53:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #endif	/* !__DOXYGEN__ */
+  54:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+  55:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #ifdef __cplusplus
+  56:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern "C" {
+  57:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #endif
+  58:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+  59:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /** \file */
+  60:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+  61:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /** \defgroup avr_stdlib <stdlib.h>: General utilities
+  62:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     \code #include <stdlib.h> \endcode
+  63:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+  64:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     This file declares some basic C macros and functions as
+  65:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     defined by the ISO standard, plus some AVR-specific extensions.
+  66:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** */
+  67:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+  68:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /*@{*/
+  69:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /** Result type for function div(). */
+  70:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** typedef struct {
+  71:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 	int quot;                   /**< The Quotient. */
+  72:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 	int rem;                    /**< The Remainder. */
+  73:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** } div_t;
+  74:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+  75:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /** Result type for function ldiv(). */
+  76:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** typedef struct {
+  77:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 	long quot;                  /**< The Quotient. */
+  78:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 	long rem;                   /**< The Remainder. */
+  79:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** } ldiv_t;
+  80:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+  81:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /** Comparision function type for qsort(), just for convenience. */
+  82:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** typedef int (*__compar_fn_t)(const void *, const void *);
+  83:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+  84:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #ifndef __DOXYGEN__
+  85:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+  86:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #ifndef __ATTR_CONST__
+  87:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** # define __ATTR_CONST__ __attribute__((__const__))
+  88:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #endif
+  89:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+  90:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #ifndef __ATTR_MALLOC__
+  91:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** # define __ATTR_MALLOC__ __attribute__((__malloc__))
+  92:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #endif
+  93:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+  94:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #ifndef __ATTR_NORETURN__
+  95:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** # define __ATTR_NORETURN__ __attribute__((__noreturn__))
+  96:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #endif
+  97:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+  98:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #ifndef __ATTR_PURE__
+  99:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** # define __ATTR_PURE__ __attribute__((__pure__))
+ 100:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #endif
+ 101:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 102:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #ifndef	__ATTR_GNU_INLINE__
+ 103:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** # ifdef  __GNUC_STDC_INLINE__
+ 104:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #  define __ATTR_GNU_INLINE__   __attribute__((__gnu_inline__))
+ 105:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** # else
+ 106:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #  define __ATTR_GNU_INLINE__
+ 107:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** # endif
+ 108:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #endif
+ 109:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 110:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #endif
+ 111:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 112:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /** The abort() function causes abnormal program termination to occur.
+ 113:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     This realization disables interrupts and jumps to _exit() function
+ 114:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     with argument equal to 1. In the limited AVR environment, execution is
+ 115:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     effectively halted by entering an infinite loop. */
+ 116:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern void abort(void) __ATTR_NORETURN__;
+ 117:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 118:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /** The abs() function computes the absolute value of the integer \c i.
+ 119:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    \note The abs() and labs() functions are builtins of gcc.
+ 120:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** */
+ 121:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern int abs(int __i) __ATTR_CONST__;
+ 122:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #ifndef __DOXYGEN__
+ 123:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #define	abs(__i) __builtin_abs(__i)
+ 124:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #endif
+ 125:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 126:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /** The labs() function computes the absolute value of the long integer
+ 127:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     \c i.
+ 128:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    \note The abs() and labs() functions are builtins of gcc.
+ 129:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** */
+ 130:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern long labs(long __i) __ATTR_CONST__;
+ 131:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #ifndef __DOXYGEN__
+ 132:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #define labs(__i) __builtin_labs(__i)
+ 133:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #endif
+ 134:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 135:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /**
+ 136:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      The bsearch() function searches an array of \c nmemb objects, the
+ 137:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      initial member of which is pointed to by \c base, for a member
+ 138:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      that matches the object pointed to by \c key.  The size of each
+ 139:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      member of the array is specified by \c size.
+ 140:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 141:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      The contents of the array should be in ascending sorted order
+ 142:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      according to the comparison function referenced by \c compar.
+ 143:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      The \c compar routine is expected to have two arguments which
+ 144:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      point to the key object and to an array member, in that order,
+ 145:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      and should return an integer less than, equal to, or greater than
+ 146:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      zero if the key object is found, respectively, to be less than,
+ 147:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      to match, or be greater than the array member.
+ 148:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 149:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      The bsearch() function returns a pointer to a matching member of
+ 150:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      the array, or a null pointer if no match is found.  If two
+ 151:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      members compare as equal, which member is matched is unspecified.
+ 152:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** */
+ 153:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern void *bsearch(const void *__key, const void *__base, size_t __nmemb,
+ 154:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 		     size_t __size, int (*__compar)(const void *, const void *));
+ 155:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 156:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /* __divmodhi4 and __divmodsi4 from libgcc.a */
+ 157:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /**
+ 158:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      The div() function computes the value \c num/denom and returns
+ 159:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      the quotient and remainder in a structure named \c div_t that
+ 160:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      contains two int members named \c quot and \c rem.
+ 161:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** */
+ 162:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern div_t div(int __num, int __denom) __asm__("__divmodhi4") __ATTR_CONST__;
+ 163:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /**
+ 164:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      The ldiv() function computes the value \c num/denom and returns
+ 165:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      the quotient and remainder in a structure named \c ldiv_t that
+ 166:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      contains two long integer members named \c quot and \c rem.
+ 167:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** */
+ 168:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern ldiv_t ldiv(long __num, long __denom) __asm__("__divmodsi4") __ATTR_CONST__;
+ 169:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 170:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /**
+ 171:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      The qsort() function is a modified partition-exchange sort, or
+ 172:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      quicksort.
+ 173:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 174:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      The qsort() function sorts an array of \c nmemb objects, the
+ 175:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      initial member of which is pointed to by \c base.  The size of
+ 176:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      each object is specified by \c size.  The contents of the array
+ 177:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      base are sorted in ascending order according to a comparison
+ 178:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      function pointed to by \c compar, which requires two arguments
+ 179:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      pointing to the objects being compared.
+ 180:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 181:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      The comparison function must return an integer less than, equal
+ 182:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      to, or greater than zero if the first argument is considered to
+ 183:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      be respectively less than, equal to, or greater than the second.
+ 184:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** */
+ 185:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern void qsort(void *__base, size_t __nmemb, size_t __size,
+ 186:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 		  __compar_fn_t __compar);
+ 187:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 188:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /**
+ 189:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     The strtol() function converts the string in \c nptr to a long
+ 190:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     value.  The conversion is done according to the given base, which
+ 191:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     must be between 2 and 36 inclusive, or be the special value 0.
+ 192:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 193:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     The string may begin with an arbitrary amount of white space (as
+ 194:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     determined by isspace()) followed by a single optional \c '+' or \c '-'
+ 195:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     sign.  If \c base is zero or 16, the string may then include a
+ 196:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     \c "0x" prefix, and the number will be read in base 16; otherwise,
+ 197:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     a zero base is taken as 10 (decimal) unless the next character is
+ 198:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     \c '0', in which case it is taken as 8 (octal).
+ 199:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 200:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     The remainder of the string is converted to a long value in the
+ 201:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     obvious manner, stopping at the first character which is not a
+ 202:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     valid digit in the given base.  (In bases above 10, the letter \c 'A'
+ 203:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     in either upper or lower case represents 10, \c 'B' represents 11,
+ 204:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     and so forth, with \c 'Z' representing 35.)
+ 205:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 206:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     If \c endptr is not NULL, strtol() stores the address of the first
+ 207:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     invalid character in \c *endptr.  If there were no digits at all,
+ 208:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     however, strtol() stores the original value of \c nptr in \c
+ 209:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     *endptr.  (Thus, if \c *nptr is not \c '\\0' but \c **endptr is \c '\\0'
+ 210:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     on return, the entire string was valid.)
+ 211:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 212:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     The strtol() function returns the result of the conversion, unless
+ 213:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     the value would underflow or overflow.  If no conversion could be
+ 214:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     performed, 0 is returned.  If an overflow or underflow occurs, \c
+ 215:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     errno is set to \ref avr_errno "ERANGE" and the function return value
+ 216:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     is clamped to \c LONG_MIN or \c LONG_MAX, respectively.
+ 217:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** */
+ 218:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern long strtol(const char *__nptr, char **__endptr, int __base);
+ 219:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 220:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /**
+ 221:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     The strtoul() function converts the string in \c nptr to an
+ 222:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     unsigned long value.  The conversion is done according to the
+ 223:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     given base, which must be between 2 and 36 inclusive, or be the
+ 224:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     special value 0.
+ 225:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 226:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     The string may begin with an arbitrary amount of white space (as
+ 227:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     determined by isspace()) followed by a single optional \c '+' or \c '-'
+ 228:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     sign.  If \c base is zero or 16, the string may then include a
+ 229:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     \c "0x" prefix, and the number will be read in base 16; otherwise,
+ 230:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     a zero base is taken as 10 (decimal) unless the next character is
+ 231:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     \c '0', in which case it is taken as 8 (octal).
+ 232:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 233:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     The remainder of the string is converted to an unsigned long value
+ 234:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     in the obvious manner, stopping at the first character which is
+ 235:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     not a valid digit in the given base.  (In bases above 10, the
+ 236:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     letter \c 'A' in either upper or lower case represents 10, \c 'B'
+ 237:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     represents 11, and so forth, with \c 'Z' representing 35.)
+ 238:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 239:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     If \c endptr is not NULL, strtoul() stores the address of the first
+ 240:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     invalid character in \c *endptr.  If there were no digits at all,
+ 241:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     however, strtoul() stores the original value of \c nptr in \c
+ 242:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     *endptr.  (Thus, if \c *nptr is not \c '\\0' but \c **endptr is \c '\\0'
+ 243:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     on return, the entire string was valid.)
+ 244:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 245:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     The strtoul() function return either the result of the conversion
+ 246:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     or, if there was a leading minus sign, the negation of the result
+ 247:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     of the conversion, unless the original (non-negated) value would
+ 248:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     overflow; in the latter case, strtoul() returns ULONG_MAX, and \c
+ 249:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     errno is set to \ref avr_errno "ERANGE".  If no conversion could 
+ 250:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     be performed, 0 is returned.
+ 251:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** */
+ 252:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern unsigned long strtoul(const char *__nptr, char **__endptr, int __base);
+ 253:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 254:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /**
+ 255:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     The atol() function converts the initial portion of the string
+ 256:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     pointed to by \p s to long integer representation. In contrast to
+ 257:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 258:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****         \code strtol(s, (char **)NULL, 10); \endcode
+ 259:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 260:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     this function does not detect overflow (\c errno is not changed and
+ 261:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     the result value is not predictable), uses smaller memory (flash and
+ 262:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     stack) and works more quickly.
+ 263:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** */
+ 264:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern long atol(const char *__s) __ATTR_PURE__;
+ 265:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 266:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /**
+ 267:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     The atoi() function converts the initial portion of the string
+ 268:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     pointed to by \p s to integer representation. In contrast to
+ 269:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 270:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****         \code (int)strtol(s, (char **)NULL, 10); \endcode
+ 271:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 272:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     this function does not detect overflow (\c errno is not changed and
+ 273:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     the result value is not predictable), uses smaller memory (flash and
+ 274:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     stack) and works more quickly.
+ 275:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** */
+ 276:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern int atoi(const char *__s) __ATTR_PURE__;
+ 277:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 278:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /**
+ 279:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    The exit() function terminates the application.  Since there is no
+ 280:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    environment to return to, \c status is ignored, and code execution
+ 281:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    will eventually reach an infinite loop, thereby effectively halting
+ 282:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    all code processing.  Before entering the infinite loop, interrupts
+ 283:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    are globally disabled.
+ 284:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 285:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    In a C++ context, global destructors will be called before halting
+ 286:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    execution.
+ 287:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** */
+ 288:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern void exit(int __status) __ATTR_NORETURN__;
+ 289:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 290:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /**
+ 291:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    The malloc() function allocates \c size bytes of memory.
+ 292:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    If malloc() fails, a NULL pointer is returned.
+ 293:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 294:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    Note that malloc() does \e not initialize the returned memory to
+ 295:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    zero bytes.
+ 296:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 297:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    See the chapter about \ref malloc "malloc() usage" for implementation
+ 298:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    details.
+ 299:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** */
+ 300:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern void *malloc(size_t __size) __ATTR_MALLOC__;
+ 301:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 302:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /**
+ 303:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    The free() function causes the allocated memory referenced by \c
+ 304:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    ptr to be made available for future allocations.  If \c ptr is
+ 305:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    NULL, no action occurs.
+ 306:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** */
+ 307:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern void free(void *__ptr);
+ 308:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 309:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /**
+ 310:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    \c malloc() \ref malloc_tunables "tunable".
+ 311:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** */
+ 312:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern size_t __malloc_margin;
+ 313:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 314:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /**
+ 315:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    \c malloc() \ref malloc_tunables "tunable".
+ 316:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** */
+ 317:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern char *__malloc_heap_start;
+ 318:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 319:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /**
+ 320:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    \c malloc() \ref malloc_tunables "tunable".
+ 321:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** */
+ 322:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern char *__malloc_heap_end;
+ 323:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 324:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /**
+ 325:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    Allocate \c nele elements of \c size each.  Identical to calling
+ 326:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    \c malloc() using <tt>nele * size</tt> as argument, except the
+ 327:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    allocated memory will be cleared to zero.
+ 328:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** */
+ 329:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern void *calloc(size_t __nele, size_t __size) __ATTR_MALLOC__;
+ 330:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 331:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /**
+ 332:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    The realloc() function tries to change the size of the region
+ 333:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    allocated at \c ptr to the new \c size value.  It returns a
+ 334:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    pointer to the new region.  The returned pointer might be the
+ 335:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    same as the old pointer, or a pointer to a completely different
+ 336:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    region.
+ 337:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 338:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    The contents of the returned region up to either the old or the new
+ 339:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    size value (whatever is less) will be identical to the contents of
+ 340:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    the old region, even in case a new region had to be allocated.
+ 341:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 342:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    It is acceptable to pass \c ptr as NULL, in which case realloc()
+ 343:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    will behave identical to malloc().
+ 344:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 345:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    If the new memory cannot be allocated, realloc() returns NULL, and
+ 346:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    the region at \c ptr will not be changed.
+ 347:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** */
+ 348:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern void *realloc(void *__ptr, size_t __size) __ATTR_MALLOC__;
+ 349:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 350:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern double strtod(const char *__nptr, char **__endptr);
+ 351:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 352:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /** \ingroup avr_stdlib
+ 353:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     \fn  double atof (const char *nptr)
+ 354:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 355:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     The atof() function converts the initial portion of the string pointed
+ 356:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     to by \a nptr to double representation.
+ 357:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 358:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     It is equivalent to calling
+ 359:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 	\code strtod(nptr, (char **)0); \endcode
+ 360:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****  */
+ 361:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern double atof(const char *__nptr);
+ 362:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 363:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /** Highest number that can be generated by rand(). */
+ 364:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #define	RAND_MAX 0x7FFF
+ 365:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 366:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /**
+ 367:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      The rand() function computes a sequence of pseudo-random integers in the
+ 368:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      range of 0 to \c RAND_MAX (as defined by the header file <stdlib.h>).
+ 369:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 370:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      The srand() function sets its argument \c seed as the seed for a new
+ 371:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      sequence of pseudo-random numbers to be returned by rand().  These
+ 372:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      sequences are repeatable by calling srand() with the same seed value.
+ 373:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 374:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      If no seed value is provided, the functions are automatically seeded with
+ 375:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      a value of 1.
+ 376:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 377:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      In compliance with the C standard, these functions operate on
+ 378:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      \c int arguments.  Since the underlying algorithm already uses
+ 379:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      32-bit calculations, this causes a loss of precision.  See
+ 380:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      \c random() for an alternate set of functions that retains full
+ 381:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****      32-bit precision.
+ 382:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** */
+ 383:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern int rand(void);
+ 384:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /**
+ 385:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    Pseudo-random number generator seeding; see rand().
+ 386:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** */
+ 387:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern void srand(unsigned int __seed);
+ 388:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 389:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /**
+ 390:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    Variant of rand() that stores the context in the user-supplied
+ 391:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    variable located at \c ctx instead of a static library variable
+ 392:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    so the function becomes re-entrant.
+ 393:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** */
+ 394:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern int rand_r(unsigned long *__ctx);
+ 395:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /*@}*/
+ 396:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 397:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /*@{*/
+ 398:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /** \name Non-standard (i.e. non-ISO C) functions.
+ 399:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****  \ingroup avr_stdlib
+ 400:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** */
+ 401:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** /**
+ 402:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    \brief Convert an integer to a string.
+ 403:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 404:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    The function itoa() converts the integer value from \c val into an
+ 405:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    ASCII representation that will be stored under \c s.  The caller
+ 406:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    is responsible for providing sufficient storage in \c s.
+ 407:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 408:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    \note The minimal size of the buffer \c s depends on the choice of
+ 409:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    radix. For example, if the radix is 2 (binary), you need to supply a buffer
+ 410:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    with a minimal length of 8 * sizeof (int) + 1 characters, i.e. one
+ 411:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    character for each bit plus one for the string terminator. Using a larger
+ 412:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    radix will require a smaller minimal buffer size.
+ 413:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 414:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    \warning If the buffer is too small, you risk a buffer overflow.
+ 415:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 416:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    Conversion is done using the \c radix as base, which may be a
+ 417:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    number between 2 (binary conversion) and up to 36.  If \c radix
+ 418:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    is greater than 10, the next digit after \c '9' will be the letter
+ 419:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    \c 'a'.
+ 420:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     
+ 421:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     If radix is 10 and val is negative, a minus sign will be prepended.
+ 422:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 
+ 423:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****    The itoa() function returns the pointer passed as \c s.
+ 424:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** */
+ 425:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #ifdef  __DOXYGEN__
+ 426:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern char *itoa(int val, char *s, int radix);
+ 427:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** #else
+ 428:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** extern __inline__ __ATTR_GNU_INLINE__
+ 429:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** char *itoa (int __val, char *__s, int __radix)
+ 430:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** {
+ 431:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     if (!__builtin_constant_p (__radix)) {
+ 432:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 	extern char *__itoa (int, char *, int);
+ 433:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 	return __itoa (__val, __s, __radix);
+ 434:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     } else if (__radix < 2 || __radix > 36) {
+ 435:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 	*__s = 0;
+ 436:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 	return __s;
+ 437:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h ****     } else {
+ 438:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 	extern char *__itoa_ncheck (int, char *, unsigned char);
+ 439:c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h **** 	return __itoa_ncheck (__val, __s, __radix);
+ 640               		.loc 3 439 0 discriminator 1
+ 641 0012 4AE0      		ldi r20,lo8(10)
+ 642 0014 BE01      		movw r22,r28
+ 643 0016 6F5F      		subi r22,-1
+ 644 0018 7F4F      		sbci r23,-1
+ 645 001a 0E94 0000 		call __itoa_ncheck
+ 646               	.LVL49:
+ 647               	.LBE39:
+ 648               	.LBE38:
+ 358:../src/main.c **** 		UART_putstring(buffer);
+ 649               		.loc 1 358 0 discriminator 1
+ 650 001e CE01      		movw r24,r28
+ 651 0020 0196      		adiw r24,1
+ 652 0022 0E94 0000 		call UART_putstring
+ 653               	.LVL50:
+ 359:../src/main.c **** 		UART_send_data('\t');
+ 654               		.loc 1 359 0 discriminator 1
+ 655 0026 89E0      		ldi r24,lo8(9)
+ 656 0028 0E94 0000 		call UART_send_data
+ 657               	.LVL51:
+ 360:../src/main.c **** 		UART_send_data('\t');
+ 658               		.loc 1 360 0 discriminator 1
+ 659 002c 89E0      		ldi r24,lo8(9)
+ 660 002e 0E94 0000 		call UART_send_data
+ 661               	.LVL52:
+ 361:../src/main.c **** 		//Read VY
+ 362:../src/main.c **** 		itoa(read_VRY(), (char *)buffer, 10);
+ 662               		.loc 1 362 0 discriminator 1
+ 663 0032 0E94 0000 		call read_VRY
+ 664               	.LVL53:
+ 665               	.LBB40:
+ 666               	.LBB41:
+ 667               		.loc 3 439 0 discriminator 1
+ 668 0036 4AE0      		ldi r20,lo8(10)
+ 669 0038 BE01      		movw r22,r28
+ 670 003a 6F5F      		subi r22,-1
+ 671 003c 7F4F      		sbci r23,-1
+ 672 003e 0E94 0000 		call __itoa_ncheck
+ 673               	.LVL54:
+ 674               	.LBE41:
+ 675               	.LBE40:
+ 363:../src/main.c **** 		UART_putstring(buffer);
+ 676               		.loc 1 363 0 discriminator 1
+ 677 0042 CE01      		movw r24,r28
+ 678 0044 0196      		adiw r24,1
+ 679 0046 0E94 0000 		call UART_putstring
+ 680               	.LVL55:
+ 364:../src/main.c **** 		UART_send_data('\r');
+ 681               		.loc 1 364 0 discriminator 1
+ 682 004a 8DE0      		ldi r24,lo8(13)
+ 683 004c 0E94 0000 		call UART_send_data
+ 684               	.LVL56:
+ 365:../src/main.c **** 		UART_send_data('\n');
+ 685               		.loc 1 365 0 discriminator 1
+ 686 0050 8AE0      		ldi r24,lo8(10)
+ 687 0052 0E94 0000 		call UART_send_data
+ 688               	.LVL57:
+ 689               	.LBB42:
+ 690               	.LBB43:
+ 691               		.loc 2 187 0 discriminator 1
+ 692 0056 2FEF      		ldi r18,lo8(3199999)
+ 693 0058 83ED      		ldi r24,hi8(3199999)
+ 694 005a 90E3      		ldi r25,hlo8(3199999)
+ 695 005c 2150      	1:	subi r18,1
+ 696 005e 8040      		sbci r24,0
+ 697 0060 9040      		sbci r25,0
+ 698 0062 01F4      		brne 1b
+ 699 0064 00C0      		rjmp .
+ 700 0066 0000      		nop
+ 701 0068 00C0      		rjmp .L44
+ 702               	.LBE43:
+ 703               	.LBE42:
+ 704               		.cfi_endproc
+ 705               	.LFE77:
+ 707               		.comm	Turno,1,1
+ 708               		.comm	ispressed,1,1
+ 709               		.comm	Matriz_P2,192,1
+ 710               		.comm	Matriz_P1,192,1
+ 711               		.comm	jjoy,2,1
+ 712               		.comm	ijoy,2,1
+ 713               	.global	msg
+ 714               		.section	.data.msg,"aw",@progbits
+ 717               	msg:
+ 718 0000 4865 6C6C 		.string	"Hello from ATmega328p\r\n  "
+ 718      6F20 6672 
+ 718      6F6D 2041 
+ 718      546D 6567 
+ 718      6133 3238 
+ 719               	.global	arriba_max
+ 720               		.section	.rodata.arriba_max,"a",@progbits
+ 723               	arriba_max:
+ 724 0000 0000      		.zero	2
+ 725               	.global	arriba_min
+ 726               		.section	.rodata.arriba_min,"a",@progbits
+ 729               	arriba_min:
+ 730 0000 C800      		.word	200
+ 731               	.global	abajo_max
+ 732               		.section	.rodata.abajo_max,"a",@progbits
+ 735               	abajo_max:
+ 736 0000 FF03      		.word	1023
+ 737               	.global	abajo_min
+ 738               		.section	.rodata.abajo_min,"a",@progbits
+ 741               	abajo_min:
+ 742 0000 2003      		.word	800
+ 743               	.global	izquierda_max
+ 744               		.section	.rodata.izquierda_max,"a",@progbits
+ 747               	izquierda_max:
+ 748 0000 0000      		.zero	2
+ 749               	.global	izquierda_min
+ 750               		.section	.rodata.izquierda_min,"a",@progbits
+ 753               	izquierda_min:
+ 754 0000 C800      		.word	200
+ 755               	.global	derecha_max
+ 756               		.section	.rodata.derecha_max,"a",@progbits
+ 759               	derecha_max:
+ 760 0000 FF03      		.word	1023
+ 761               	.global	derecha_min
+ 762               		.section	.rodata.derecha_min,"a",@progbits
+ 765               	derecha_min:
+ 766 0000 2003      		.word	800
+ 767               	.global	ContadorPuntero
+ 768               		.section	.bss.ContadorPuntero,"aw",@nobits
+ 771               	ContadorPuntero:
+ 772 0000 0000      		.zero	2
+ 773               		.comm	Matriz_RGB,192,1
+ 774               	.global	puntero
+ 775               		.section	.data.puntero,"aw",@progbits
+ 778               	puntero:
+ 779 0000 0A        		.byte	10
+ 780 0001 0A        		.byte	10
+ 781 0002 00        		.byte	0
+ 782               	.global	Apagado
+ 783               		.section	.bss.Apagado,"aw",@nobits
+ 786               	Apagado:
+ 787 0000 0000 00   		.zero	3
+ 788               	.global	tocado
+ 789               		.section	.data.tocado,"aw",@progbits
+ 792               	tocado:
+ 793 0000 64        		.byte	100
+ 794 0001 64        		.byte	100
+ 795 0002 19        		.byte	25
+ 796               	.global	agua
+ 797               		.section	.data.agua,"aw",@progbits
+ 800               	agua:
+ 801 0000 00        		.byte	0
+ 802 0001 00        		.byte	0
+ 803 0002 64        		.byte	100
+ 804               	.global	hundido
+ 805               		.section	.data.hundido,"aw",@progbits
+ 808               	hundido:
+ 809 0000 00        		.byte	0
+ 810 0001 64        		.byte	100
+ 811 0002 00        		.byte	0
+ 812               	.global	disparado
+ 813               		.section	.data.disparado,"aw",@progbits
+ 816               	disparado:
+ 817 0000 64        		.byte	100
+ 818 0001 00        		.byte	0
+ 819 0002 00        		.byte	0
+ 820               		.comm	p2disp,2,1
+ 821               		.text
+ 822               	.Letext0:
+ 823               		.file 4 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\in
+ 824               		.file 5 "../src/Timer.h"
+ 825               		.file 6 "../src/UART.h"
+ 826               		.file 7 "../src/ADC.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+              main.s:2      *ABS*:0000003e __SP_H__
+              main.s:3      *ABS*:0000003d __SP_L__
+              main.s:4      *ABS*:0000003f __SREG__
+              main.s:5      *ABS*:00000000 __tmp_reg__
+              main.s:6      *ABS*:00000001 __zero_reg__
+              main.s:13     .text.Mostrar_Matriz_2:00000000 Mostrar_Matriz_2
+                            *COM*:000000c0 Matriz_P2
+                            *COM*:000000c0 Matriz_RGB
+              main.s:83     .text.Mostrar_Matriz_1:00000000 Mostrar_Matriz_1
+                            *COM*:000000c0 Matriz_P1
+              main.s:152    .text.clear_disp:00000000 clear_disp
+              main.s:786    .bss.Apagado:00000000 Apagado
+              main.s:219    .text.main:00000000 main
+                            *COM*:00000002 p2disp
+                            *COM*:00000001 Turno
+                            *COM*:00000002 ijoy
+                            *COM*:00000002 jjoy
+              main.s:778    .data.puntero:00000000 puntero
+              main.s:530    .text.softdelay:00000000 softdelay
+              main.s:608    .text.ADCTestBench:00000000 ADCTestBench
+                            *COM*:00000001 ispressed
+              main.s:717    .data.msg:00000000 msg
+              main.s:723    .rodata.arriba_max:00000000 arriba_max
+              main.s:729    .rodata.arriba_min:00000000 arriba_min
+              main.s:735    .rodata.abajo_max:00000000 abajo_max
+              main.s:741    .rodata.abajo_min:00000000 abajo_min
+              main.s:747    .rodata.izquierda_max:00000000 izquierda_max
+              main.s:753    .rodata.izquierda_min:00000000 izquierda_min
+              main.s:759    .rodata.derecha_max:00000000 derecha_max
+              main.s:765    .rodata.derecha_min:00000000 derecha_min
+              main.s:771    .bss.ContadorPuntero:00000000 ContadorPuntero
+              main.s:792    .data.tocado:00000000 tocado
+              main.s:800    .data.agua:00000000 agua
+              main.s:808    .data.hundido:00000000 hundido
+              main.s:816    .data.disparado:00000000 disparado
+                           .group:00000000 wm4.parts.h.38.424177e1c4c7502bdf2cd6eac0e66f1e
+                           .group:00000000 wm4.sfr_defs.h.36.473802ecbcb5d4d38de6c7efbfcd3c60
+                           .group:00000000 wm4.stdint.h.41.052d062c327f27e210bb72c3d087afe5
+                           .group:00000000 wm4.inttypes.h.96.afb9c4be73a069861f8689c997efc518
+                           .group:00000000 wm4.sfr_defs.h.128.38ceebe2fb099c106e85a566519e0f1a
+                           .group:00000000 wm4.iom328p.h.44.29c929f46483155923fc58520c74ebf7
+                           .group:00000000 wm4.portpins.h.34.21289185946cbf62723ecc8db6cdc3ff
+                           .group:00000000 wm4.common.h.35.c7e66042b2128622b9d3bddccc9a39f4
+                           .group:00000000 wm4.version.h.54.85699b1a50c61c991a37d67b69e79e95
+                           .group:00000000 wm4.fuse.h.36.5c373c650020c0efef2cbaa98ea802c3
+                           .group:00000000 wm4.lock.h.36.51f311078904691e8f8c3d70111251d8
+                           .group:00000000 wm4.stdbool.h.29.07dce69c3b78884144b7f7bd19483461
+                           .group:00000000 wm4.stddef.h.39.99b5021e28f91cdb161c889e07266673
+                           .group:00000000 wm4.stdlib.h.40.248a6087ef49adb4f4328833c0282d4b
+                           .group:00000000 wm4.stddef.h.161.19e15733342b50ead2919490b095303e
+                           .group:00000000 wm4.stdlib.h.51.3a36e1d757b19eb9d8852fbf8bb7cd30
+                           .group:00000000 wm4.compiler.h.71.f9633126e8a32454fdb20497dc57808e
+                           .group:00000000 wm4.interrupt.h.36.b2193b640edda749ea0a45a8be5976c8
+                           .group:00000000 wm4.interrupt_avr8.h.89.988a0fb0a0728821bb2ce6a5fad9a217
+                           .group:00000000 wm4.pgmspace.h.83.7bf4a326041279617a872e0717310315
+                           .group:00000000 wm4.pgmspace.h.98.de80e653d80602932888d287eea24d43
+                           .group:00000000 wm4.progmem.h.56.1d8b28eb4bdbace2fba3d4aa9d1800d3
+                           .group:00000000 wm4.compiler.h.162.3bca7208a79b237ff211f6b945969fd5
+                           .group:00000000 wm4.ioport.h.38.48f501ae460febc49dd950c4a2361938
+                           .group:00000000 wm4.mega_gpio.h.43.3e8869bf7dde66f4dae42caccabdc28f
+                           .group:00000000 wm4.board.h.41.2d9694df0f6b670341666b9015632b94
+                           .group:00000000 wm4.led.h.38.8c4408d5cc264ea8e7bbcc0ac6971d10
+                           .group:00000000 wm4.atmega328p_xplained_mini.h.47.411278661c63ad4794d5f415bca0f65b
+                           .group:00000000 wm4.delay.h.36.9b049a49ceee302c08fd72aec728bf54
+                           .group:00000000 wm4.math.h.49.a63885b3cd597bc58738696048bb49a6
+                           .group:00000000 wm4.stdarg.h.31.72c3aa8d68b291953fa52b9471bcdff7
+                           .group:00000000 wm4.stdio.h.48.03f793588f1f7fb1580b876d18fe65ca
+                           .group:00000000 wm4.stdio.h.248.5fbade1a796be71fda180118fce7900d
+                           .group:00000000 wm4.ADC.h.10.4375d630963ad1b8b9d883a341299c49
+                           .group:00000000 wm4.string.h.41.8b0fd4b8464d7737ca6ec77d9c41c5e8
+
+UNDEFINED SYMBOLS
+init_ws2812
+init_RTI
+UART_Init
+adc_init
+joybutton_Init
+display_init
+UART_putstring
+set_P1
+wrt_ws2812
+set_P2
+read_VRX
+__itoa_ncheck
+UART_send_data
+read_VRY
+__do_copy_data
+__do_clear_bss

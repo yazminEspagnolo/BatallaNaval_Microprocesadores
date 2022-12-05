@@ -1,0 +1,406 @@
+   1               		.file	"Timer.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               		.cfi_sections	.debug_frame
+  10               		.section	.text.init_RTI,"ax",@progbits
+  11               	.global	init_RTI
+  13               	init_RTI:
+  14               	.LFB65:
+  15               		.file 1 "../src/Timer.c"
+   1:../src/Timer.c **** 
+   2:../src/Timer.c **** #include <asf.h>
+   3:../src/Timer.c **** #include <stdint.h>				//Standard types
+   4:../src/Timer.c **** #include <avr/interrupt.h>
+   5:../src/Timer.c **** #include "Timer.h"
+   6:../src/Timer.c **** #include "ADC.h"
+   7:../src/Timer.c **** #include "UART.h"
+   8:../src/Timer.c **** #include "cqueue.h"
+   9:../src/Timer.c **** #include "JoystickButton.h"
+  10:../src/Timer.c **** #include "Display_ss.h"
+  11:../src/Timer.c **** 
+  12:../src/Timer.c **** 
+  13:../src/Timer.c **** 
+  14:../src/Timer.c **** 
+  15:../src/Timer.c **** // Display Bytes definitions
+  16:../src/Timer.c **** 
+  17:../src/Timer.c **** #define AllBytesSended 3
+  18:../src/Timer.c **** #define NoByteSended 0
+  19:../src/Timer.c **** 
+  20:../src/Timer.c **** // Timer Counts definitions
+  21:../src/Timer.c **** 
+  22:../src/Timer.c **** #define TwoSegs 1000
+  23:../src/Timer.c **** #define OneSeg 500
+  24:../src/Timer.c **** #define HalfSeg 250
+  25:../src/Timer.c **** #define TwoMiliSeg 100
+  26:../src/Timer.c **** #define OneMiliSeg 50
+  27:../src/Timer.c **** 
+  28:../src/Timer.c **** 
+  29:../src/Timer.c **** // Timer Prescaler definitions //
+  30:../src/Timer.c **** 
+  31:../src/Timer.c **** #define divx1 (0<<CS02)|(0<<CS01)|(1<<CS00)
+  32:../src/Timer.c **** #define	divx8 (0<<CS02)|(1<<CS01)|(0<<CS00)
+  33:../src/Timer.c **** #define	divx64 (0<<CS02)|(1<<CS01)|(1<<CS00)
+  34:../src/Timer.c **** #define	divx256 (1<<CS02)|(0<<CS01)|(0<<CS00)
+  35:../src/Timer.c **** #define	divx1024 (1<<CS02)|(0<<CS01)|(1<<CS00)
+  36:../src/Timer.c **** 
+  37:../src/Timer.c **** // Select Prescaler value
+  38:../src/Timer.c **** #define	PRESCALER divx256	//Timer prescaler / divider
+  39:../src/Timer.c **** 
+  40:../src/Timer.c **** uint16_t Joystick_CountTimer = TwoMiliSeg;
+  41:../src/Timer.c **** uint16_t Joystickbutton_CountTimer = OneMiliSeg;
+  42:../src/Timer.c **** volatile uint8_t Turno = 1;
+  43:../src/Timer.c **** uint8_t digit_display = 0;
+  44:../src/Timer.c **** 
+  45:../src/Timer.c **** volatile int ijoy,jjoy;
+  46:../src/Timer.c **** 
+  47:../src/Timer.c **** extern void Joystick(void);
+  48:../src/Timer.c **** 
+  49:../src/Timer.c **** void init_RTI(void)
+  50:../src/Timer.c **** {
+  16               		.loc 1 50 0
+  17               		.cfi_startproc
+  18               	/* prologue: function */
+  19               	/* frame size = 0 */
+  20               	/* stack size = 0 */
+  21               	.L__stack_usage = 0
+  51:../src/Timer.c **** 	
+  52:../src/Timer.c **** 	//  Interrupt Source: Hardware Timer 0 using OCR0A (Output Compare Register A)
+  53:../src/Timer.c **** 	//  Waveform Generation Mode:Clear Timer on Compare Match (CTC)(WGM02=0,WGM01=1,WGM0=0)(Non PWM Mo
+  54:../src/Timer.c **** 	//  COM0A1=0,COM0A0=0 Normal port operation, OC0A disconnected.
+  55:../src/Timer.c **** 	//
+  56:../src/Timer.c **** 
+  57:../src/Timer.c **** 
+  58:../src/Timer.c **** 	// 1-Timer Mode: CTC
+  59:../src/Timer.c **** 	TCCR0A=(0<<COM0A1)|(0<<COM0A0)|(0<<COM0B1)|(0<<COM0B0)|(1<<WGM01)|(0<<WGM00);
+  22               		.loc 1 59 0
+  23 0000 82E0      		ldi r24,lo8(2)
+  24 0002 84BD      		out 0x24,r24
+  60:../src/Timer.c **** 	
+  61:../src/Timer.c **** 	
+  62:../src/Timer.c **** 
+  63:../src/Timer.c **** 	// 2-Clock select:Prescaler=256
+  64:../src/Timer.c **** 	TCCR0B=(0<<FOC0A)|(0<<FOC0B)|(0<<WGM02)|PRESCALER;
+  25               		.loc 1 64 0
+  26 0004 94E0      		ldi r25,lo8(4)
+  27 0006 95BD      		out 0x25,r25
+  65:../src/Timer.c **** 	
+  66:../src/Timer.c **** 
+  67:../src/Timer.c **** 	// 3-Set OCR
+  68:../src/Timer.c **** 	OCR0A=125;
+  28               		.loc 1 68 0
+  29 0008 9DE7      		ldi r25,lo8(125)
+  30 000a 97BD      		out 0x27,r25
+  69:../src/Timer.c **** 
+  70:../src/Timer.c **** 
+  71:../src/Timer.c **** 	// 4-Timer/Counter0 Output Compare Match A Interrupt Enable
+  72:../src/Timer.c **** 	TIMSK0=(0<<OCIE0B)|(1<<OCIE0A)|(0<<TOIE0);
+  31               		.loc 1 72 0
+  32 000c 8093 6E00 		sts 110,r24
+  33 0010 0895      		ret
+  34               		.cfi_endproc
+  35               	.LFE65:
+  37               		.section	.text.__vector_14,"ax",@progbits
+  38               	.global	__vector_14
+  40               	__vector_14:
+  41               	.LFB66:
+  73:../src/Timer.c **** }
+  74:../src/Timer.c **** 
+  75:../src/Timer.c **** //Interrupt service routine (ISR) for Timer 0
+  76:../src/Timer.c **** // Timer int happens every (16MHz)^(-1)*1024*125 = 62.5ns*1024*125 = 64 * 125 useg = 2mseg
+  77:../src/Timer.c **** ISR(TIMER0_COMPA_vect)
+  78:../src/Timer.c **** {
+  42               		.loc 1 78 0
+  43               		.cfi_startproc
+  44 0000 1F92      		push r1
+  45               	.LCFI0:
+  46               		.cfi_def_cfa_offset 3
+  47               		.cfi_offset 1, -2
+  48 0002 0F92      		push r0
+  49               	.LCFI1:
+  50               		.cfi_def_cfa_offset 4
+  51               		.cfi_offset 0, -3
+  52 0004 0FB6      		in r0,__SREG__
+  53 0006 0F92      		push r0
+  54 0008 1124      		clr __zero_reg__
+  55 000a 2F93      		push r18
+  56               	.LCFI2:
+  57               		.cfi_def_cfa_offset 5
+  58               		.cfi_offset 18, -4
+  59 000c 3F93      		push r19
+  60               	.LCFI3:
+  61               		.cfi_def_cfa_offset 6
+  62               		.cfi_offset 19, -5
+  63 000e 4F93      		push r20
+  64               	.LCFI4:
+  65               		.cfi_def_cfa_offset 7
+  66               		.cfi_offset 20, -6
+  67 0010 5F93      		push r21
+  68               	.LCFI5:
+  69               		.cfi_def_cfa_offset 8
+  70               		.cfi_offset 21, -7
+  71 0012 6F93      		push r22
+  72               	.LCFI6:
+  73               		.cfi_def_cfa_offset 9
+  74               		.cfi_offset 22, -8
+  75 0014 7F93      		push r23
+  76               	.LCFI7:
+  77               		.cfi_def_cfa_offset 10
+  78               		.cfi_offset 23, -9
+  79 0016 8F93      		push r24
+  80               	.LCFI8:
+  81               		.cfi_def_cfa_offset 11
+  82               		.cfi_offset 24, -10
+  83 0018 9F93      		push r25
+  84               	.LCFI9:
+  85               		.cfi_def_cfa_offset 12
+  86               		.cfi_offset 25, -11
+  87 001a AF93      		push r26
+  88               	.LCFI10:
+  89               		.cfi_def_cfa_offset 13
+  90               		.cfi_offset 26, -12
+  91 001c BF93      		push r27
+  92               	.LCFI11:
+  93               		.cfi_def_cfa_offset 14
+  94               		.cfi_offset 27, -13
+  95 001e EF93      		push r30
+  96               	.LCFI12:
+  97               		.cfi_def_cfa_offset 15
+  98               		.cfi_offset 30, -14
+  99 0020 FF93      		push r31
+ 100               	.LCFI13:
+ 101               		.cfi_def_cfa_offset 16
+ 102               		.cfi_offset 31, -15
+ 103               	/* prologue: Signal */
+ 104               	/* frame size = 0 */
+ 105               	/* stack size = 15 */
+ 106               	.L__stack_usage = 15
+  79:../src/Timer.c **** 	display_resfesh(digit_display);
+ 107               		.loc 1 79 0
+ 108 0022 8091 0000 		lds r24,digit_display
+ 109 0026 0E94 0000 		call display_resfesh
+ 110               	.LVL0:
+  80:../src/Timer.c **** 	if (digit_display < AllBytesSended)
+ 111               		.loc 1 80 0
+ 112 002a 8091 0000 		lds r24,digit_display
+ 113 002e 8330      		cpi r24,lo8(3)
+ 114 0030 00F4      		brsh .L3
+  81:../src/Timer.c **** 	{
+  82:../src/Timer.c **** 		digit_display++;
+ 115               		.loc 1 82 0
+ 116 0032 8F5F      		subi r24,lo8(-(1))
+ 117 0034 8093 0000 		sts digit_display,r24
+ 118 0038 00C0      		rjmp .L4
+ 119               	.L3:
+  83:../src/Timer.c **** 	}
+  84:../src/Timer.c **** 	
+  85:../src/Timer.c **** 	else
+  86:../src/Timer.c **** 	{
+  87:../src/Timer.c **** 		digit_display = NoByteSended;
+ 120               		.loc 1 87 0
+ 121 003a 1092 0000 		sts digit_display,__zero_reg__
+ 122               	.L4:
+  88:../src/Timer.c **** 	}
+  89:../src/Timer.c **** 	
+  90:../src/Timer.c **** 	if(Joystick_CountTimer)			// 2mseg x 150 = 300 mseg
+ 123               		.loc 1 90 0
+ 124 003e 8091 0000 		lds r24,Joystick_CountTimer
+ 125 0042 9091 0000 		lds r25,Joystick_CountTimer+1
+ 126 0046 0097      		sbiw r24,0
+ 127 0048 01F0      		breq .L5
+  91:../src/Timer.c **** 	{
+  92:../src/Timer.c **** 		Joystick_CountTimer--;
+ 128               		.loc 1 92 0
+ 129 004a 0197      		sbiw r24,1
+ 130 004c 9093 0000 		sts Joystick_CountTimer+1,r25
+ 131 0050 8093 0000 		sts Joystick_CountTimer,r24
+ 132 0054 00C0      		rjmp .L6
+ 133               	.L5:
+  93:../src/Timer.c **** 	}
+  94:../src/Timer.c **** 
+  95:../src/Timer.c **** 	else
+  96:../src/Timer.c **** 	{
+  97:../src/Timer.c **** 		Joystick_CountTimer=OneMiliSeg;
+ 134               		.loc 1 97 0
+ 135 0056 82E3      		ldi r24,lo8(50)
+ 136 0058 90E0      		ldi r25,0
+ 137 005a 9093 0000 		sts Joystick_CountTimer+1,r25
+ 138 005e 8093 0000 		sts Joystick_CountTimer,r24
+  98:../src/Timer.c **** 		Joystick();
+ 139               		.loc 1 98 0
+ 140 0062 0E94 0000 		call Joystick
+ 141               	.LVL1:
+ 142               	.L6:
+  99:../src/Timer.c **** 	}
+ 100:../src/Timer.c **** 	if (Joystickbutton_CountTimer)
+ 143               		.loc 1 100 0
+ 144 0066 8091 0000 		lds r24,Joystickbutton_CountTimer
+ 145 006a 9091 0000 		lds r25,Joystickbutton_CountTimer+1
+ 146 006e 0097      		sbiw r24,0
+ 147 0070 01F0      		breq .L7
+ 101:../src/Timer.c **** 	{
+ 102:../src/Timer.c **** 		Joystickbutton_CountTimer --;
+ 148               		.loc 1 102 0
+ 149 0072 0197      		sbiw r24,1
+ 150 0074 9093 0000 		sts Joystickbutton_CountTimer+1,r25
+ 151 0078 8093 0000 		sts Joystickbutton_CountTimer,r24
+ 152 007c 00C0      		rjmp .L2
+ 153               	.L7:
+ 103:../src/Timer.c **** 	}
+ 104:../src/Timer.c **** 	
+ 105:../src/Timer.c **** 	else
+ 106:../src/Timer.c **** 	{
+ 107:../src/Timer.c **** 		Joystickbutton_CountTimer = OneMiliSeg;
+ 154               		.loc 1 107 0
+ 155 007e 82E3      		ldi r24,lo8(50)
+ 156 0080 90E0      		ldi r25,0
+ 157 0082 9093 0000 		sts Joystickbutton_CountTimer+1,r25
+ 158 0086 8093 0000 		sts Joystickbutton_CountTimer,r24
+ 108:../src/Timer.c **** 		if (button_check() == 0)
+ 159               		.loc 1 108 0
+ 160 008a 0E94 0000 		call button_check
+ 161               	.LVL2:
+ 162 008e 8111      		cpse r24,__zero_reg__
+ 163 0090 00C0      		rjmp .L2
+ 109:../src/Timer.c **** 		{
+ 110:../src/Timer.c **** 			if (Turno == 1)
+ 164               		.loc 1 110 0
+ 165 0092 8091 0000 		lds r24,Turno
+ 166 0096 8130      		cpi r24,lo8(1)
+ 167 0098 01F4      		brne .L9
+ 111:../src/Timer.c **** 			{
+ 112:../src/Timer.c **** 				Turno = 2;
+ 168               		.loc 1 112 0
+ 169 009a 82E0      		ldi r24,lo8(2)
+ 170 009c 8093 0000 		sts Turno,r24
+ 113:../src/Timer.c **** 				Joystickbutton_CountTimer = OneSeg;
+ 171               		.loc 1 113 0
+ 172 00a0 84EF      		ldi r24,lo8(-12)
+ 173 00a2 91E0      		ldi r25,lo8(1)
+ 174 00a4 9093 0000 		sts Joystickbutton_CountTimer+1,r25
+ 175 00a8 8093 0000 		sts Joystickbutton_CountTimer,r24
+ 176 00ac 00C0      		rjmp .L2
+ 177               	.L9:
+ 114:../src/Timer.c **** 			}
+ 115:../src/Timer.c **** 			
+ 116:../src/Timer.c **** 			else if (Turno == 2)
+ 178               		.loc 1 116 0
+ 179 00ae 8091 0000 		lds r24,Turno
+ 180 00b2 8230      		cpi r24,lo8(2)
+ 181 00b4 01F4      		brne .L2
+ 117:../src/Timer.c **** 			{
+ 118:../src/Timer.c **** 				Turno = 1;
+ 182               		.loc 1 118 0
+ 183 00b6 81E0      		ldi r24,lo8(1)
+ 184 00b8 8093 0000 		sts Turno,r24
+ 119:../src/Timer.c **** 				Joystickbutton_CountTimer = OneSeg;
+ 185               		.loc 1 119 0
+ 186 00bc 84EF      		ldi r24,lo8(-12)
+ 187 00be 91E0      		ldi r25,lo8(1)
+ 188 00c0 9093 0000 		sts Joystickbutton_CountTimer+1,r25
+ 189 00c4 8093 0000 		sts Joystickbutton_CountTimer,r24
+ 190               	.L2:
+ 191               	/* epilogue start */
+ 120:../src/Timer.c **** 			}
+ 121:../src/Timer.c **** 		}
+ 122:../src/Timer.c **** 	}
+ 123:../src/Timer.c **** }...
+ 192               		.loc 1 123 0
+ 193 00c8 FF91      		pop r31
+ 194 00ca EF91      		pop r30
+ 195 00cc BF91      		pop r27
+ 196 00ce AF91      		pop r26
+ 197 00d0 9F91      		pop r25
+ 198 00d2 8F91      		pop r24
+ 199 00d4 7F91      		pop r23
+ 200 00d6 6F91      		pop r22
+ 201 00d8 5F91      		pop r21
+ 202 00da 4F91      		pop r20
+ 203 00dc 3F91      		pop r19
+ 204 00de 2F91      		pop r18
+ 205 00e0 0F90      		pop r0
+ 206 00e2 0FBE      		out __SREG__,r0
+ 207 00e4 0F90      		pop r0
+ 208 00e6 1F90      		pop r1
+ 209 00e8 1895      		reti
+ 210               		.cfi_endproc
+ 211               	.LFE66:
+ 213               		.comm	jjoy,2,1
+ 214               		.comm	ijoy,2,1
+ 215               	.global	digit_display
+ 216               		.section	.bss.digit_display,"aw",@nobits
+ 219               	digit_display:
+ 220 0000 00        		.zero	1
+ 221               	.global	Turno
+ 222               		.section	.data.Turno,"aw",@progbits
+ 225               	Turno:
+ 226 0000 01        		.byte	1
+ 227               	.global	Joystickbutton_CountTimer
+ 228               		.section	.data.Joystickbutton_CountTimer,"aw",@progbits
+ 231               	Joystickbutton_CountTimer:
+ 232 0000 3200      		.word	50
+ 233               	.global	Joystick_CountTimer
+ 234               		.section	.data.Joystick_CountTimer,"aw",@progbits
+ 237               	Joystick_CountTimer:
+ 238 0000 6400      		.word	100
+ 239               		.text
+ 240               	.Letext0:
+ 241               		.file 2 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\in
+ 242               		.file 3 "../src/Display_ss.h"
+ 243               		.file 4 "../src/JoystickButton.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 Timer.c
+             Timer.s:2      *ABS*:0000003e __SP_H__
+             Timer.s:3      *ABS*:0000003d __SP_L__
+             Timer.s:4      *ABS*:0000003f __SREG__
+             Timer.s:5      *ABS*:00000000 __tmp_reg__
+             Timer.s:6      *ABS*:00000001 __zero_reg__
+             Timer.s:13     .text.init_RTI:00000000 init_RTI
+             Timer.s:40     .text.__vector_14:00000000 __vector_14
+             Timer.s:219    .bss.digit_display:00000000 digit_display
+             Timer.s:237    .data.Joystick_CountTimer:00000000 Joystick_CountTimer
+             Timer.s:231    .data.Joystickbutton_CountTimer:00000000 Joystickbutton_CountTimer
+             Timer.s:225    .data.Turno:00000000 Turno
+                            *COM*:00000002 jjoy
+                            *COM*:00000002 ijoy
+                           .group:00000000 wm4.parts.h.38.424177e1c4c7502bdf2cd6eac0e66f1e
+                           .group:00000000 wm4.sfr_defs.h.36.473802ecbcb5d4d38de6c7efbfcd3c60
+                           .group:00000000 wm4.stdint.h.41.052d062c327f27e210bb72c3d087afe5
+                           .group:00000000 wm4.inttypes.h.96.afb9c4be73a069861f8689c997efc518
+                           .group:00000000 wm4.sfr_defs.h.128.38ceebe2fb099c106e85a566519e0f1a
+                           .group:00000000 wm4.iom328p.h.44.29c929f46483155923fc58520c74ebf7
+                           .group:00000000 wm4.portpins.h.34.21289185946cbf62723ecc8db6cdc3ff
+                           .group:00000000 wm4.common.h.35.c7e66042b2128622b9d3bddccc9a39f4
+                           .group:00000000 wm4.version.h.54.85699b1a50c61c991a37d67b69e79e95
+                           .group:00000000 wm4.fuse.h.36.5c373c650020c0efef2cbaa98ea802c3
+                           .group:00000000 wm4.lock.h.36.51f311078904691e8f8c3d70111251d8
+                           .group:00000000 wm4.stdbool.h.29.07dce69c3b78884144b7f7bd19483461
+                           .group:00000000 wm4.stddef.h.39.99b5021e28f91cdb161c889e07266673
+                           .group:00000000 wm4.stdlib.h.40.248a6087ef49adb4f4328833c0282d4b
+                           .group:00000000 wm4.stddef.h.161.19e15733342b50ead2919490b095303e
+                           .group:00000000 wm4.stdlib.h.51.3a36e1d757b19eb9d8852fbf8bb7cd30
+                           .group:00000000 wm4.compiler.h.71.f9633126e8a32454fdb20497dc57808e
+                           .group:00000000 wm4.interrupt.h.36.b2193b640edda749ea0a45a8be5976c8
+                           .group:00000000 wm4.interrupt_avr8.h.89.988a0fb0a0728821bb2ce6a5fad9a217
+                           .group:00000000 wm4.pgmspace.h.83.7bf4a326041279617a872e0717310315
+                           .group:00000000 wm4.pgmspace.h.98.de80e653d80602932888d287eea24d43
+                           .group:00000000 wm4.progmem.h.56.1d8b28eb4bdbace2fba3d4aa9d1800d3
+                           .group:00000000 wm4.compiler.h.162.3bca7208a79b237ff211f6b945969fd5
+                           .group:00000000 wm4.ioport.h.38.48f501ae460febc49dd950c4a2361938
+                           .group:00000000 wm4.mega_gpio.h.43.3e8869bf7dde66f4dae42caccabdc28f
+                           .group:00000000 wm4.board.h.41.2d9694df0f6b670341666b9015632b94
+                           .group:00000000 wm4.led.h.38.8c4408d5cc264ea8e7bbcc0ac6971d10
+                           .group:00000000 wm4.atmega328p_xplained_mini.h.47.411278661c63ad4794d5f415bca0f65b
+                           .group:00000000 wm4.ADC.h.10.4375d630963ad1b8b9d883a341299c49
+                           .group:00000000 wm4.cqueue.h.2.ddb4abc33b3476710e33c1abf058974f
+
+UNDEFINED SYMBOLS
+display_resfesh
+Joystick
+button_check
+__do_copy_data
+__do_clear_bss

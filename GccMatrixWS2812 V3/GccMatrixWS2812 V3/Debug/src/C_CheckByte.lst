@@ -1,0 +1,126 @@
+   1               		.file	"C_CheckByte.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               		.cfi_sections	.debug_frame
+  10               		.section	.text.CheckByte,"ax",@progbits
+  11               	.global	CheckByte
+  13               	CheckByte:
+  14               	.LFB0:
+  15               		.file 1 "../src/C_CheckByte.c"
+   1:../src/C_CheckByte.c **** /*
+   2:../src/C_CheckByte.c ****  * C_CheckByte.c
+   3:../src/C_CheckByte.c ****  *
+   4:../src/C_CheckByte.c ****  * Created: 2/12/2022 8:52:43
+   5:../src/C_CheckByte.c ****  *  Author: NinoM
+   6:../src/C_CheckByte.c ****  */ 
+   7:../src/C_CheckByte.c **** #include <stdint.h>
+   8:../src/C_CheckByte.c **** #include <avr/io.h>
+   9:../src/C_CheckByte.c **** #include "C_CheckByte.h"
+  10:../src/C_CheckByte.c **** 
+  11:../src/C_CheckByte.c **** #define HUNDIDO 0b00001000 //(BIT TRES)
+  12:../src/C_CheckByte.c **** #define TOCADO 0b00000100 //(BIT DOS)
+  13:../src/C_CheckByte.c **** #define DISPARADO 0b00000010 //(BIT UNO)
+  14:../src/C_CheckByte.c **** #define AGUA 0b00000001 //(BIT CERO)
+  15:../src/C_CheckByte.c **** 
+  16:../src/C_CheckByte.c **** extern uint8_t checking(uint8_t);
+  17:../src/C_CheckByte.c **** 
+  18:../src/C_CheckByte.c **** uint8_t CheckByte(uint8_t matrizbyte)
+  19:../src/C_CheckByte.c **** {
+  16               		.loc 1 19 0
+  17               		.cfi_startproc
+  18               	.LVL0:
+  19 0000 CF93      		push r28
+  20               	.LCFI0:
+  21               		.cfi_def_cfa_offset 3
+  22               		.cfi_offset 28, -2
+  23 0002 DF93      		push r29
+  24               	.LCFI1:
+  25               		.cfi_def_cfa_offset 4
+  26               		.cfi_offset 29, -3
+  27 0004 00D0      		rcall .
+  28               	.LCFI2:
+  29               		.cfi_def_cfa_offset 6
+  30 0006 CDB7      		in r28,__SP_L__
+  31 0008 DEB7      		in r29,__SP_H__
+  32               	.LCFI3:
+  33               		.cfi_def_cfa_register 28
+  34               	/* prologue: function */
+  35               	/* frame size = 2 */
+  36               	/* stack size = 4 */
+  37               	.L__stack_usage = 4
+  20:../src/C_CheckByte.c **** 	volatile int a;
+  21:../src/C_CheckByte.c **** 	if ((matrizbyte && AGUA) != 0)
+  38               		.loc 1 21 0
+  39 000a 8823      		tst r24
+  40 000c 01F0      		breq .L2
+  22:../src/C_CheckByte.c **** 	{
+  23:../src/C_CheckByte.c **** 		a=0;
+  41               		.loc 1 23 0
+  42 000e 1A82      		std Y+2,__zero_reg__
+  43 0010 1982      		std Y+1,__zero_reg__
+  44 0012 00C0      		rjmp .L3
+  45               	.L2:
+  24:../src/C_CheckByte.c **** 	}
+  25:../src/C_CheckByte.c **** 	else if ((matrizbyte && DISPARADO) != 0)
+  26:../src/C_CheckByte.c **** 	{
+  27:../src/C_CheckByte.c **** 		a=1;
+  28:../src/C_CheckByte.c **** 	}
+  29:../src/C_CheckByte.c **** 	else if ((matrizbyte && TOCADO) != 0)
+  30:../src/C_CheckByte.c **** 	{
+  31:../src/C_CheckByte.c **** 		a=2;
+  32:../src/C_CheckByte.c **** 	}
+  33:../src/C_CheckByte.c **** 	else if ((matrizbyte && HUNDIDO) != 0)
+  34:../src/C_CheckByte.c **** 	{
+  35:../src/C_CheckByte.c **** 		a=3;
+  36:../src/C_CheckByte.c **** 	}
+  37:../src/C_CheckByte.c **** 	else 
+  38:../src/C_CheckByte.c **** 	{
+  39:../src/C_CheckByte.c **** 		a=0;
+  46               		.loc 1 39 0
+  47 0014 1A82      		std Y+2,__zero_reg__
+  48 0016 1982      		std Y+1,__zero_reg__
+  49               	.L3:
+  40:../src/C_CheckByte.c **** 	}
+  41:../src/C_CheckByte.c **** 	return(a);
+  50               		.loc 1 41 0
+  51 0018 8981      		ldd r24,Y+1
+  52 001a 9A81      		ldd r25,Y+2
+  53               	.LVL1:
+  54               	/* epilogue start */
+  42:../src/C_CheckByte.c **** }
+  55               		.loc 1 42 0
+  56 001c 0F90      		pop __tmp_reg__
+  57 001e 0F90      		pop __tmp_reg__
+  58 0020 DF91      		pop r29
+  59 0022 CF91      		pop r28
+  60 0024 0895      		ret
+  61               		.cfi_endproc
+  62               	.LFE0:
+  64               		.text
+  65               	.Letext0:
+  66               		.file 2 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\in
+DEFINED SYMBOLS
+                            *ABS*:00000000 C_CheckByte.c
+       C_CheckByte.s:2      *ABS*:0000003e __SP_H__
+       C_CheckByte.s:3      *ABS*:0000003d __SP_L__
+       C_CheckByte.s:4      *ABS*:0000003f __SREG__
+       C_CheckByte.s:5      *ABS*:00000000 __tmp_reg__
+       C_CheckByte.s:6      *ABS*:00000001 __zero_reg__
+       C_CheckByte.s:13     .text.CheckByte:00000000 CheckByte
+                           .group:00000000 wm4.stdint.h.41.052d062c327f27e210bb72c3d087afe5
+                           .group:00000000 wm4.sfr_defs.h.36.473802ecbcb5d4d38de6c7efbfcd3c60
+                           .group:00000000 wm4.inttypes.h.35.0c85de0a4efd029e44bbcd5240fb68fe
+                           .group:00000000 wm4.sfr_defs.h.128.38ceebe2fb099c106e85a566519e0f1a
+                           .group:00000000 wm4.iom328p.h.44.29c929f46483155923fc58520c74ebf7
+                           .group:00000000 wm4.portpins.h.34.21289185946cbf62723ecc8db6cdc3ff
+                           .group:00000000 wm4.common.h.35.c7e66042b2128622b9d3bddccc9a39f4
+                           .group:00000000 wm4.version.h.54.85699b1a50c61c991a37d67b69e79e95
+                           .group:00000000 wm4.fuse.h.36.5c373c650020c0efef2cbaa98ea802c3
+                           .group:00000000 wm4.lock.h.36.51f311078904691e8f8c3d70111251d8
+
+NO UNDEFINED SYMBOLS
