@@ -32,8 +32,8 @@
   18:../src/Display_ss.c **** uint8_t Player_table[]={0x31, 0x9E, 0x31, 0x24}; // P 1 P 2  DA 00100100
   19:../src/Display_ss.c **** uint8_t Digit_selector[]={DIGIT_1,DIGIT_2,DIGIT_3,DIGIT_4}; // Selector de digito
   20:../src/Display_ss.c **** uint8_t Digit_values[4]; // valores a mostrar (deben estar en formato de 7 segmentos)
-  21:../src/Display_ss.c **** uint8_t Player1_Hits = 4;
-  22:../src/Display_ss.c **** uint8_t Player2_Hits = 2;
+  21:../src/Display_ss.c **** volatile uint8_t Player1_Hits = 0;
+  22:../src/Display_ss.c **** volatile uint8_t Player2_Hits = 0;
   23:../src/Display_ss.c **** 
   24:../src/Display_ss.c **** uint8_t DisplayCount = 0;
   25:../src/Display_ss.c **** 
@@ -200,13 +200,13 @@
  154               	DisplayCount:
  155 0000 00        		.zero	1
  156               	.global	Player2_Hits
- 157               		.section	.data.Player2_Hits,"aw",@progbits
+ 157               		.section	.bss.Player2_Hits,"aw",@nobits
  160               	Player2_Hits:
- 161 0000 02        		.byte	2
+ 161 0000 00        		.zero	1
  162               	.global	Player1_Hits
- 163               		.section	.data.Player1_Hits,"aw",@progbits
+ 163               		.section	.bss.Player1_Hits,"aw",@nobits
  166               	Player1_Hits:
- 167 0000 04        		.byte	4
+ 167 0000 00        		.zero	1
  168               		.comm	Digit_values,4,1
  169               	.global	Digit_selector
  170               		.section	.data.Digit_selector,"aw",@progbits
@@ -251,10 +251,10 @@ DEFINED SYMBOLS
         Display_ss.s:173    .data.Digit_selector:00000000 Digit_selector
         Display_ss.s:83     .text.set_P1:00000000 set_P1
         Display_ss.s:182    .data.Player_table:00000000 Player_table
-        Display_ss.s:166    .data.Player1_Hits:00000000 Player1_Hits
+        Display_ss.s:166    .bss.Player1_Hits:00000000 Player1_Hits
         Display_ss.s:191    .data.SS_table:00000000 SS_table
         Display_ss.s:118    .text.set_P2:00000000 set_P2
-        Display_ss.s:160    .data.Player2_Hits:00000000 Player2_Hits
+        Display_ss.s:160    .bss.Player2_Hits:00000000 Player2_Hits
         Display_ss.s:154    .bss.DisplayCount:00000000 DisplayCount
                            .group:00000000 wm4.stdint.h.41.052d062c327f27e210bb72c3d087afe5
                            .group:00000000 wm4.sfr_defs.h.36.473802ecbcb5d4d38de6c7efbfcd3c60

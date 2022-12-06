@@ -13,24 +13,24 @@ __zero_reg__ = 1
 button_check:
 .LFB66:
 	.file 1 "../src/JoystickButton.c"
-	.loc 1 67 0
+	.loc 1 65 0
 	.cfi_startproc
 /* prologue: function */
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
-	.loc 1 68 0
+	.loc 1 66 0
 	in r24,0x9
-	.loc 1 68 0
+	.loc 1 66 0
 	andi r24,lo8(64)
 	ldi r25,0
-	.loc 1 68 0
+	.loc 1 66 0
 	sts ispressed+1,r25
 	sts ispressed,r24
-	.loc 1 69 0
+	.loc 1 67 0
 	lds r24,ispressed
 	lds r25,ispressed+1
-	.loc 1 70 0
+	.loc 1 68 0
 	ret
 	.cfi_endproc
 .LFE66:
@@ -40,89 +40,79 @@ button_check:
 	.type	Joystick, @function
 Joystick:
 .LFB65:
-	.loc 1 14 0
+	.loc 1 16 0
 	.cfi_startproc
 /* prologue: function */
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
-	.loc 1 15 0
+	.loc 1 17 0
 	call button_check
 .LVL0:
 	tst r24
 	brne .+2
 	rjmp .L2
-	.loc 1 19 0
+	.loc 1 21 0
 	call read_VRX
 .LVL1:
 	cpi r24,-68
 	sbci r25,2
 	brlo .L4
-	.loc 1 21 0
+	.loc 1 23 0
 	lds r24,ijoy
 	lds r25,ijoy+1
 	sbiw r24,7
 	brlt .+2
 	rjmp .L2
-	.loc 1 23 0
+	.loc 1 25 0
 	lds r24,ijoy
 	lds r25,ijoy+1
 	adiw r24,1
 	sts ijoy+1,r25
 	sts ijoy,r24
-	.loc 1 24 0
-	lds r24,ijoy
-	lds r25,ijoy+1
-	call send_num
-.LVL2:
 	ret
 .L4:
-	.loc 1 27 0
+	.loc 1 28 0
 	call read_VRX
-.LVL3:
+.LVL2:
 	or r24,r25
 	brne .L5
-	.loc 1 27 0 is_stmt 0 discriminator 1
+	.loc 1 28 0 is_stmt 0 discriminator 1
+	call read_VRY
+.LVL3:
 	call read_VRY
 .LVL4:
-	call read_VRY
-.LVL5:
 	cp r24,__zero_reg__
 	sbci r25,4
 	brsh .L5
-	.loc 1 29 0 is_stmt 1
+	.loc 1 30 0 is_stmt 1
 	lds r24,ijoy
 	lds r25,ijoy+1
 	cp __zero_reg__,r24
 	cpc __zero_reg__,r25
 	brlt .+2
 	rjmp .L2
-	.loc 1 31 0
+	.loc 1 32 0
 	lds r24,ijoy
 	lds r25,ijoy+1
 	sbiw r24,1
 	sts ijoy+1,r25
 	sts ijoy,r24
-	.loc 1 32 0
-	lds r24,ijoy
-	lds r25,ijoy+1
-	call send_num
-.LVL6:
 	ret
 .L5:
 	.loc 1 36 0
 	call read_VRX
-.LVL7:
+.LVL5:
 	call read_VRX
-.LVL8:
+.LVL6:
 	cp r24,__zero_reg__
 	sbci r25,4
 	brsh .L6
 	.loc 1 36 0 is_stmt 0 discriminator 2
 	call read_VRY
-.LVL9:
+.LVL7:
 	call read_VRY
-.LVL10:
+.LVL8:
 	cpi r24,-55
 	cpc r25,__zero_reg__
 	brsh .L6
@@ -137,50 +127,40 @@ Joystick:
 	adiw r24,1
 	sts jjoy+1,r25
 	sts jjoy,r24
-	.loc 1 41 0
-	lds r24,jjoy
-	lds r25,jjoy+1
-	call send_num
-.LVL11:
 	ret
 .L6:
-	.loc 1 44 0
+	.loc 1 43 0
 	call read_VRX
-.LVL12:
+.LVL9:
 	call read_VRX
-.LVL13:
+.LVL10:
 	cp r24,__zero_reg__
 	sbci r25,4
 	brsh .L2
-	.loc 1 44 0 is_stmt 0 discriminator 2
+	.loc 1 43 0 is_stmt 0 discriminator 2
 	call read_VRY
-.LVL14:
+.LVL11:
 	cpi r24,-68
 	sbci r25,2
 	brlo .L2
-	.loc 1 44 0 discriminator 3
+	.loc 1 43 0 discriminator 3
 	call read_VRY
-.LVL15:
+.LVL12:
 	cp r24,__zero_reg__
 	sbci r25,4
 	brsh .L2
-	.loc 1 46 0 is_stmt 1
+	.loc 1 45 0 is_stmt 1
 	lds r24,jjoy
 	lds r25,jjoy+1
 	cp __zero_reg__,r24
 	cpc __zero_reg__,r25
 	brge .L2
-	.loc 1 48 0
+	.loc 1 47 0
 	lds r24,jjoy
 	lds r25,jjoy+1
 	sbiw r24,1
 	sts jjoy+1,r25
 	sts jjoy,r24
-	.loc 1 49 0
-	lds r24,jjoy
-	lds r25,jjoy+1
-	call send_num
-.LVL16:
 .L2:
 	ret
 	.cfi_endproc
@@ -192,11 +172,10 @@ Joystick:
 	.text
 .Letext0:
 	.file 2 "../src/ADC.h"
-	.file 3 "../src/UART.h"
-	.file 4 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\stdint.h"
+	.file 3 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\stdint.h"
 	.section	.debug_info,"",@progbits
 .Ldebug_info0:
-	.long	0x19d
+	.long	0x16c
 	.word	0x2
 	.long	.Ldebug_abbrev0
 	.byte	0x4
@@ -213,16 +192,16 @@ Joystick:
 	.uleb128 0x2
 	.byte	0x1
 	.byte	0x6
-	.long	.LASF2096
+	.long	.LASF2097
 	.uleb128 0x3
 	.long	.LASF2112
-	.byte	0x4
+	.byte	0x3
 	.byte	0x7e
 	.long	0x3f
 	.uleb128 0x2
 	.byte	0x1
 	.byte	0x8
-	.long	.LASF2097
+	.long	.LASF2098
 	.uleb128 0x4
 	.byte	0x2
 	.byte	0x5
@@ -230,28 +209,28 @@ Joystick:
 	.uleb128 0x2
 	.byte	0x2
 	.byte	0x7
-	.long	.LASF2098
-	.uleb128 0x2
-	.byte	0x4
-	.byte	0x5
 	.long	.LASF2099
 	.uleb128 0x2
 	.byte	0x4
-	.byte	0x7
+	.byte	0x5
 	.long	.LASF2100
 	.uleb128 0x2
-	.byte	0x8
-	.byte	0x5
+	.byte	0x4
+	.byte	0x7
 	.long	.LASF2101
 	.uleb128 0x2
 	.byte	0x8
-	.byte	0x7
+	.byte	0x5
 	.long	.LASF2102
+	.uleb128 0x2
+	.byte	0x8
+	.byte	0x7
+	.long	.LASF2103
 	.uleb128 0x5
 	.byte	0x1
 	.long	.LASF2113
 	.byte	0x1
-	.byte	0x42
+	.byte	0x40
 	.byte	0x1
 	.long	0x34
 	.long	.LFB66
@@ -265,7 +244,7 @@ Joystick:
 	.byte	0x1
 	.long	.LASF2114
 	.byte	0x1
-	.byte	0xd
+	.byte	0xf
 	.byte	0x1
 	.long	.LFB65
 	.long	.LFE65
@@ -274,64 +253,52 @@ Joystick:
 	.uleb128 0x20
 	.sleb128 2
 	.byte	0x1
-	.long	0x13e
+	.long	0x11a
 	.uleb128 0x7
 	.long	.LVL0
 	.long	0x70
 	.uleb128 0x7
 	.long	.LVL1
-	.long	0x179
+	.long	0x155
 	.uleb128 0x7
 	.long	.LVL2
-	.long	0x186
+	.long	0x155
 	.uleb128 0x7
 	.long	.LVL3
-	.long	0x179
+	.long	0x162
 	.uleb128 0x7
 	.long	.LVL4
-	.long	0x193
+	.long	0x162
 	.uleb128 0x7
 	.long	.LVL5
-	.long	0x193
+	.long	0x155
 	.uleb128 0x7
 	.long	.LVL6
-	.long	0x186
+	.long	0x155
 	.uleb128 0x7
 	.long	.LVL7
-	.long	0x179
+	.long	0x162
 	.uleb128 0x7
 	.long	.LVL8
-	.long	0x179
+	.long	0x162
 	.uleb128 0x7
 	.long	.LVL9
-	.long	0x193
+	.long	0x155
 	.uleb128 0x7
 	.long	.LVL10
-	.long	0x193
+	.long	0x155
 	.uleb128 0x7
 	.long	.LVL11
-	.long	0x186
+	.long	0x162
 	.uleb128 0x7
 	.long	.LVL12
-	.long	0x179
-	.uleb128 0x7
-	.long	.LVL13
-	.long	0x179
-	.uleb128 0x7
-	.long	.LVL14
-	.long	0x193
-	.uleb128 0x7
-	.long	.LVL15
-	.long	0x193
-	.uleb128 0x7
-	.long	.LVL16
-	.long	0x186
+	.long	0x162
 	.byte	0
 	.uleb128 0x8
-	.long	.LASF2103
+	.long	.LASF2104
 	.byte	0x1
-	.byte	0xb
-	.long	0x150
+	.byte	0xd
+	.long	0x12c
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
@@ -339,19 +306,19 @@ Joystick:
 	.uleb128 0x9
 	.long	0x46
 	.uleb128 0x8
-	.long	.LASF2104
+	.long	.LASF2105
 	.byte	0x1
-	.byte	0xb
-	.long	0x150
+	.byte	0xd
+	.long	0x12c
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	jjoy
 	.uleb128 0x8
-	.long	.LASF2105
+	.long	.LASF2106
 	.byte	0x1
-	.byte	0xc
-	.long	0x150
+	.byte	0xe
+	.long	0x12c
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
@@ -359,17 +326,10 @@ Joystick:
 	.uleb128 0xa
 	.byte	0x1
 	.byte	0x1
-	.long	.LASF2106
-	.long	.LASF2106
+	.long	.LASF2107
+	.long	.LASF2107
 	.byte	0x2
 	.byte	0x10
-	.uleb128 0xa
-	.byte	0x1
-	.byte	0x1
-	.long	.LASF2107
-	.long	.LASF2107
-	.byte	0x3
-	.byte	0x11
 	.uleb128 0xa
 	.byte	0x1
 	.byte	0x1
@@ -1886,68 +1846,68 @@ Joystick:
 	.byte	0x5
 	.uleb128 0x5
 	.long	.LASF438
-	.file 5 "../src/asf.h"
+	.file 4 "../src/asf.h"
 	.byte	0x3
 	.uleb128 0x1
-	.uleb128 0x5
+	.uleb128 0x4
 	.byte	0x5
 	.uleb128 0x2d
 	.long	.LASF439
-	.file 6 "../src/ASF/common/services/gpio/gpio.h"
+	.file 5 "../src/ASF/common/services/gpio/gpio.h"
 	.byte	0x3
 	.uleb128 0x38
-	.uleb128 0x6
+	.uleb128 0x5
 	.byte	0x5
 	.uleb128 0x25
 	.long	.LASF440
-	.file 7 "../src/ASF/common/utils/parts.h"
+	.file 6 "../src/ASF/common/utils/parts.h"
 	.byte	0x3
 	.uleb128 0x27
-	.uleb128 0x7
+	.uleb128 0x6
 	.byte	0x7
 	.long	.Ldebug_macro1
 	.byte	0x4
-	.file 8 "../src/ASF/common/services/gpio/mega_gpio/mega_gpio.h"
+	.file 7 "../src/ASF/common/services/gpio/mega_gpio/mega_gpio.h"
 	.byte	0x3
 	.uleb128 0x2e
-	.uleb128 0x8
+	.uleb128 0x7
 	.byte	0x5
 	.uleb128 0x26
 	.long	.LASF702
-	.file 9 "../src/ASF/mega/utils/compiler.h"
+	.file 8 "../src/ASF/mega/utils/compiler.h"
 	.byte	0x3
 	.uleb128 0x28
-	.uleb128 0x9
+	.uleb128 0x8
 	.byte	0x5
 	.uleb128 0x25
 	.long	.LASF703
-	.file 10 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\avr\\io.h"
+	.file 9 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\avr\\io.h"
 	.byte	0x3
 	.uleb128 0x28
-	.uleb128 0xa
+	.uleb128 0x9
 	.byte	0x5
 	.uleb128 0x61
 	.long	.LASF704
-	.file 11 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\avr\\sfr_defs.h"
+	.file 10 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\avr\\sfr_defs.h"
 	.byte	0x3
 	.uleb128 0x63
-	.uleb128 0xb
+	.uleb128 0xa
 	.byte	0x7
 	.long	.Ldebug_macro2
-	.file 12 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\inttypes.h"
+	.file 11 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\inttypes.h"
 	.byte	0x3
 	.uleb128 0x7e
-	.uleb128 0xc
+	.uleb128 0xb
 	.byte	0x5
 	.uleb128 0x23
 	.long	.LASF707
-	.file 13 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\lib\\gcc\\avr\\5.4.0\\include\\stdint.h"
+	.file 12 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\lib\\gcc\\avr\\5.4.0\\include\\stdint.h"
 	.byte	0x3
 	.uleb128 0x25
-	.uleb128 0xd
+	.uleb128 0xc
 	.byte	0x3
 	.uleb128 0x9
-	.uleb128 0x4
+	.uleb128 0x3
 	.byte	0x7
 	.long	.Ldebug_macro3
 	.byte	0x4
@@ -1961,72 +1921,72 @@ Joystick:
 	.byte	0x7
 	.long	.Ldebug_macro5
 	.byte	0x4
-	.file 14 "C:\\Program Files (x86)\\Atmel\\Studio\\7.0\\Packs\\atmel\\ATmega_DFP\\1.7.374\\include/avr/iom328p.h"
+	.file 13 "C:\\Program Files (x86)\\Atmel\\Studio\\7.0\\Packs\\atmel\\ATmega_DFP\\1.7.374\\include/avr/iom328p.h"
 	.byte	0x3
 	.uleb128 0x110
-	.uleb128 0xe
+	.uleb128 0xd
 	.byte	0x7
 	.long	.Ldebug_macro6
 	.byte	0x4
-	.file 15 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\avr\\portpins.h"
+	.file 14 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\avr\\portpins.h"
 	.byte	0x3
 	.uleb128 0x273
-	.uleb128 0xf
+	.uleb128 0xe
 	.byte	0x7
 	.long	.Ldebug_macro7
 	.byte	0x4
-	.file 16 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\avr\\common.h"
+	.file 15 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\avr\\common.h"
 	.byte	0x3
 	.uleb128 0x275
-	.uleb128 0x10
+	.uleb128 0xf
 	.byte	0x7
 	.long	.Ldebug_macro8
 	.byte	0x4
-	.file 17 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\avr\\version.h"
+	.file 16 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\avr\\version.h"
 	.byte	0x3
 	.uleb128 0x277
-	.uleb128 0x11
+	.uleb128 0x10
 	.byte	0x7
 	.long	.Ldebug_macro9
 	.byte	0x4
-	.file 18 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\avr\\fuse.h"
+	.file 17 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\avr\\fuse.h"
 	.byte	0x3
 	.uleb128 0x27e
-	.uleb128 0x12
+	.uleb128 0x11
 	.byte	0x7
 	.long	.Ldebug_macro10
 	.byte	0x4
-	.file 19 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\avr\\lock.h"
+	.file 18 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\avr\\lock.h"
 	.byte	0x3
 	.uleb128 0x281
-	.uleb128 0x13
+	.uleb128 0x12
 	.byte	0x7
 	.long	.Ldebug_macro11
 	.byte	0x4
 	.byte	0x4
-	.file 20 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\lib\\gcc\\avr\\5.4.0\\include\\stdbool.h"
+	.file 19 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\lib\\gcc\\avr\\5.4.0\\include\\stdbool.h"
 	.byte	0x3
 	.uleb128 0x30
-	.uleb128 0x14
+	.uleb128 0x13
 	.byte	0x7
 	.long	.Ldebug_macro12
 	.byte	0x4
-	.file 21 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\lib\\gcc\\avr\\5.4.0\\include\\stddef.h"
+	.file 20 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\lib\\gcc\\avr\\5.4.0\\include\\stddef.h"
 	.byte	0x3
 	.uleb128 0x32
-	.uleb128 0x15
+	.uleb128 0x14
 	.byte	0x7
 	.long	.Ldebug_macro13
 	.byte	0x4
-	.file 22 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\stdlib.h"
+	.file 21 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\stdlib.h"
 	.byte	0x3
 	.uleb128 0x33
-	.uleb128 0x16
+	.uleb128 0x15
 	.byte	0x7
 	.long	.Ldebug_macro14
 	.byte	0x3
 	.uleb128 0x30
-	.uleb128 0x15
+	.uleb128 0x14
 	.byte	0x7
 	.long	.Ldebug_macro15
 	.byte	0x4
@@ -2035,28 +1995,28 @@ Joystick:
 	.byte	0x4
 	.byte	0x7
 	.long	.Ldebug_macro17
-	.file 23 "../src/ASF/common/utils/interrupt.h"
+	.file 22 "../src/ASF/common/utils/interrupt.h"
 	.byte	0x3
 	.uleb128 0x9e
-	.uleb128 0x17
+	.uleb128 0x16
 	.byte	0x5
 	.uleb128 0x25
 	.long	.LASF1829
-	.file 24 "../src/ASF/common/utils/interrupt/interrupt_avr8.h"
+	.file 23 "../src/ASF/common/utils/interrupt/interrupt_avr8.h"
 	.byte	0x3
 	.uleb128 0x2a
-	.uleb128 0x18
+	.uleb128 0x17
 	.byte	0x5
 	.uleb128 0x25
 	.long	.LASF1830
 	.byte	0x3
 	.uleb128 0x27
-	.uleb128 0x9
+	.uleb128 0x8
 	.byte	0x4
-	.file 25 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\avr\\interrupt.h"
+	.file 24 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\avr\\interrupt.h"
 	.byte	0x3
 	.uleb128 0x45
-	.uleb128 0x19
+	.uleb128 0x18
 	.byte	0x7
 	.long	.Ldebug_macro18
 	.byte	0x4
@@ -2064,22 +2024,22 @@ Joystick:
 	.long	.Ldebug_macro19
 	.byte	0x4
 	.byte	0x4
-	.file 26 "../src/ASF/mega/utils/progmem.h"
+	.file 25 "../src/ASF/mega/utils/progmem.h"
 	.byte	0x3
 	.uleb128 0x9f
-	.uleb128 0x1a
+	.uleb128 0x19
 	.byte	0x5
 	.uleb128 0x26
 	.long	.LASF1852
-	.file 27 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\avr\\pgmspace.h"
+	.file 26 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\avr\\pgmspace.h"
 	.byte	0x3
 	.uleb128 0x37
-	.uleb128 0x1b
+	.uleb128 0x1a
 	.byte	0x7
 	.long	.Ldebug_macro20
 	.byte	0x3
 	.uleb128 0x59
-	.uleb128 0x15
+	.uleb128 0x14
 	.byte	0x7
 	.long	.Ldebug_macro15
 	.byte	0x4
@@ -2092,17 +2052,17 @@ Joystick:
 	.byte	0x7
 	.long	.Ldebug_macro23
 	.byte	0x4
-	.file 28 "../src/ASF/common/services/ioport/ioport.h"
+	.file 27 "../src/ASF/common/services/ioport/ioport.h"
 	.byte	0x3
 	.uleb128 0x29
-	.uleb128 0x1c
+	.uleb128 0x1b
 	.byte	0x5
 	.uleb128 0x26
 	.long	.LASF1932
-	.file 29 "../src/ASF/common/services/ioport/mega/ioport.h"
+	.file 28 "../src/ASF/common/services/ioport/mega/ioport.h"
 	.byte	0x3
 	.uleb128 0x7e
-	.uleb128 0x1d
+	.uleb128 0x1c
 	.byte	0x7
 	.long	.Ldebug_macro24
 	.byte	0x4
@@ -2111,23 +2071,23 @@ Joystick:
 	.long	.Ldebug_macro25
 	.byte	0x4
 	.byte	0x4
-	.file 30 "../src/ASF/common/boards/board.h"
+	.file 29 "../src/ASF/common/boards/board.h"
 	.byte	0x3
 	.uleb128 0x3b
-	.uleb128 0x1e
+	.uleb128 0x1d
 	.byte	0x7
 	.long	.Ldebug_macro26
-	.file 31 "../src/ASF/mega/boards/atmega328p_xplained_mini/atmega328p_xplained_mini.h"
+	.file 30 "../src/ASF/mega/boards/atmega328p_xplained_mini/atmega328p_xplained_mini.h"
 	.byte	0x3
 	.uleb128 0x16b
-	.uleb128 0x1f
+	.uleb128 0x1e
 	.byte	0x5
 	.uleb128 0x2a
 	.long	.LASF2070
-	.file 32 "../src/ASF/mega/boards/atmega328p_xplained_mini/led.h"
+	.file 31 "../src/ASF/mega/boards/atmega328p_xplained_mini/led.h"
 	.byte	0x3
 	.uleb128 0x2d
-	.uleb128 0x20
+	.uleb128 0x1f
 	.byte	0x7
 	.long	.Ldebug_macro27
 	.byte	0x4
@@ -2135,10 +2095,10 @@ Joystick:
 	.long	.Ldebug_macro28
 	.byte	0x4
 	.byte	0x4
-	.file 33 "../src/ASF/mega/utils/status_codes.h"
+	.file 32 "../src/ASF/mega/utils/status_codes.h"
 	.byte	0x3
 	.uleb128 0x45
-	.uleb128 0x21
+	.uleb128 0x20
 	.byte	0x5
 	.uleb128 0x28
 	.long	.LASF2089
@@ -2150,9 +2110,10 @@ Joystick:
 	.byte	0x7
 	.long	.Ldebug_macro29
 	.byte	0x4
+	.file 33 "../src/UART.h"
 	.byte	0x3
 	.uleb128 0x6
-	.uleb128 0x3
+	.uleb128 0x21
 	.byte	0x5
 	.uleb128 0xa
 	.long	.LASF2093
@@ -2173,6 +2134,9 @@ Joystick:
 	.uleb128 0xa
 	.long	.LASF2095
 	.byte	0x4
+	.byte	0x5
+	.uleb128 0xa
+	.long	.LASF2096
 	.byte	0x4
 	.byte	0
 	.section	.debug_macro,"G",@progbits,wm4.parts.h.38.424177e1c4c7502bdf2cd6eac0e66f1e,comdat
@@ -7952,7 +7916,7 @@ Joystick:
 	.string	"(SAMD20G16) || SAM_PART_IS_DEFINED(SAMD20G14B) || SAM_PART_IS_DEFINED(SAMD20G15B) || SAM_PART_IS_DEFINED(SAMD20G16B) || SAM_PART_IS_DEFINED(SAMD20G17) || SAM_PART_IS_DEFINED(SAMD20G17U) || SAM_PART_IS_DEFINED(SAMD20G18) || SAM_PART_IS_DEFINED(SAMD20G18U) )"
 .LASF958:
 	.string	"PORTC6 6"
-.LASF2099:
+.LASF2100:
 	.string	"long int"
 .LASF1476:
 	.string	"TWD6 6"
@@ -8117,7 +8081,7 @@ Joystick:
 	.string	"PRIX32 \"lX\""
 .LASF2082:
 	.string	"TWID_SCL IOPORT_CREATE_PIN(PORTC, 5)"
-.LASF2105:
+.LASF2106:
 	.string	"ispressed"
 .LASF719:
 	.string	"INT32_MIN (-INT32_MAX - 1L)"
@@ -8143,7 +8107,7 @@ Joystick:
 	.string	"SAMDA1 (SAMDA1J || SAMDA1G || SAMDA1E)"
 .LASF802:
 	.string	"PRIxFAST8 \"x\""
-.LASF2106:
+.LASF2107:
 	.string	"read_VRX"
 .LASF2108:
 	.string	"read_VRY"
@@ -8331,7 +8295,7 @@ Joystick:
 	.string	"SPR1 1"
 .LASF426:
 	.string	"__BUILTIN_AVR_ULLKBITS 1"
-.LASF2097:
+.LASF2098:
 	.string	"unsigned char"
 .LASF895:
 	.string	"_SFR_IO_REG_P(sfr) (_SFR_MEM_ADDR(sfr) < 0x40 + __SFR_OFFSET)"
@@ -9389,7 +9353,7 @@ Joystick:
 	.string	"_WCHAR_T "
 .LASF1625:
 	.string	"FUSE_BODLEVEL0 (unsigned char)~_BV(0)"
-.LASF2104:
+.LASF2105:
 	.string	"jjoy"
 .LASF211:
 	.string	"__LFRACT_FBIT__ 31"
@@ -9652,7 +9616,7 @@ Joystick:
 	.string	"PCINT10 2"
 .LASF1915:
 	.string	"convert_byte_array_to_16_bit(data) (*(uint16_t *)(data))"
-.LASF2096:
+.LASF2097:
 	.string	"signed char"
 .LASF1030:
 	.string	"EEDR4 4"
@@ -10224,6 +10188,8 @@ Joystick:
 	.string	"UINT_LEAST16_MAX UINT16_MAX"
 .LASF1914:
 	.string	"ADDR_COPY_DST_SRC_64(dst,src) memcpy((&(dst)), (&(src)), sizeof(uint64_t))"
+.LASF2096:
+	.string	"pressed 0"
 .LASF220:
 	.string	"__ULFRACT_EPSILON__ 0x1P-32ULR"
 .LASF1313:
@@ -10236,8 +10202,6 @@ Joystick:
 	.string	"SAM3S4 ( SAM_PART_IS_DEFINED(SAM3S4A) || SAM_PART_IS_DEFINED(SAM3S4B) || SAM_PART_IS_DEFINED(SAM3S4C) )"
 .LASF341:
 	.string	"__FLASH 1"
-.LASF2107:
-	.string	"send_num"
 .LASF581:
 	.string	"SAMC20G ( SAM_PART_IS_DEFINED(SAMC20G15A) || SAM_PART_IS_DEFINED(SAMC20G16A) || SAM_PART_IS_DEFINED(SAMC20G17A) || SAM_PART_IS_DEFINED(SAMC20G18A) )"
 .LASF892:
@@ -10916,7 +10880,7 @@ Joystick:
 	.string	"SPIE 7"
 .LASF1539:
 	.string	"UDR0_0 0"
-.LASF2102:
+.LASF2103:
 	.string	"long long unsigned int"
 .LASF20:
 	.string	"__SIZEOF_SHORT__ 2"
@@ -11178,7 +11142,7 @@ Joystick:
 	.string	"PRIi16 \"i\""
 .LASF855:
 	.string	"SCNoLEAST8 \"hho\""
-.LASF2101:
+.LASF2102:
 	.string	"long long int"
 .LASF1714:
 	.string	"AVR_STACK_POINTER_HI_ADDR _SFR_IO_ADDR(SPH)"
@@ -11288,7 +11252,7 @@ Joystick:
 	.string	"WGM12 3"
 .LASF1979:
 	.string	"UC3_L0_QT600 26"
-.LASF2100:
+.LASF2101:
 	.string	"long unsigned int"
 .LASF343:
 	.string	"__BUILTIN_AVR_NOP 1"
@@ -11414,7 +11378,7 @@ Joystick:
 	.string	"STK600_RC100X 11"
 .LASF529:
 	.string	"SAM4SA16 ( SAM_PART_IS_DEFINED(SAM4SA16B) || SAM_PART_IS_DEFINED(SAM4SA16C) )"
-.LASF2098:
+.LASF2099:
 	.string	"unsigned int"
 .LASF2014:
 	.string	"SAM4N_XPLAINED_PRO 61"
@@ -11583,7 +11547,7 @@ Joystick:
 	.string	"OCR1AL _SFR_MEM8(0x88)"
 .LASF626:
 	.string	"SAMG51 ( SAM_PART_IS_DEFINED(SAMG51G18) )"
-.LASF2103:
+.LASF2104:
 	.string	"ijoy"
 .LASF1764:
 	.string	"_SYS_SIZE_T_H "

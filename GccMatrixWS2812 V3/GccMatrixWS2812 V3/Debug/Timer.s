@@ -13,22 +13,22 @@ __zero_reg__ = 1
 init_RTI:
 .LFB65:
 	.file 1 "../src/Timer.c"
-	.loc 1 50 0
+	.loc 1 54 0
 	.cfi_startproc
 /* prologue: function */
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
-	.loc 1 59 0
+	.loc 1 63 0
 	ldi r24,lo8(2)
 	out 0x24,r24
-	.loc 1 64 0
+	.loc 1 68 0
 	ldi r25,lo8(4)
 	out 0x25,r25
-	.loc 1 68 0
+	.loc 1 72 0
 	ldi r25,lo8(125)
 	out 0x27,r25
-	.loc 1 72 0
+	.loc 1 76 0
 	sts 110,r24
 	ret
 	.cfi_endproc
@@ -39,7 +39,7 @@ init_RTI:
 	.type	__vector_14, @function
 __vector_14:
 .LFB66:
-	.loc 1 78 0
+	.loc 1 82 0
 	.cfi_startproc
 	push r1
 .LCFI0:
@@ -104,92 +104,111 @@ __vector_14:
 /* frame size = 0 */
 /* stack size = 15 */
 .L__stack_usage = 15
-	.loc 1 79 0
+	.loc 1 83 0
 	lds r24,digit_display
 	call display_resfesh
 .LVL0:
-	.loc 1 80 0
+	.loc 1 84 0
 	lds r24,digit_display
 	cpi r24,lo8(3)
 	brsh .L3
-	.loc 1 82 0
+	.loc 1 86 0
 	subi r24,lo8(-(1))
 	sts digit_display,r24
 	rjmp .L4
 .L3:
-	.loc 1 87 0
+	.loc 1 91 0
 	sts digit_display,__zero_reg__
 .L4:
-	.loc 1 90 0
+	.loc 1 94 0
 	lds r24,Joystick_CountTimer
 	lds r25,Joystick_CountTimer+1
 	sbiw r24,0
 	breq .L5
-	.loc 1 92 0
+	.loc 1 96 0
 	sbiw r24,1
 	sts Joystick_CountTimer+1,r25
 	sts Joystick_CountTimer,r24
 	rjmp .L6
 .L5:
-	.loc 1 97 0
-	ldi r24,lo8(50)
+	.loc 1 101 0
+	ldi r24,lo8(100)
 	ldi r25,0
 	sts Joystick_CountTimer+1,r25
 	sts Joystick_CountTimer,r24
-	.loc 1 98 0
+	.loc 1 102 0
 	call Joystick
 .LVL1:
 .L6:
-	.loc 1 100 0
+	.loc 1 104 0
 	lds r24,Joystickbutton_CountTimer
 	lds r25,Joystickbutton_CountTimer+1
 	sbiw r24,0
 	breq .L7
-	.loc 1 102 0
+	.loc 1 106 0
 	sbiw r24,1
 	sts Joystickbutton_CountTimer+1,r25
 	sts Joystickbutton_CountTimer,r24
-	rjmp .L2
+	rjmp .L8
 .L7:
-	.loc 1 107 0
+	.loc 1 111 0
 	ldi r24,lo8(50)
 	ldi r25,0
 	sts Joystickbutton_CountTimer+1,r25
 	sts Joystickbutton_CountTimer,r24
-	.loc 1 108 0
+	.loc 1 112 0
 	call button_check
 .LVL2:
 	cpse r24,__zero_reg__
-	rjmp .L2
-	.loc 1 110 0
+	rjmp .L8
+	.loc 1 114 0
 	lds r24,Turno
 	cpi r24,lo8(1)
 	brne .L9
-	.loc 1 112 0
+	.loc 1 116 0
 	ldi r24,lo8(2)
 	sts Turno,r24
-	.loc 1 113 0
+	.loc 1 117 0
 	ldi r24,lo8(-12)
 	ldi r25,lo8(1)
 	sts Joystickbutton_CountTimer+1,r25
 	sts Joystickbutton_CountTimer,r24
-	rjmp .L2
+	rjmp .L8
 .L9:
-	.loc 1 116 0
+	.loc 1 120 0
 	lds r24,Turno
 	cpi r24,lo8(2)
-	brne .L2
-	.loc 1 118 0
+	brne .L8
+	.loc 1 122 0
 	ldi r24,lo8(1)
 	sts Turno,r24
-	.loc 1 119 0
+	.loc 1 123 0
 	ldi r24,lo8(-12)
 	ldi r25,lo8(1)
 	sts Joystickbutton_CountTimer+1,r25
 	sts Joystickbutton_CountTimer,r24
+.L8:
+	.loc 1 127 0
+	lds r24,ContadorPuntero
+	lds r25,ContadorPuntero+1
+	or r24,r25
+	breq .L10
+	.loc 1 129 0
+	lds r24,ContadorPuntero
+	lds r25,ContadorPuntero+1
+	sbiw r24,1
+	sts ContadorPuntero+1,r25
+	sts ContadorPuntero,r24
+	rjmp .L2
+.L10:
+	.loc 1 133 0
+	ldi r24,lo8(-6)
+	ldi r25,0
+	sts ContadorPuntero+1,r25
+	sts ContadorPuntero,r24
 .L2:
 /* epilogue start */
-	.loc 1 123 0
+	.loc 1 135 0
 	pop r31
 	pop r30
 	pop r27
@@ -210,20 +229,27 @@ __vector_14:
 	.cfi_endproc
 .LFE66:
 	.size	__vector_14, .-__vector_14
-	.comm	jjoy,2,1
-	.comm	ijoy,2,1
 .global	digit_display
 	.section	.bss.digit_display,"aw",@nobits
 	.type	digit_display, @object
 	.size	digit_display, 1
 digit_display:
 	.zero	1
+	.comm	jjoy,2,1
+	.comm	ijoy,2,1
+	.comm	ispressed,2,1
 .global	Turno
 	.section	.data.Turno,"aw",@progbits
 	.type	Turno, @object
 	.size	Turno, 1
 Turno:
 	.byte	1
+.global	ContadorPuntero
+	.section	.data.ContadorPuntero,"aw",@progbits
+	.type	ContadorPuntero, @object
+	.size	ContadorPuntero, 2
+ContadorPuntero:
+	.word	250
 .global	Joystickbutton_CountTimer
 	.section	.data.Joystickbutton_CountTimer,"aw",@progbits
 	.type	Joystickbutton_CountTimer, @object
@@ -243,15 +269,15 @@ Joystick_CountTimer:
 	.file 4 "../src/JoystickButton.h"
 	.section	.debug_info,"",@progbits
 .Ldebug_info0:
-	.long	0x161
+	.long	0x18a
 	.word	0x2
 	.long	.Ldebug_abbrev0
 	.byte	0x4
 	.uleb128 0x1
-	.long	.LASF2130
-	.byte	0xc
-	.long	.LASF2131
 	.long	.LASF2132
+	.byte	0xc
+	.long	.LASF2133
+	.long	.LASF2134
 	.long	.Ldebug_ranges0+0
 	.long	0
 	.long	0
@@ -303,9 +329,9 @@ Joystick_CountTimer:
 	.long	0x34
 	.uleb128 0x6
 	.byte	0x1
-	.long	.LASF2133
+	.long	.LASF2135
 	.byte	0x1
-	.byte	0x31
+	.byte	0x35
 	.byte	0x1
 	.long	.LFB65
 	.long	.LFE65
@@ -316,9 +342,9 @@ Joystick_CountTimer:
 	.byte	0x1
 	.uleb128 0x7
 	.byte	0x1
-	.long	.LASF2134
+	.long	.LASF2136
 	.byte	0x1
-	.byte	0x4d
+	.byte	0x51
 	.byte	0x1
 	.long	.LFB66
 	.long	.LFE66
@@ -327,13 +353,13 @@ Joystick_CountTimer:
 	.long	0xcc
 	.uleb128 0x8
 	.long	.LVL0
-	.long	0x13d
+	.long	0x166
 	.uleb128 0x8
 	.long	.LVL1
-	.long	0x14a
+	.long	0x173
 	.uleb128 0x8
 	.long	.LVL2
-	.long	0x157
+	.long	0x180
 	.byte	0
 	.uleb128 0x9
 	.long	.LASF2121
@@ -356,60 +382,80 @@ Joystick_CountTimer:
 	.uleb128 0x9
 	.long	.LASF2123
 	.byte	0x1
-	.byte	0x2a
+	.byte	0x2b
+	.long	0x102
+	.byte	0x1
+	.byte	0x5
+	.byte	0x3
+	.long	ContadorPuntero
+	.uleb128 0x5
+	.long	0x4d
+	.uleb128 0x9
+	.long	.LASF2124
+	.byte	0x1
+	.byte	0x2c
 	.long	0x7b
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	Turno
 	.uleb128 0x9
-	.long	.LASF2124
-	.byte	0x1
-	.byte	0x2b
-	.long	0x34
-	.byte	0x1
-	.byte	0x5
-	.byte	0x3
-	.long	digit_display
-	.uleb128 0x9
 	.long	.LASF2125
 	.byte	0x1
 	.byte	0x2d
-	.long	0x126
+	.long	0x12b
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
-	.long	ijoy
+	.long	ispressed
 	.uleb128 0x5
 	.long	0x46
 	.uleb128 0x9
 	.long	.LASF2126
 	.byte	0x1
-	.byte	0x2d
-	.long	0x126
+	.byte	0x2f
+	.long	0x12b
+	.byte	0x1
+	.byte	0x5
+	.byte	0x3
+	.long	ijoy
+	.uleb128 0x9
+	.long	.LASF2127
+	.byte	0x1
+	.byte	0x2f
+	.long	0x12b
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	jjoy
+	.uleb128 0x9
+	.long	.LASF2128
+	.byte	0x1
+	.byte	0x31
+	.long	0x34
+	.byte	0x1
+	.byte	0x5
+	.byte	0x3
+	.long	digit_display
 	.uleb128 0xa
 	.byte	0x1
 	.byte	0x1
-	.long	.LASF2127
-	.long	.LASF2127
+	.long	.LASF2129
+	.long	.LASF2129
 	.byte	0x3
 	.byte	0xb
 	.uleb128 0xa
 	.byte	0x1
 	.byte	0x1
-	.long	.LASF2128
-	.long	.LASF2128
+	.long	.LASF2130
+	.long	.LASF2130
 	.byte	0x1
-	.byte	0x2f
+	.byte	0x33
 	.uleb128 0xa
 	.byte	0x1
 	.byte	0x1
-	.long	.LASF2129
-	.long	.LASF2129
+	.long	.LASF2131
+	.long	.LASF2131
 	.byte	0x4
 	.byte	0xd
 	.byte	0
@@ -8322,8 +8368,8 @@ Joystick_CountTimer:
 	.string	"PRIX32 \"lX\""
 .LASF2082:
 	.string	"TWID_SCL IOPORT_CREATE_PIN(PORTC, 5)"
-.LASF2132:
-	.string	"D:\\\\descargas\\\\GccMatrixWS2812 V3\\\\GccMatrixWS2812 V3\\\\Debug"
+.LASF2125:
+	.string	"ispressed"
 .LASF719:
 	.string	"INT32_MIN (-INT32_MAX - 1L)"
 .LASF363:
@@ -8374,6 +8420,8 @@ Joystick_CountTimer:
 	.string	"OCR2_0 0"
 .LASF679:
 	.string	"SAM4E (SAM4E8 || SAM4E16)"
+.LASF1091:
+	.string	"OCR0B_6 6"
 .LASF373:
 	.string	"__BUILTIN_AVR_ROUNDLK 1"
 .LASF744:
@@ -8528,7 +8576,7 @@ Joystick_CountTimer:
 	.string	"XMEGA_A (XMEGA_A1 || XMEGA_A3 || XMEGA_A3B || XMEGA_A4)"
 .LASF149:
 	.string	"__DBL_MAX__ ((double)3.40282347e+38L)"
-.LASF2124:
+.LASF2128:
 	.string	"digit_display"
 .LASF336:
 	.string	"__AVR_2_BYTE_PC__ 1"
@@ -8883,7 +8931,7 @@ Joystick_CountTimer:
 	.string	"_SFR_IO8(io_addr) _MMIO_BYTE((io_addr) + __SFR_OFFSET)"
 .LASF254:
 	.string	"__LACCUM_MAX__ 0X7FFFFFFFFFFFFFFFP-31LK"
-.LASF2133:
+.LASF2135:
 	.string	"init_RTI"
 .LASF1541:
 	.string	"UDR0_2 2"
@@ -8961,7 +9009,7 @@ Joystick_CountTimer:
 	.string	"__SFRACT_IBIT__ 0"
 .LASF583:
 	.string	"SAMC21E ( SAM_PART_IS_DEFINED(SAMC21E15A) || SAM_PART_IS_DEFINED(SAMC21E16A) || SAM_PART_IS_DEFINED(SAMC21E17A) || SAM_PART_IS_DEFINED(SAMC21E18A) )"
-.LASF2128:
+.LASF2130:
 	.string	"Joystick"
 .LASF1162:
 	.string	"PGWRT 2"
@@ -9172,8 +9220,6 @@ Joystick_CountTimer:
 	.string	"_BSD_WCHAR_T_"
 .LASF394:
 	.string	"__BUILTIN_AVR_COUNTLSULLK 1"
-.LASF1394:
-	.string	"OCR1BH0 0"
 .LASF669:
 	.string	"SAMR21 (SAMR21G || SAMR21E)"
 .LASF484:
@@ -9262,7 +9308,7 @@ Joystick_CountTimer:
 	.string	"SAMD21EXXL ( SAM_PART_IS_DEFINED(SAMD21E15L) || SAM_PART_IS_DEFINED(SAMD21E16L) || SAM_PART_IS_DEFINED(SAMD21E17L) )"
 .LASF141:
 	.string	"__FLT_HAS_QUIET_NAN__ 1"
-.LASF2130:
+.LASF2132:
 	.string	"GNU C99 5.4.0 -mn-flash=1 -mno-skip-bug -mrelax -mmcu=avr5 -g3 -O1 -std=gnu99 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -fno-strict-aliasing"
 .LASF773:
 	.string	"_GCC_WRAP_STDINT_H "
@@ -9342,7 +9388,7 @@ Joystick_CountTimer:
 	.string	"WGM22 3"
 .LASF823:
 	.string	"PRIuFAST32 \"lu\""
-.LASF2131:
+.LASF2133:
 	.string	"../src/Timer.c"
 .LASF1465:
 	.string	"TWA3 4"
@@ -9506,7 +9552,7 @@ Joystick_CountTimer:
 	.string	"UBRR0_2 2"
 .LASF1793:
 	.string	"_WCHAR_T_DECLARED "
-.LASF2123:
+.LASF2124:
 	.string	"Turno"
 .LASF474:
 	.string	"XMEGA_A3BU ( AVR8_PART_IS_DEFINED(ATxmega256A3BU) )"
@@ -9613,7 +9659,7 @@ Joystick_CountTimer:
 	.string	"_WCHAR_T "
 .LASF1625:
 	.string	"FUSE_BODLEVEL0 (unsigned char)~_BV(0)"
-.LASF2126:
+.LASF2127:
 	.string	"jjoy"
 .LASF211:
 	.string	"__LFRACT_FBIT__ 31"
@@ -10696,7 +10742,7 @@ Joystick_CountTimer:
 	.string	"INT_LEAST8_MIN INT8_MIN"
 .LASF570:
 	.string	"SAML22N ( SAM_PART_IS_DEFINED(SAML22N16A) || SAM_PART_IS_DEFINED(SAML22N17A) || SAM_PART_IS_DEFINED(SAML22N18A) )"
-.LASF2127:
+.LASF2129:
 	.string	"display_resfesh"
 .LASF687:
 	.string	"SAM4CP_0 (SAM4CP16_0)"
@@ -10914,6 +10960,8 @@ Joystick_CountTimer:
 	.string	"OCR2_3 3"
 .LASF1548:
 	.string	"INT0_vect _VECTOR(1)"
+.LASF2134:
+	.string	"C:\\\\Users\\\\Michelle\\\\Music\\\\GccMatrixWS2812 V3\\\\GccMatrixWS2812 V3\\\\Debug"
 .LASF83:
 	.string	"__INTMAX_MAX__ 0x7fffffffffffffffLL"
 .LASF1847:
@@ -11095,8 +11143,8 @@ Joystick_CountTimer:
 	.string	"__UINT_FAST16_MAX__ 0xffffU"
 .LASF1165:
 	.string	"SIGRD 5"
-.LASF1091:
-	.string	"OCR0B_6 6"
+.LASF1394:
+	.string	"OCR1BH0 0"
 .LASF1232:
 	.string	"PCINT13 5"
 .LASF252:
@@ -11151,7 +11199,7 @@ Joystick_CountTimer:
 	.string	"UC3L0 ( AVR32_PART_IS_DEFINED(UC3L016) || AVR32_PART_IS_DEFINED(UC3L032) || AVR32_PART_IS_DEFINED(UC3L064) )"
 .LASF726:
 	.string	"UINT_LEAST8_MAX UINT8_MAX"
-.LASF2129:
+.LASF2131:
 	.string	"button_check"
 .LASF1213:
 	.string	"ISC00 0"
@@ -11417,6 +11465,8 @@ Joystick_CountTimer:
 	.string	"ADCL2 2"
 .LASF1598:
 	.string	"SPM_PAGESIZE 128"
+.LASF2123:
+	.string	"ContadorPuntero"
 .LASF1297:
 	.string	"REFS1 7"
 .LASF329:
@@ -11609,7 +11659,7 @@ Joystick_CountTimer:
 	.string	"INT64_MAX 0x7fffffffffffffffLL"
 .LASF189:
 	.string	"__DEC128_EPSILON__ 1E-33DL"
-.LASF2134:
+.LASF2136:
 	.string	"__vector_14"
 .LASF972:
 	.string	"DDD3 3"
@@ -11816,7 +11866,7 @@ Joystick_CountTimer:
 	.string	"OCR1AL _SFR_MEM8(0x88)"
 .LASF626:
 	.string	"SAMG51 ( SAM_PART_IS_DEFINED(SAMG51G18) )"
-.LASF2125:
+.LASF2126:
 	.string	"ijoy"
 .LASF1764:
 	.string	"_SYS_SIZE_T_H "

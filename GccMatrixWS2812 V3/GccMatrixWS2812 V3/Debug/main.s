@@ -7,385 +7,19 @@ __zero_reg__ = 1
 	.text
 .Ltext0:
 	.cfi_sections	.debug_frame
-	.section	.text.Mostrar_Matriz_2,"ax",@progbits
-.global	Mostrar_Matriz_2
-	.type	Mostrar_Matriz_2, @function
-Mostrar_Matriz_2:
+	.section	.text.ShootP1,"ax",@progbits
+.global	ShootP1
+	.type	ShootP1, @function
+ShootP1:
 .LFB73:
 	.file 1 "../src/main.c"
-	.loc 1 288 0
-	.cfi_startproc
-	push r28
-.LCFI0:
-	.cfi_def_cfa_offset 3
-	.cfi_offset 28, -2
-	push r29
-.LCFI1:
-	.cfi_def_cfa_offset 4
-	.cfi_offset 29, -3
-/* prologue: function */
-/* frame size = 0 */
-/* stack size = 2 */
-.L__stack_usage = 2
-.LVL0:
-	ldi r30,lo8(Matriz_P2)
-	ldi r31,hi8(Matriz_P2)
-	ldi r22,lo8(Matriz_RGB)
-	ldi r23,hi8(Matriz_RGB)
-	ldi r28,lo8(Matriz_P2+192)
-	ldi r29,hi8(Matriz_P2+192)
-	rjmp .L2
-.LVL1:
-.L3:
-.LBB22:
-.LBB23:
-	.loc 1 291 0 discriminator 3
-	ld r18,Z+
-	ld r19,Z+
-	ld r20,Z+
-	st X+,r18
-	st X+,r19
-	st X+,r20
-.LVL2:
-	.loc 1 290 0 discriminator 3
-	cp r30,r24
-	cpc r31,r25
-	brne .L3
-	subi r22,-24
-	sbci r23,-1
-	movw r30,r24
-.LBE23:
-	.loc 1 289 0 discriminator 2
-	cp r28,r24
-	cpc r29,r25
-	breq .L1
-.L2:
-.LVL3:
-	movw r24,r30
-	adiw r24,24
-.LBE22:
-	.loc 1 288 0 discriminator 1
-	movw r26,r22
-	rjmp .L3
-.LVL4:
-.L1:
-/* epilogue start */
-	.loc 1 292 0
-	pop r29
-	pop r28
-	ret
-	.cfi_endproc
-.LFE73:
-	.size	Mostrar_Matriz_2, .-Mostrar_Matriz_2
-	.section	.text.Mostrar_Matriz_1,"ax",@progbits
-.global	Mostrar_Matriz_1
-	.type	Mostrar_Matriz_1, @function
-Mostrar_Matriz_1:
-.LFB74:
-	.loc 1 295 0
-	.cfi_startproc
-	push r28
-.LCFI2:
-	.cfi_def_cfa_offset 3
-	.cfi_offset 28, -2
-	push r29
-.LCFI3:
-	.cfi_def_cfa_offset 4
-	.cfi_offset 29, -3
-/* prologue: function */
-/* frame size = 0 */
-/* stack size = 2 */
-.L__stack_usage = 2
-.LVL5:
-	ldi r30,lo8(Matriz_P1)
-	ldi r31,hi8(Matriz_P1)
-	ldi r22,lo8(Matriz_RGB)
-	ldi r23,hi8(Matriz_RGB)
-	ldi r28,lo8(Matriz_P1+192)
-	ldi r29,hi8(Matriz_P1+192)
-	rjmp .L7
-.LVL6:
-.L8:
-.LBB24:
-.LBB25:
-	.loc 1 298 0 discriminator 3
-	ld r18,Z+
-	ld r19,Z+
-	ld r20,Z+
-	st X+,r18
-	st X+,r19
-	st X+,r20
-.LVL7:
-	.loc 1 297 0 discriminator 3
-	cp r30,r24
-	cpc r31,r25
-	brne .L8
-	subi r22,-24
-	sbci r23,-1
-	movw r30,r24
-.LBE25:
-	.loc 1 296 0 discriminator 2
-	cp r28,r24
-	cpc r29,r25
-	breq .L6
-.L7:
-.LVL8:
-	movw r24,r30
-	adiw r24,24
-.LBE24:
-	.loc 1 295 0 discriminator 1
-	movw r26,r22
-	rjmp .L8
-.LVL9:
-.L6:
-/* epilogue start */
-	.loc 1 299 0
-	pop r29
-	pop r28
-	ret
-	.cfi_endproc
-.LFE74:
-	.size	Mostrar_Matriz_1, .-Mostrar_Matriz_1
-	.section	.text.clear_disp,"ax",@progbits
-.global	clear_disp
-	.type	clear_disp, @function
-clear_disp:
-.LFB75:
-	.loc 1 329 0
+	.loc 1 177 0
 	.cfi_startproc
 /* prologue: function */
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
-	.loc 1 330 0
-/* #APP */
- ;  330 "../src/main.c" 1
-	cli
- ;  0 "" 2
-.LVL10:
-/* #NOAPP */
-	ldi r30,lo8(Matriz_RGB)
-	ldi r31,hi8(Matriz_RGB)
-	ldi r20,lo8(Matriz_RGB+192)
-	ldi r21,hi8(Matriz_RGB+192)
-	rjmp .L12
-.LVL11:
-.L13:
-.LBB26:
-.LBB27:
-	.loc 1 333 0 discriminator 3
-	lds r24,Apagado
-	lds r25,Apagado+1
-	lds r26,Apagado+2
-	st Z+,r24
-	st Z+,r25
-	st Z+,r26
-.LVL12:
-	.loc 1 332 0 discriminator 3
-	cp r30,r18
-	cpc r31,r19
-	brne .L13
-	movw r30,r18
-.LBE27:
-	.loc 1 331 0 discriminator 2
-	cp r20,r18
-	cpc r21,r19
-	breq .L14
-.L12:
-.LVL13:
-	movw r18,r30
-	subi r18,-24
-	sbci r19,-1
-	rjmp .L13
-.LVL14:
-.L14:
-.LBE26:
-	.loc 1 334 0
-/* #APP */
- ;  334 "../src/main.c" 1
-	sei
- ;  0 "" 2
-/* #NOAPP */
-	ret
-	.cfi_endproc
-.LFE75:
-	.size	clear_disp, .-clear_disp
-	.section	.rodata.str1.1,"aMS",@progbits,1
-.LC0:
-	.string	"Hola"
-	.section	.text.main,"ax",@progbits
-.global	main
-	.type	main, @function
-main:
-.LFB72:
-	.loc 1 116 0
-	.cfi_startproc
-/* prologue: function */
-/* frame size = 0 */
-/* stack size = 0 */
-.L__stack_usage = 0
-	.loc 1 117 0
-	call init_ws2812
-.LVL15:
-	.loc 1 118 0
-	call init_RTI
-.LVL16:
-	.loc 1 119 0
-	call UART_Init
-.LVL17:
-	.loc 1 120 0
-	call adc_init
-.LVL18:
-	.loc 1 121 0
-	call joybutton_Init
-.LVL19:
-	.loc 1 122 0
-	call display_init
-.LVL20:
-	.loc 1 124 0
-	ldi r24,lo8(Matriz_RGB)
-	ldi r25,hi8(Matriz_RGB)
-	sts p2disp+1,r25
-	sts p2disp,r24
-.LVL21:
-	movw r30,r24
-	ldi r18,lo8(Matriz_RGB+192)
-	ldi r19,hi8(Matriz_RGB+192)
-	rjmp .L17
-.LVL22:
-.L18:
-.LBB28:
-.LBB29:
-	.loc 1 129 0 discriminator 3
-	lds r12,Apagado
-	lds r13,Apagado+1
-	lds r14,Apagado+2
-	st Z+,r12
-	st Z+,r13
-	st Z+,r14
-.LVL23:
-	.loc 1 128 0 discriminator 3
-	cp r24,r30
-	cpc r25,r31
-	brne .L18
-	movw r30,r24
-.LBE29:
-	.loc 1 127 0 discriminator 2
-	cp r24,r18
-	cpc r25,r19
-	breq .L19
-.L17:
-.LVL24:
-	movw r24,r30
-	adiw r24,24
-	rjmp .L18
-.LVL25:
-.L19:
-.LBE28:
-	.loc 1 131 0
-	ldi r24,lo8(.LC0)
-	ldi r25,hi8(.LC0)
-	call UART_putstring
-.LVL26:
-	ldi r30,lo8(Matriz_P1)
-	ldi r31,hi8(Matriz_P1)
-	ldi r18,lo8(Matriz_P1+192)
-	ldi r19,hi8(Matriz_P1+192)
-	rjmp .L20
-.LVL27:
-.L21:
-.LBB30:
-.LBB31:
-	.loc 1 135 0 discriminator 3
-	lds r12,Apagado
-	lds r13,Apagado+1
-	lds r14,Apagado+2
-	st Z+,r12
-	st Z+,r13
-	st Z+,r14
-.LVL28:
-	.loc 1 134 0 discriminator 3
-	cp r30,r24
-	cpc r31,r25
-	brne .L21
-	movw r30,r24
-.LBE31:
-	.loc 1 133 0 discriminator 2
-	cp r18,r24
-	cpc r19,r25
-	brne .L20
-	ldi r30,lo8(Matriz_P2)
-	ldi r31,hi8(Matriz_P2)
-	ldi r18,lo8(Matriz_P2+192)
-	ldi r19,hi8(Matriz_P2+192)
-	rjmp .L22
-.L20:
-.LVL29:
-	movw r24,r30
-	adiw r24,24
-	rjmp .L21
-.LVL30:
-.L23:
-.LBE30:
-.LBB32:
-.LBB33:
-	.loc 1 139 0 discriminator 3
-	lds r12,Apagado
-	lds r13,Apagado+1
-	lds r14,Apagado+2
-	st Z+,r12
-	st Z+,r13
-	st Z+,r14
-.LVL31:
-	.loc 1 138 0 discriminator 3
-	cp r30,r24
-	cpc r31,r25
-	brne .L23
-.LVL32:
-	movw r30,r24
-.LBE33:
-	.loc 1 137 0 discriminator 2
-	cp r24,r18
-	cpc r25,r19
-	breq .L24
-.L22:
-.LVL33:
-	movw r24,r30
-	adiw r24,24
-	rjmp .L23
-.LVL34:
-.L24:
-.LBE32:
-	.loc 1 141 0
-	call clear_disp
-.LVL35:
-	.loc 1 159 0
-/* #APP */
- ;  159 "../src/main.c" 1
-	sei
- ;  0 "" 2
-/* #NOAPP */
-.L25:
-	.loc 1 163 0
-	lds r24,Turno
-	cpi r24,lo8(1)
-	breq .+2
-	rjmp .L26
-	.loc 1 165 0
-	call set_P1
-.LVL36:
-	.loc 1 166 0
-	lds r24,Turno
-	cpi r24,lo8(1)
-	brne .L25
-.L30:
-	.loc 1 168 0
-	call clear_disp
-.LVL37:
-	.loc 1 170 0
-	call Mostrar_Matriz_2
-.LVL38:
-	.loc 1 171 0
+	.loc 1 178 0
 	lds r24,ijoy
 	lds r25,ijoy+1
 	lds r30,jjoy
@@ -408,62 +42,33 @@ main:
 	rol r25
 	add r30,r24
 	adc r31,r25
-	subi r30,lo8(-(Matriz_RGB))
-	sbci r31,hi8(-(Matriz_RGB))
-	lds r24,puntero
-	lds r25,puntero+1
-	lds r26,puntero+2
+	subi r30,lo8(-(Matriz_P2))
+	sbci r31,hi8(-(Matriz_P2))
+	lds r24,hundido
+	lds r25,hundido+1
+	lds r26,hundido+2
 	st Z,r24
 	std Z+1,r25
 	std Z+2,r26
-.LVL39:
-.LBB34:
-.LBB35:
-	.file 2 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h"
-	.loc 2 187 0
-	ldi r18,lo8(159999)
-	ldi r24,hi8(159999)
-	ldi r25,hlo8(159999)
-1:	subi r18,1
-	sbci r24,0
-	sbci r25,0
-	brne 1b
-	rjmp .
-	nop
-.LVL40:
-.LBE35:
-.LBE34:
-	.loc 1 173 0
-	lds r24,p2disp
-	lds r25,p2disp+1
-	call wrt_ws2812
-.LVL41:
-	.loc 1 166 0
-	lds r24,Turno
-	cpi r24,lo8(1)
-	breq .L30
-	rjmp .L25
-.L26:
-	.loc 1 177 0
-	lds r24,Turno
-	cpi r24,lo8(2)
-	breq .+2
-	rjmp .L25
 	.loc 1 179 0
-	call set_P2
-.LVL42:
-	.loc 1 180 0
-	lds r24,Turno
-	cpi r24,lo8(2)
-	breq .+2
-	rjmp .L25
-.L31:
-	.loc 1 182 0
-	call clear_disp
-.LVL43:
+	lds r24,Player1_Hits
+	subi r24,lo8(-(1))
+	sts Player1_Hits,r24
+	ret
+	.cfi_endproc
+.LFE73:
+	.size	ShootP1, .-ShootP1
+	.section	.text.ShootP2,"ax",@progbits
+.global	ShootP2
+	.type	ShootP2, @function
+ShootP2:
+.LFB74:
 	.loc 1 183 0
-	call Mostrar_Matriz_1
-.LVL44:
+	.cfi_startproc
+/* prologue: function */
+/* frame size = 0 */
+/* stack size = 0 */
+.L__stack_usage = 0
 	.loc 1 184 0
 	lds r24,ijoy
 	lds r25,ijoy+1
@@ -487,49 +92,230 @@ main:
 	rol r25
 	add r30,r24
 	adc r31,r25
-	subi r30,lo8(-(Matriz_RGB))
-	sbci r31,hi8(-(Matriz_RGB))
-	lds r24,puntero
-	lds r25,puntero+1
-	lds r26,puntero+2
+	subi r30,lo8(-(Matriz_P1))
+	sbci r31,hi8(-(Matriz_P1))
+	lds r24,hundido
+	lds r25,hundido+1
+	lds r26,hundido+2
 	st Z,r24
 	std Z+1,r25
 	std Z+2,r26
-.LVL45:
-.LBB36:
-.LBB37:
-	.loc 2 187 0
-	ldi r18,lo8(159999)
-	ldi r24,hi8(159999)
-	ldi r25,hlo8(159999)
-1:	subi r18,1
-	sbci r24,0
-	sbci r25,0
-	brne 1b
-	rjmp .
-	nop
-.LVL46:
-.LBE37:
-.LBE36:
-	.loc 1 186 0
-	lds r24,p2disp
-	lds r25,p2disp+1
-	call wrt_ws2812
-.LVL47:
-	.loc 1 180 0
-	lds r24,Turno
-	cpi r24,lo8(2)
-	breq .L31
-	rjmp .L25
+	.loc 1 185 0
+	lds r24,Player2_Hits
+	subi r24,lo8(-(1))
+	sts Player2_Hits,r24
+	ret
 	.cfi_endproc
-.LFE72:
-	.size	main, .-main
-	.section	.text.softdelay,"ax",@progbits
-.global	softdelay
-	.type	softdelay, @function
-softdelay:
+.LFE74:
+	.size	ShootP2, .-ShootP2
+	.section	.text.Mostrar_Matriz_2,"ax",@progbits
+.global	Mostrar_Matriz_2
+	.type	Mostrar_Matriz_2, @function
+Mostrar_Matriz_2:
+.LFB78:
+	.loc 1 266 0
+	.cfi_startproc
+	push r28
+.LCFI0:
+	.cfi_def_cfa_offset 3
+	.cfi_offset 28, -2
+	push r29
+.LCFI1:
+	.cfi_def_cfa_offset 4
+	.cfi_offset 29, -3
+/* prologue: function */
+/* frame size = 0 */
+/* stack size = 2 */
+.L__stack_usage = 2
+.LVL0:
+	ldi r30,lo8(Matriz_P2)
+	ldi r31,hi8(Matriz_P2)
+	ldi r22,lo8(Matriz_RGB)
+	ldi r23,hi8(Matriz_RGB)
+	ldi r28,lo8(Matriz_P2+192)
+	ldi r29,hi8(Matriz_P2+192)
+	rjmp .L4
+.LVL1:
+.L5:
+.LBB54:
+.LBB55:
+	.loc 1 269 0 discriminator 3
+	ld r18,Z+
+	ld r19,Z+
+	ld r20,Z+
+	st X+,r18
+	st X+,r19
+	st X+,r20
+.LVL2:
+	.loc 1 268 0 discriminator 3
+	cp r30,r24
+	cpc r31,r25
+	brne .L5
+	subi r22,-24
+	sbci r23,-1
+	movw r30,r24
+.LBE55:
+	.loc 1 267 0 discriminator 2
+	cp r28,r24
+	cpc r29,r25
+	breq .L3
+.L4:
+.LVL3:
+	movw r24,r30
+	adiw r24,24
+.LBE54:
+	.loc 1 266 0 discriminator 1
+	movw r26,r22
+	rjmp .L5
+.LVL4:
+.L3:
+/* epilogue start */
+	.loc 1 270 0
+	pop r29
+	pop r28
+	ret
+	.cfi_endproc
+.LFE78:
+	.size	Mostrar_Matriz_2, .-Mostrar_Matriz_2
+	.section	.text.Mostrar_Matriz_1,"ax",@progbits
+.global	Mostrar_Matriz_1
+	.type	Mostrar_Matriz_1, @function
+Mostrar_Matriz_1:
+.LFB79:
+	.loc 1 273 0
+	.cfi_startproc
+	push r28
+.LCFI2:
+	.cfi_def_cfa_offset 3
+	.cfi_offset 28, -2
+	push r29
+.LCFI3:
+	.cfi_def_cfa_offset 4
+	.cfi_offset 29, -3
+/* prologue: function */
+/* frame size = 0 */
+/* stack size = 2 */
+.L__stack_usage = 2
+.LVL5:
+	ldi r30,lo8(Matriz_P1)
+	ldi r31,hi8(Matriz_P1)
+	ldi r22,lo8(Matriz_RGB)
+	ldi r23,hi8(Matriz_RGB)
+	ldi r28,lo8(Matriz_P1+192)
+	ldi r29,hi8(Matriz_P1+192)
+	rjmp .L9
+.LVL6:
+.L10:
+.LBB56:
+.LBB57:
+	.loc 1 276 0 discriminator 3
+	ld r18,Z+
+	ld r19,Z+
+	ld r20,Z+
+	st X+,r18
+	st X+,r19
+	st X+,r20
+.LVL7:
+	.loc 1 275 0 discriminator 3
+	cp r30,r24
+	cpc r31,r25
+	brne .L10
+	subi r22,-24
+	sbci r23,-1
+	movw r30,r24
+.LBE57:
+	.loc 1 274 0 discriminator 2
+	cp r28,r24
+	cpc r29,r25
+	breq .L8
+.L9:
+.LVL8:
+	movw r24,r30
+	adiw r24,24
+.LBE56:
+	.loc 1 273 0 discriminator 1
+	movw r26,r22
+	rjmp .L10
+.LVL9:
+.L8:
+/* epilogue start */
+	.loc 1 277 0
+	pop r29
+	pop r28
+	ret
+	.cfi_endproc
+.LFE79:
+	.size	Mostrar_Matriz_1, .-Mostrar_Matriz_1
+	.section	.text.clear_disp,"ax",@progbits
+.global	clear_disp
+	.type	clear_disp, @function
+clear_disp:
+.LFB80:
+	.loc 1 307 0
+	.cfi_startproc
+/* prologue: function */
+/* frame size = 0 */
+/* stack size = 0 */
+.L__stack_usage = 0
+	.loc 1 308 0
+/* #APP */
+ ;  308 "../src/main.c" 1
+	cli
+ ;  0 "" 2
+.LVL10:
+/* #NOAPP */
+	ldi r30,lo8(Matriz_RGB)
+	ldi r31,hi8(Matriz_RGB)
+	ldi r20,lo8(Matriz_RGB+192)
+	ldi r21,hi8(Matriz_RGB+192)
+	rjmp .L14
+.LVL11:
+.L15:
+.LBB58:
+.LBB59:
+	.loc 1 311 0 discriminator 3
+	lds r24,Apagado
+	lds r25,Apagado+1
+	lds r26,Apagado+2
+	st Z+,r24
+	st Z+,r25
+	st Z+,r26
+.LVL12:
+	.loc 1 310 0 discriminator 3
+	cp r30,r18
+	cpc r31,r19
+	brne .L15
+	movw r30,r18
+.LBE59:
+	.loc 1 309 0 discriminator 2
+	cp r20,r18
+	cpc r21,r19
+	breq .L16
+.L14:
+.LVL13:
+	movw r18,r30
+	subi r18,-24
+	sbci r19,-1
+	rjmp .L15
+.LVL14:
+.L16:
+.LBE58:
+	.loc 1 312 0
+/* #APP */
+ ;  312 "../src/main.c" 1
+	sei
+ ;  0 "" 2
+/* #NOAPP */
+	ret
+	.cfi_endproc
+.LFE80:
+	.size	clear_disp, .-clear_disp
+	.section	.text.TurnoP1,"ax",@progbits
+.global	TurnoP1
+	.type	TurnoP1, @function
+TurnoP1:
 .LFB76:
-	.loc 1 340 0
+	.loc 1 203 0
 	.cfi_startproc
 	push r28
 .LCFI4:
@@ -539,19 +325,685 @@ softdelay:
 .LCFI5:
 	.cfi_def_cfa_offset 4
 	.cfi_offset 29, -3
-	rcall .
-	rcall .
+/* prologue: function */
+/* frame size = 0 */
+/* stack size = 2 */
+.L__stack_usage = 2
+	.loc 1 204 0
+	call set_P1
+.LVL15:
+	.loc 1 205 0
+	ldi r24,lo8(1)
+	ldi r25,0
+	sts ispressed+1,r25
+	sts ispressed,r24
+.LBB60:
+.LBB61:
+.LBB62:
+.LBB63:
+	.file 2 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay_basic.h"
+	.loc 2 105 0
+	ldi r28,lo8(-112)
+	ldi r29,lo8(1)
+.LBE63:
+.LBE62:
+.LBE61:
+.LBE60:
+	.loc 1 206 0
+	rjmp .L19
+.L24:
+	.loc 1 208 0
+	lds r24,ContadorPuntero
+	lds r25,ContadorPuntero+1
+	cpi r24,90
+	cpc r25,__zero_reg__
+	brsh .L20
+	.loc 1 210 0
+	call Mostrar_Matriz_2
+.LVL16:
+	.loc 1 211 0
+	lds r24,ijoy
+	lds r25,ijoy+1
+	lds r18,jjoy
+	lds r19,jjoy+1
+	movw r30,r18
+	lsl r30
+	rol r31
+	add r30,r18
+	adc r31,r19
+	movw r18,r24
+	lsl r18
+	rol r19
+	add r24,r18
+	adc r25,r19
+	lsl r24
+	rol r25
+	lsl r24
+	rol r25
+	lsl r24
+	rol r25
+	add r30,r24
+	adc r31,r25
+	subi r30,lo8(-(Matriz_RGB))
+	sbci r31,hi8(-(Matriz_RGB))
+	lds r24,punteroP1
+	lds r25,punteroP1+1
+	lds r26,punteroP1+2
+	st Z,r24
+	std Z+1,r25
+	std Z+2,r26
+.LVL17:
+	ldi r24,lo8(-12)
+	ldi r25,lo8(1)
+.LVL18:
+.L21:
+.LBB67:
+.LBB68:
+.LBB69:
+.LBB70:
+	.loc 2 105 0
+	movw r30,r28
+/* #APP */
+ ;  105 "c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h" 1
+	1: sbiw r30,1
+	brne 1b
+ ;  0 "" 2
+.LVL19:
+/* #NOAPP */
+	sbiw r24,1
+.LVL20:
+.LBE70:
+.LBE69:
+	.file 3 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h"
+	.loc 3 198 0
+	brne .L21
+.LVL21:
+.LBE68:
+.LBE67:
+	.loc 1 213 0
+	lds r24,p2disp
+	lds r25,p2disp+1
+	call wrt_ws2812
+.LVL22:
+	rjmp .L19
+.L20:
+	.loc 1 218 0
+	call Mostrar_Matriz_2
+.LVL23:
+	ldi r24,lo8(-12)
+	ldi r25,lo8(1)
+.LVL24:
+.L23:
+.LBB71:
+.LBB66:
+.LBB65:
+.LBB64:
+	.loc 2 105 0
+	movw r30,r28
+/* #APP */
+ ;  105 "c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h" 1
+	1: sbiw r30,1
+	brne 1b
+ ;  0 "" 2
+.LVL25:
+/* #NOAPP */
+	sbiw r24,1
+.LVL26:
+.LBE64:
+.LBE65:
+	.loc 3 198 0
+	brne .L23
+.LVL27:
+.LBE66:
+.LBE71:
+	.loc 1 220 0
+	lds r24,p2disp
+	lds r25,p2disp+1
+	call wrt_ws2812
+.LVL28:
+.L19:
+	.loc 1 206 0
+	lds r24,ispressed
+	lds r25,ispressed+1
+	or r24,r25
+	breq .+2
+	rjmp .L24
+	.loc 1 224 0
+	call clear_disp
+.LVL29:
+	.loc 1 225 0
+	call ShootP1
+.LVL30:
+	.loc 1 226 0
+	call Mostrar_Matriz_2
+.LVL31:
+	ldi r24,lo8(-56)
+	ldi r25,0
+.LBB72:
+.LBB73:
+.LBB74:
+.LBB75:
+	.loc 2 105 0
+	ldi r18,lo8(-112)
+	ldi r19,lo8(1)
+.LVL32:
+.L25:
+	movw r30,r18
+/* #APP */
+ ;  105 "c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h" 1
+	1: sbiw r30,1
+	brne 1b
+ ;  0 "" 2
+.LVL33:
+/* #NOAPP */
+	sbiw r24,1
+.LVL34:
+.LBE75:
+.LBE74:
+	.loc 3 198 0
+	brne .L25
+.LVL35:
+.LBE73:
+.LBE72:
+	.loc 1 229 0
+	lds r24,p2disp
+	lds r25,p2disp+1
+	call wrt_ws2812
+.LVL36:
+	ldi r24,lo8(32)
+	ldi r25,lo8(78)
+.LBB76:
+.LBB77:
+.LBB78:
+.LBB79:
+	.loc 2 105 0
+	ldi r18,lo8(-112)
+	ldi r19,lo8(1)
+.LVL37:
+.L26:
+	movw r30,r18
+/* #APP */
+ ;  105 "c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h" 1
+	1: sbiw r30,1
+	brne 1b
+ ;  0 "" 2
+.LVL38:
+/* #NOAPP */
+	sbiw r24,1
+.LVL39:
+.LBE79:
+.LBE78:
+	.loc 3 198 0
+	brne .L26
+/* epilogue start */
+.LBE77:
+.LBE76:
+	.loc 1 231 0
+	pop r29
+	pop r28
+	ret
+	.cfi_endproc
+.LFE76:
+	.size	TurnoP1, .-TurnoP1
+	.section	.text.TurnoP2,"ax",@progbits
+.global	TurnoP2
+	.type	TurnoP2, @function
+TurnoP2:
+.LFB77:
+	.loc 1 234 0
+	.cfi_startproc
+	push r28
 .LCFI6:
+	.cfi_def_cfa_offset 3
+	.cfi_offset 28, -2
+	push r29
+.LCFI7:
+	.cfi_def_cfa_offset 4
+	.cfi_offset 29, -3
+/* prologue: function */
+/* frame size = 0 */
+/* stack size = 2 */
+.L__stack_usage = 2
+	.loc 1 235 0
+	call set_P2
+.LVL40:
+	.loc 1 236 0
+	ldi r24,lo8(1)
+	ldi r25,0
+	sts ispressed+1,r25
+	sts ispressed,r24
+.LBB80:
+.LBB81:
+.LBB82:
+.LBB83:
+	.loc 2 105 0
+	ldi r28,lo8(-112)
+	ldi r29,lo8(1)
+.LBE83:
+.LBE82:
+.LBE81:
+.LBE80:
+	.loc 1 237 0
+	rjmp .L32
+.L37:
+	.loc 1 239 0
+	lds r24,ContadorPuntero
+	lds r25,ContadorPuntero+1
+	cpi r24,90
+	cpc r25,__zero_reg__
+	brsh .L33
+	.loc 1 241 0
+	call Mostrar_Matriz_1
+.LVL41:
+	.loc 1 242 0
+	lds r24,ijoy
+	lds r25,ijoy+1
+	lds r18,jjoy
+	lds r19,jjoy+1
+	movw r30,r18
+	lsl r30
+	rol r31
+	add r30,r18
+	adc r31,r19
+	movw r18,r24
+	lsl r18
+	rol r19
+	add r24,r18
+	adc r25,r19
+	lsl r24
+	rol r25
+	lsl r24
+	rol r25
+	lsl r24
+	rol r25
+	add r30,r24
+	adc r31,r25
+	subi r30,lo8(-(Matriz_RGB))
+	sbci r31,hi8(-(Matriz_RGB))
+	lds r24,punteroP2
+	lds r25,punteroP2+1
+	lds r26,punteroP2+2
+	st Z,r24
+	std Z+1,r25
+	std Z+2,r26
+.LVL42:
+	ldi r24,lo8(-12)
+	ldi r25,lo8(1)
+.LVL43:
+.L34:
+.LBB87:
+.LBB88:
+.LBB89:
+.LBB90:
+	.loc 2 105 0
+	movw r30,r28
+/* #APP */
+ ;  105 "c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h" 1
+	1: sbiw r30,1
+	brne 1b
+ ;  0 "" 2
+.LVL44:
+/* #NOAPP */
+	sbiw r24,1
+.LVL45:
+.LBE90:
+.LBE89:
+	.loc 3 198 0
+	brne .L34
+.LVL46:
+.LBE88:
+.LBE87:
+	.loc 1 244 0
+	lds r24,p2disp
+	lds r25,p2disp+1
+	call wrt_ws2812
+.LVL47:
+	rjmp .L32
+.L33:
+	.loc 1 249 0
+	call Mostrar_Matriz_1
+.LVL48:
+	ldi r24,lo8(-12)
+	ldi r25,lo8(1)
+.LVL49:
+.L36:
+.LBB91:
+.LBB86:
+.LBB85:
+.LBB84:
+	.loc 2 105 0
+	movw r30,r28
+/* #APP */
+ ;  105 "c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h" 1
+	1: sbiw r30,1
+	brne 1b
+ ;  0 "" 2
+.LVL50:
+/* #NOAPP */
+	sbiw r24,1
+.LVL51:
+.LBE84:
+.LBE85:
+	.loc 3 198 0
+	brne .L36
+.LVL52:
+.LBE86:
+.LBE91:
+	.loc 1 251 0
+	lds r24,p2disp
+	lds r25,p2disp+1
+	call wrt_ws2812
+.LVL53:
+.L32:
+	.loc 1 237 0
+	lds r24,ispressed
+	lds r25,ispressed+1
+	or r24,r25
+	breq .+2
+	rjmp .L37
+	.loc 1 255 0
+	call clear_disp
+.LVL54:
+	.loc 1 256 0
+	call ShootP2
+.LVL55:
+	.loc 1 257 0
+	call Mostrar_Matriz_1
+.LVL56:
+	ldi r24,lo8(-56)
+	ldi r25,0
+.LBB92:
+.LBB93:
+.LBB94:
+.LBB95:
+	.loc 2 105 0
+	ldi r18,lo8(-112)
+	ldi r19,lo8(1)
+.LVL57:
+.L38:
+	movw r30,r18
+/* #APP */
+ ;  105 "c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h" 1
+	1: sbiw r30,1
+	brne 1b
+ ;  0 "" 2
+.LVL58:
+/* #NOAPP */
+	sbiw r24,1
+.LVL59:
+.LBE95:
+.LBE94:
+	.loc 3 198 0
+	brne .L38
+.LVL60:
+.LBE93:
+.LBE92:
+	.loc 1 260 0
+	lds r24,p2disp
+	lds r25,p2disp+1
+	call wrt_ws2812
+.LVL61:
+	ldi r24,lo8(32)
+	ldi r25,lo8(78)
+.LBB96:
+.LBB97:
+.LBB98:
+.LBB99:
+	.loc 2 105 0
+	ldi r18,lo8(-112)
+	ldi r19,lo8(1)
+.LVL62:
+.L39:
+	movw r30,r18
+/* #APP */
+ ;  105 "c:\program files (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h" 1
+	1: sbiw r30,1
+	brne 1b
+ ;  0 "" 2
+.LVL63:
+/* #NOAPP */
+	sbiw r24,1
+.LVL64:
+.LBE99:
+.LBE98:
+	.loc 3 198 0
+	brne .L39
+/* epilogue start */
+.LBE97:
+.LBE96:
+	.loc 1 262 0
+	pop r29
+	pop r28
+	ret
+	.cfi_endproc
+.LFE77:
+	.size	TurnoP2, .-TurnoP2
+	.section	.text.Game_Logic,"ax",@progbits
+.global	Game_Logic
+	.type	Game_Logic, @function
+Game_Logic:
+.LFB75:
+	.loc 1 190 0
+	.cfi_startproc
+/* prologue: function */
+/* frame size = 0 */
+/* stack size = 0 */
+.L__stack_usage = 0
+	.loc 1 191 0
+	lds r24,Turno
+	cpi r24,lo8(1)
+	brne .L45
+	.loc 1 193 0
+	call TurnoP1
+.LVL65:
+	ret
+.L45:
+	.loc 1 196 0
+	lds r24,Turno
+	cpi r24,lo8(2)
+	brne .L44
+	.loc 1 198 0
+	call TurnoP2
+.LVL66:
+.L44:
+	ret
+	.cfi_endproc
+.LFE75:
+	.size	Game_Logic, .-Game_Logic
+	.section	.rodata.str1.1,"aMS",@progbits,1
+.LC0:
+	.string	"Hola"
+	.section	.text.main,"ax",@progbits
+.global	main
+	.type	main, @function
+main:
+.LFB72:
+	.loc 1 124 0
+	.cfi_startproc
+/* prologue: function */
+/* frame size = 0 */
+/* stack size = 0 */
+.L__stack_usage = 0
+	.loc 1 125 0
+	call init_ws2812
+.LVL67:
+	.loc 1 126 0
+	call init_RTI
+.LVL68:
+	.loc 1 127 0
+	call UART_Init
+.LVL69:
+	.loc 1 128 0
+	call adc_init
+.LVL70:
+	.loc 1 129 0
+	call joybutton_Init
+.LVL71:
+	.loc 1 130 0
+	call display_init
+.LVL72:
+	.loc 1 132 0
+	ldi r24,lo8(Matriz_RGB)
+	ldi r25,hi8(Matriz_RGB)
+	sts p2disp+1,r25
+	sts p2disp,r24
+.LVL73:
+	movw r30,r24
+	ldi r20,lo8(Matriz_RGB+192)
+	ldi r21,hi8(Matriz_RGB+192)
+	rjmp .L48
+.LVL74:
+.L49:
+.LBB100:
+.LBB101:
+	.loc 1 137 0 discriminator 3
+	lds r24,Apagado
+	lds r25,Apagado+1
+	lds r26,Apagado+2
+	st Z+,r24
+	st Z+,r25
+	st Z+,r26
+.LVL75:
+	.loc 1 136 0 discriminator 3
+	cp r18,r30
+	cpc r19,r31
+	brne .L49
+	movw r30,r18
+.LBE101:
+	.loc 1 135 0 discriminator 2
+	cp r18,r20
+	cpc r19,r21
+	breq .L50
+.L48:
+.LVL76:
+	movw r18,r30
+	subi r18,-24
+	sbci r19,-1
+	rjmp .L49
+.LVL77:
+.L50:
+.LBE100:
+	.loc 1 139 0
+	ldi r24,lo8(.LC0)
+	ldi r25,hi8(.LC0)
+	call UART_putstring
+.LVL78:
+	ldi r30,lo8(Matriz_P1)
+	ldi r31,hi8(Matriz_P1)
+	ldi r20,lo8(Matriz_P1+192)
+	ldi r21,hi8(Matriz_P1+192)
+	rjmp .L51
+.LVL79:
+.L52:
+.LBB102:
+.LBB103:
+	.loc 1 143 0 discriminator 3
+	lds r24,Apagado
+	lds r25,Apagado+1
+	lds r26,Apagado+2
+	st Z+,r24
+	st Z+,r25
+	st Z+,r26
+.LVL80:
+	.loc 1 142 0 discriminator 3
+	cp r30,r18
+	cpc r31,r19
+	brne .L52
+	movw r30,r18
+.LBE103:
+	.loc 1 141 0 discriminator 2
+	cp r20,r18
+	cpc r21,r19
+	brne .L51
+	ldi r30,lo8(Matriz_P2)
+	ldi r31,hi8(Matriz_P2)
+	ldi r20,lo8(Matriz_P2+192)
+	ldi r21,hi8(Matriz_P2+192)
+	rjmp .L53
+.L51:
+.LVL81:
+	movw r18,r30
+	subi r18,-24
+	sbci r19,-1
+	rjmp .L52
+.LVL82:
+.L54:
+.LBE102:
+.LBB104:
+.LBB105:
+	.loc 1 147 0 discriminator 3
+	lds r24,Apagado
+	lds r25,Apagado+1
+	lds r26,Apagado+2
+	st Z+,r24
+	st Z+,r25
+	st Z+,r26
+.LVL83:
+	.loc 1 146 0 discriminator 3
+	cp r30,r18
+	cpc r31,r19
+	brne .L54
+.LVL84:
+	movw r30,r18
+.LBE105:
+	.loc 1 145 0 discriminator 2
+	cp r18,r20
+	cpc r19,r21
+	breq .L55
+.L53:
+.LVL85:
+	movw r18,r30
+	subi r18,-24
+	sbci r19,-1
+	rjmp .L54
+.LVL86:
+.L55:
+.LBE104:
+	.loc 1 149 0
+	call clear_disp
+.LVL87:
+	.loc 1 167 0
+/* #APP */
+ ;  167 "../src/main.c" 1
+	sei
+ ;  0 "" 2
+/* #NOAPP */
+.L56:
+	.loc 1 171 0 discriminator 1
+	call Game_Logic
+.LVL88:
+	rjmp .L56
+	.cfi_endproc
+.LFE72:
+	.size	main, .-main
+	.section	.text.softdelay,"ax",@progbits
+.global	softdelay
+	.type	softdelay, @function
+softdelay:
+.LFB81:
+	.loc 1 318 0
+	.cfi_startproc
+	push r28
+.LCFI8:
+	.cfi_def_cfa_offset 3
+	.cfi_offset 28, -2
+	push r29
+.LCFI9:
+	.cfi_def_cfa_offset 4
+	.cfi_offset 29, -3
+	rcall .
+	rcall .
+.LCFI10:
 	.cfi_def_cfa_offset 8
 	in r28,__SP_L__
 	in r29,__SP_H__
-.LCFI7:
+.LCFI11:
 	.cfi_def_cfa_register 28
 /* prologue: function */
 /* frame size = 4 */
 /* stack size = 6 */
 .L__stack_usage = 6
-	.loc 1 343 0
+	.loc 1 321 0
 	ldi r24,lo8(-128)
 	ldi r25,lo8(26)
 	ldi r26,lo8(6)
@@ -567,9 +1019,9 @@ softdelay:
 	or r24,r25
 	or r24,r26
 	or r24,r27
-	breq .L38
-.L41:
-	.loc 1 343 0 is_stmt 0 discriminator 3
+	breq .L61
+.L64:
+	.loc 1 321 0 is_stmt 0 discriminator 3
 	ldd r24,Y+1
 	ldd r25,Y+2
 	ldd r26,Y+3
@@ -588,10 +1040,10 @@ softdelay:
 	or r24,r25
 	or r24,r26
 	or r24,r27
-	brne .L41
-.L38:
+	brne .L64
+.L61:
 /* epilogue start */
-	.loc 1 347 0 is_stmt 1
+	.loc 1 325 0 is_stmt 1
 	pop __tmp_reg__
 	pop __tmp_reg__
 	pop __tmp_reg__
@@ -600,114 +1052,14 @@ softdelay:
 	pop r28
 	ret
 	.cfi_endproc
-.LFE76:
+.LFE81:
 	.size	softdelay, .-softdelay
-	.section	.text.ADCTestBench,"ax",@progbits
-.global	ADCTestBench
-	.type	ADCTestBench, @function
-ADCTestBench:
-.LFB77:
-	.loc 1 351 0
-	.cfi_startproc
-	push r28
-.LCFI8:
-	.cfi_def_cfa_offset 3
-	.cfi_offset 28, -2
-	push r29
-.LCFI9:
-	.cfi_def_cfa_offset 4
-	.cfi_offset 29, -3
-	rcall .
-	rcall .
-	push __zero_reg__
-.LCFI10:
-	.cfi_def_cfa_offset 9
-	in r28,__SP_L__
-	in r29,__SP_H__
-.LCFI11:
-	.cfi_def_cfa_register 28
-/* prologue: function */
-/* frame size = 5 */
-/* stack size = 7 */
-.L__stack_usage = 7
-.L44:
-	.loc 1 357 0 discriminator 1
-	call read_VRX
-.LVL48:
-.LBB38:
-.LBB39:
-	.file 3 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\stdlib.h"
-	.loc 3 439 0 discriminator 1
-	ldi r20,lo8(10)
-	movw r22,r28
-	subi r22,-1
-	sbci r23,-1
-	call __itoa_ncheck
-.LVL49:
-.LBE39:
-.LBE38:
-	.loc 1 358 0 discriminator 1
-	movw r24,r28
-	adiw r24,1
-	call UART_putstring
-.LVL50:
-	.loc 1 359 0 discriminator 1
-	ldi r24,lo8(9)
-	call UART_send_data
-.LVL51:
-	.loc 1 360 0 discriminator 1
-	ldi r24,lo8(9)
-	call UART_send_data
-.LVL52:
-	.loc 1 362 0 discriminator 1
-	call read_VRY
-.LVL53:
-.LBB40:
-.LBB41:
-	.loc 3 439 0 discriminator 1
-	ldi r20,lo8(10)
-	movw r22,r28
-	subi r22,-1
-	sbci r23,-1
-	call __itoa_ncheck
-.LVL54:
-.LBE41:
-.LBE40:
-	.loc 1 363 0 discriminator 1
-	movw r24,r28
-	adiw r24,1
-	call UART_putstring
-.LVL55:
-	.loc 1 364 0 discriminator 1
-	ldi r24,lo8(13)
-	call UART_send_data
-.LVL56:
-	.loc 1 365 0 discriminator 1
-	ldi r24,lo8(10)
-	call UART_send_data
-.LVL57:
-.LBB42:
-.LBB43:
-	.loc 2 187 0 discriminator 1
-	ldi r18,lo8(3199999)
-	ldi r24,hi8(3199999)
-	ldi r25,hlo8(3199999)
-1:	subi r18,1
-	sbci r24,0
-	sbci r25,0
-	brne 1b
-	rjmp .
-	nop
-	rjmp .L44
-.LBE43:
-.LBE42:
-	.cfi_endproc
-.LFE77:
-	.size	ADCTestBench, .-ADCTestBench
 	.comm	Turno,1,1
-	.comm	ispressed,1,1
+	.comm	ispressed,2,1
 	.comm	Matriz_P2,192,1
 	.comm	Matriz_P1,192,1
+	.comm	Player2_Hits,1,1
+	.comm	Player1_Hits,1,1
 	.comm	jjoy,2,1
 	.comm	ijoy,2,1
 .global	msg
@@ -764,20 +1116,23 @@ derecha_max:
 	.size	derecha_min, 2
 derecha_min:
 	.word	800
-.global	ContadorPuntero
-	.section	.bss.ContadorPuntero,"aw",@nobits
-	.type	ContadorPuntero, @object
-	.size	ContadorPuntero, 2
-ContadorPuntero:
-	.zero	2
+	.comm	ContadorPuntero,2,1
 	.comm	Matriz_RGB,192,1
-.global	puntero
-	.section	.data.puntero,"aw",@progbits
-	.type	puntero, @object
-	.size	puntero, 3
-puntero:
-	.byte	10
-	.byte	10
+.global	punteroP2
+	.section	.data.punteroP2,"aw",@progbits
+	.type	punteroP2, @object
+	.size	punteroP2, 3
+punteroP2:
+	.byte	40
+	.byte	5
+	.byte	25
+.global	punteroP1
+	.section	.data.punteroP1,"aw",@progbits
+	.type	punteroP1, @object
+	.size	punteroP1, 3
+punteroP1:
+	.byte	25
+	.byte	15
 	.byte	0
 .global	Apagado
 	.section	.bss.Apagado,"aw",@nobits
@@ -826,16 +1181,16 @@ disparado:
 	.file 7 "../src/ADC.h"
 	.section	.debug_info,"",@progbits
 .Ldebug_info0:
-	.long	0x8ad
+	.long	0x9ad
 	.word	0x2
 	.long	.Ldebug_abbrev0
 	.byte	0x4
 	.uleb128 0x1
-	.long	.LASF2271
+	.long	.LASF2277
 	.byte	0xc
-	.long	.LASF2272
-	.long	.LASF2273
-	.long	.Ldebug_ranges0+0
+	.long	.LASF2278
+	.long	.LASF2279
+	.long	.Ldebug_ranges0+0x60
 	.long	0
 	.long	0
 	.long	.Ldebug_line0
@@ -843,258 +1198,592 @@ disparado:
 	.uleb128 0x2
 	.byte	0x1
 	.byte	0x6
-	.long	.LASF2207
+	.long	.LASF2210
 	.uleb128 0x3
-	.long	.LASF2209
+	.long	.LASF2212
 	.byte	0x4
 	.byte	0x7e
 	.long	0x3f
 	.uleb128 0x2
 	.byte	0x1
 	.byte	0x8
-	.long	.LASF2208
+	.long	.LASF2211
 	.uleb128 0x4
 	.byte	0x2
 	.byte	0x5
 	.string	"int"
 	.uleb128 0x3
-	.long	.LASF2210
+	.long	.LASF2213
 	.byte	0x4
 	.byte	0x80
 	.long	0x58
 	.uleb128 0x2
 	.byte	0x2
 	.byte	0x7
-	.long	.LASF2211
-	.uleb128 0x2
-	.byte	0x4
-	.byte	0x5
-	.long	.LASF2212
-	.uleb128 0x3
-	.long	.LASF2213
-	.byte	0x4
-	.byte	0x82
-	.long	0x71
-	.uleb128 0x2
-	.byte	0x4
-	.byte	0x7
 	.long	.LASF2214
 	.uleb128 0x2
-	.byte	0x8
+	.byte	0x4
 	.byte	0x5
 	.long	.LASF2215
 	.uleb128 0x2
-	.byte	0x8
+	.byte	0x4
 	.byte	0x7
 	.long	.LASF2216
+	.uleb128 0x2
+	.byte	0x8
+	.byte	0x5
+	.long	.LASF2217
+	.uleb128 0x2
+	.byte	0x8
+	.byte	0x7
+	.long	.LASF2218
 	.uleb128 0x5
 	.long	0x34
-	.uleb128 0x6
-	.byte	0x2
-	.long	0x91
 	.uleb128 0x2
 	.byte	0x1
 	.byte	0x6
-	.long	.LASF2217
-	.uleb128 0x7
+	.long	.LASF2219
+	.uleb128 0x6
 	.byte	0x3
 	.byte	0x1
-	.byte	0x22
-	.long	0xcb
-	.uleb128 0x8
-	.long	.LASF2218
-	.byte	0x1
-	.byte	0x24
-	.long	0x34
-	.byte	0x2
 	.byte	0x23
-	.uleb128 0
-	.uleb128 0x9
-	.string	"red"
+	.long	0xba
+	.uleb128 0x7
+	.long	.LASF2220
 	.byte	0x1
 	.byte	0x25
 	.long	0x34
 	.byte	0x2
 	.byte	0x23
-	.uleb128 0x1
+	.uleb128 0
 	.uleb128 0x8
-	.long	.LASF2219
+	.string	"red"
 	.byte	0x1
 	.byte	0x26
+	.long	0x34
+	.byte	0x2
+	.byte	0x23
+	.uleb128 0x1
+	.uleb128 0x7
+	.long	.LASF2221
+	.byte	0x1
+	.byte	0x27
 	.long	0x34
 	.byte	0x2
 	.byte	0x23
 	.uleb128 0x2
 	.byte	0
 	.uleb128 0x3
-	.long	.LASF2220
+	.long	.LASF2222
 	.byte	0x1
-	.byte	0x27
-	.long	0x98
+	.byte	0x28
+	.long	0x87
 	.uleb128 0x3
-	.long	.LASF2221
+	.long	.LASF2223
 	.byte	0x1
-	.byte	0x2b
-	.long	0xe1
-	.uleb128 0x6
+	.byte	0x2c
+	.long	0xd0
+	.uleb128 0x9
 	.byte	0x2
-	.long	0xcb
+	.long	0xba
 	.uleb128 0xa
-	.long	.LASF2274
+	.long	.LASF2224
 	.byte	0x2
+	.byte	0x67
+	.byte	0x1
+	.byte	0x3
+	.long	0xef
+	.uleb128 0xb
+	.long	.LASF2226
+	.byte	0x2
+	.byte	0x67
+	.long	0x4d
+	.byte	0
+	.uleb128 0xa
+	.long	.LASF2225
+	.byte	0x3
 	.byte	0xa6
 	.byte	0x1
 	.byte	0x3
-	.long	0x120
+	.long	0x11e
 	.uleb128 0xb
-	.long	.LASF2225
-	.byte	0x2
+	.long	.LASF2227
+	.byte	0x3
 	.byte	0xa6
-	.long	0x120
+	.long	0x11e
 	.uleb128 0xc
-	.long	.LASF2222
-	.byte	0x2
+	.long	.LASF2228
+	.byte	0x3
 	.byte	0xa8
-	.long	0x120
+	.long	0x11e
 	.uleb128 0xc
-	.long	.LASF2223
-	.byte	0x2
-	.byte	0xac
-	.long	0x66
-	.uleb128 0xd
-	.byte	0x1
-	.long	.LASF2275
-	.byte	0x2
-	.byte	0xad
-	.byte	0x1
-	.byte	0
+	.long	.LASF2229
+	.byte	0x3
+	.byte	0xbe
+	.long	0x4d
 	.byte	0
 	.uleb128 0x2
 	.byte	0x4
 	.byte	0x4
-	.long	.LASF2224
-	.uleb128 0xe
+	.long	.LASF2230
+	.uleb128 0xd
 	.byte	0x1
-	.long	.LASF2276
-	.byte	0x3
-	.word	0x1ad
+	.long	.LASF2231
 	.byte	0x1
-	.long	0x8b
-	.byte	0x3
-	.long	0x195
-	.uleb128 0xf
-	.long	.LASF2226
-	.byte	0x3
-	.word	0x1ad
-	.long	0x46
-	.uleb128 0x10
-	.string	"__s"
-	.byte	0x3
-	.word	0x1ad
-	.long	0x8b
-	.uleb128 0xf
-	.long	.LASF2227
-	.byte	0x3
-	.word	0x1ad
-	.long	0x46
-	.uleb128 0x11
-	.long	0x183
-	.uleb128 0x12
-	.byte	0x1
-	.long	.LASF2277
-	.byte	0x3
-	.word	0x1b0
-	.byte	0x1
-	.long	0x8b
-	.byte	0x1
-	.uleb128 0x13
-	.long	0x46
-	.uleb128 0x13
-	.long	0x8b
-	.uleb128 0x13
-	.long	0x46
-	.byte	0
-	.byte	0
-	.uleb128 0x14
-	.uleb128 0x15
-	.byte	0x1
-	.long	.LASF2267
-	.byte	0x3
-	.word	0x1b6
-	.byte	0x1
-	.long	0x8b
-	.byte	0
-	.byte	0
-	.byte	0
-	.uleb128 0x16
-	.byte	0x1
-	.long	.LASF2228
-	.byte	0x1
-	.word	0x11f
+	.byte	0xb0
 	.byte	0x1
 	.long	.LFB73
 	.long	.LFE73
+	.byte	0x3
+	.byte	0x92
+	.uleb128 0x20
+	.sleb128 2
+	.byte	0x1
+	.uleb128 0xd
+	.byte	0x1
+	.long	.LASF2232
+	.byte	0x1
+	.byte	0xb6
+	.byte	0x1
+	.long	.LFB74
+	.long	.LFE74
+	.byte	0x3
+	.byte	0x92
+	.uleb128 0x20
+	.sleb128 2
+	.byte	0x1
+	.uleb128 0xe
+	.byte	0x1
+	.long	.LASF2233
+	.byte	0x1
+	.word	0x109
+	.byte	0x1
+	.long	.LFB78
+	.long	.LFE78
 	.long	.LLST0
 	.byte	0x1
-	.long	0x1e1
-	.uleb128 0x17
-	.long	.LBB22
-	.long	.LBE22
-	.uleb128 0x18
+	.long	0x19d
+	.uleb128 0xf
+	.long	.LBB54
+	.long	.LBE54
+	.uleb128 0x10
 	.string	"i"
 	.byte	0x1
-	.word	0x121
+	.word	0x10b
 	.long	0x46
 	.long	.LLST1
-	.uleb128 0x17
-	.long	.LBB23
-	.long	.LBE23
-	.uleb128 0x18
+	.uleb128 0xf
+	.long	.LBB55
+	.long	.LBE55
+	.uleb128 0x10
 	.string	"j"
 	.byte	0x1
-	.word	0x122
+	.word	0x10c
 	.long	0x46
 	.long	.LLST2
 	.byte	0
 	.byte	0
 	.byte	0
-	.uleb128 0x16
+	.uleb128 0xe
 	.byte	0x1
-	.long	.LASF2229
+	.long	.LASF2234
 	.byte	0x1
-	.word	0x126
+	.word	0x110
 	.byte	0x1
-	.long	.LFB74
-	.long	.LFE74
+	.long	.LFB79
+	.long	.LFE79
 	.long	.LLST3
 	.byte	0x1
-	.long	0x22d
-	.uleb128 0x17
-	.long	.LBB24
-	.long	.LBE24
-	.uleb128 0x18
+	.long	0x1e9
+	.uleb128 0xf
+	.long	.LBB56
+	.long	.LBE56
+	.uleb128 0x10
 	.string	"i"
 	.byte	0x1
-	.word	0x128
+	.word	0x112
 	.long	0x46
 	.long	.LLST4
-	.uleb128 0x17
-	.long	.LBB25
-	.long	.LBE25
-	.uleb128 0x18
+	.uleb128 0xf
+	.long	.LBB57
+	.long	.LBE57
+	.uleb128 0x10
 	.string	"j"
 	.byte	0x1
-	.word	0x129
+	.word	0x113
 	.long	0x46
 	.long	.LLST5
 	.byte	0
 	.byte	0
 	.byte	0
+	.uleb128 0x11
+	.byte	0x1
+	.long	.LASF2235
+	.byte	0x1
+	.word	0x132
+	.byte	0x1
+	.long	.LFB80
+	.long	.LFE80
+	.byte	0x3
+	.byte	0x92
+	.uleb128 0x20
+	.sleb128 2
+	.byte	0x1
+	.long	0x235
+	.uleb128 0xf
+	.long	.LBB58
+	.long	.LBE58
+	.uleb128 0x10
+	.string	"r"
+	.byte	0x1
+	.word	0x135
+	.long	0x46
+	.long	.LLST6
+	.uleb128 0xf
+	.long	.LBB59
+	.long	.LBE59
+	.uleb128 0x10
+	.string	"c"
+	.byte	0x1
+	.word	0x136
+	.long	0x46
+	.long	.LLST7
+	.byte	0
+	.byte	0
+	.byte	0
+	.uleb128 0x12
+	.byte	0x1
+	.long	.LASF2236
+	.byte	0x1
+	.byte	0xca
+	.byte	0x1
+	.long	.LFB76
+	.long	.LFE76
+	.long	.LLST8
+	.byte	0x1
+	.long	0x3e7
+	.uleb128 0x13
+	.long	0xef
+	.long	.LBB60
+	.long	.Ldebug_ranges0+0
+	.byte	0x1
+	.byte	0xdb
+	.long	0x29d
+	.uleb128 0x14
+	.long	0xfc
+	.long	.LLST9
+	.uleb128 0x15
+	.long	.Ldebug_ranges0+0
+	.uleb128 0x16
+	.long	0x107
+	.long	.LLST10
+	.uleb128 0x16
+	.long	0x112
+	.long	.LLST11
+	.uleb128 0x17
+	.long	0xd6
+	.long	.LBB62
+	.long	.Ldebug_ranges0+0x18
+	.byte	0x3
+	.byte	0xc9
+	.uleb128 0x14
+	.long	0xe3
+	.long	.LLST12
+	.byte	0
+	.byte	0
+	.byte	0
+	.uleb128 0x18
+	.long	0xef
+	.long	.LBB67
+	.long	.LBE67
+	.byte	0x1
+	.byte	0xd4
+	.long	0x2ef
+	.uleb128 0x14
+	.long	0xfc
+	.long	.LLST13
+	.uleb128 0xf
+	.long	.LBB68
+	.long	.LBE68
+	.uleb128 0x16
+	.long	0x107
+	.long	.LLST14
+	.uleb128 0x16
+	.long	0x112
+	.long	.LLST15
 	.uleb128 0x19
+	.long	0xd6
+	.long	.LBB69
+	.long	.LBE69
+	.byte	0x3
+	.byte	0xc9
+	.uleb128 0x14
+	.long	0xe3
+	.long	.LLST16
+	.byte	0
+	.byte	0
+	.byte	0
+	.uleb128 0x18
+	.long	0xef
+	.long	.LBB72
+	.long	.LBE72
 	.byte	0x1
-	.long	.LASF2230
+	.byte	0xe4
+	.long	0x341
+	.uleb128 0x14
+	.long	0xfc
+	.long	.LLST17
+	.uleb128 0xf
+	.long	.LBB73
+	.long	.LBE73
+	.uleb128 0x16
+	.long	0x107
+	.long	.LLST18
+	.uleb128 0x16
+	.long	0x112
+	.long	.LLST19
+	.uleb128 0x19
+	.long	0xd6
+	.long	.LBB74
+	.long	.LBE74
+	.byte	0x3
+	.byte	0xc9
+	.uleb128 0x14
+	.long	0xe3
+	.long	.LLST20
+	.byte	0
+	.byte	0
+	.byte	0
+	.uleb128 0x18
+	.long	0xef
+	.long	.LBB76
+	.long	.LBE76
 	.byte	0x1
-	.word	0x148
+	.byte	0xe6
+	.long	0x395
+	.uleb128 0x1a
+	.long	0xfc
+	.byte	0x4
+	.long	0x44fa0000
+	.uleb128 0xf
+	.long	.LBB77
+	.long	.LBE77
+	.uleb128 0x1b
+	.long	0x107
+	.byte	0x4
+	.long	0x4af42400
+	.uleb128 0x16
+	.long	0x112
+	.long	.LLST21
+	.uleb128 0x19
+	.long	0xd6
+	.long	.LBB78
+	.long	.LBE78
+	.byte	0x3
+	.byte	0xc9
+	.uleb128 0x14
+	.long	0xe3
+	.long	.LLST22
+	.byte	0
+	.byte	0
+	.byte	0
+	.uleb128 0x1c
+	.long	.LVL15
+	.long	0x92e
+	.uleb128 0x1c
+	.long	.LVL16
+	.long	0x151
+	.uleb128 0x1c
+	.long	.LVL22
+	.long	0x93b
+	.uleb128 0x1c
+	.long	.LVL23
+	.long	0x151
+	.uleb128 0x1c
+	.long	.LVL28
+	.long	0x93b
+	.uleb128 0x1c
+	.long	.LVL29
+	.long	0x1e9
+	.uleb128 0x1c
+	.long	.LVL30
+	.long	0x125
+	.uleb128 0x1c
+	.long	.LVL31
+	.long	0x151
+	.uleb128 0x1c
+	.long	.LVL36
+	.long	0x93b
+	.byte	0
+	.uleb128 0x12
+	.byte	0x1
+	.long	.LASF2237
+	.byte	0x1
+	.byte	0xe9
+	.byte	0x1
+	.long	.LFB77
+	.long	.LFE77
+	.long	.LLST23
+	.byte	0x1
+	.long	0x59b
+	.uleb128 0x13
+	.long	0xef
+	.long	.LBB80
+	.long	.Ldebug_ranges0+0x30
+	.byte	0x1
+	.byte	0xfa
+	.long	0x44f
+	.uleb128 0x14
+	.long	0xfc
+	.long	.LLST24
+	.uleb128 0x15
+	.long	.Ldebug_ranges0+0x30
+	.uleb128 0x16
+	.long	0x107
+	.long	.LLST25
+	.uleb128 0x16
+	.long	0x112
+	.long	.LLST26
+	.uleb128 0x17
+	.long	0xd6
+	.long	.LBB82
+	.long	.Ldebug_ranges0+0x48
+	.byte	0x3
+	.byte	0xc9
+	.uleb128 0x14
+	.long	0xe3
+	.long	.LLST27
+	.byte	0
+	.byte	0
+	.byte	0
+	.uleb128 0x18
+	.long	0xef
+	.long	.LBB87
+	.long	.LBE87
+	.byte	0x1
+	.byte	0xf3
+	.long	0x4a1
+	.uleb128 0x14
+	.long	0xfc
+	.long	.LLST28
+	.uleb128 0xf
+	.long	.LBB88
+	.long	.LBE88
+	.uleb128 0x16
+	.long	0x107
+	.long	.LLST29
+	.uleb128 0x16
+	.long	0x112
+	.long	.LLST30
+	.uleb128 0x19
+	.long	0xd6
+	.long	.LBB89
+	.long	.LBE89
+	.byte	0x3
+	.byte	0xc9
+	.uleb128 0x14
+	.long	0xe3
+	.long	.LLST31
+	.byte	0
+	.byte	0
+	.byte	0
+	.uleb128 0x1d
+	.long	0xef
+	.long	.LBB92
+	.long	.LBE92
+	.byte	0x1
+	.word	0x103
+	.long	0x4f4
+	.uleb128 0x14
+	.long	0xfc
+	.long	.LLST32
+	.uleb128 0xf
+	.long	.LBB93
+	.long	.LBE93
+	.uleb128 0x16
+	.long	0x107
+	.long	.LLST33
+	.uleb128 0x16
+	.long	0x112
+	.long	.LLST34
+	.uleb128 0x19
+	.long	0xd6
+	.long	.LBB94
+	.long	.LBE94
+	.byte	0x3
+	.byte	0xc9
+	.uleb128 0x14
+	.long	0xe3
+	.long	.LLST35
+	.byte	0
+	.byte	0
+	.byte	0
+	.uleb128 0x1d
+	.long	0xef
+	.long	.LBB96
+	.long	.LBE96
+	.byte	0x1
+	.word	0x105
+	.long	0x549
+	.uleb128 0x1a
+	.long	0xfc
+	.byte	0x4
+	.long	0x44fa0000
+	.uleb128 0xf
+	.long	.LBB97
+	.long	.LBE97
+	.uleb128 0x1b
+	.long	0x107
+	.byte	0x4
+	.long	0x4af42400
+	.uleb128 0x16
+	.long	0x112
+	.long	.LLST36
+	.uleb128 0x19
+	.long	0xd6
+	.long	.LBB98
+	.long	.LBE98
+	.byte	0x3
+	.byte	0xc9
+	.uleb128 0x14
+	.long	0xe3
+	.long	.LLST37
+	.byte	0
+	.byte	0
+	.byte	0
+	.uleb128 0x1c
+	.long	.LVL40
+	.long	0x948
+	.uleb128 0x1c
+	.long	.LVL41
+	.long	0x19d
+	.uleb128 0x1c
+	.long	.LVL47
+	.long	0x93b
+	.uleb128 0x1c
+	.long	.LVL48
+	.long	0x19d
+	.uleb128 0x1c
+	.long	.LVL53
+	.long	0x93b
+	.uleb128 0x1c
+	.long	.LVL54
+	.long	0x1e9
+	.uleb128 0x1c
+	.long	.LVL55
+	.long	0x13b
+	.uleb128 0x1c
+	.long	.LVL56
+	.long	0x19d
+	.uleb128 0x1c
+	.long	.LVL61
+	.long	0x93b
+	.byte	0
+	.uleb128 0x1e
+	.byte	0x1
+	.long	.LASF2238
+	.byte	0x1
+	.byte	0xbd
 	.byte	0x1
 	.long	.LFB75
 	.long	.LFE75
@@ -1103,33 +1792,19 @@ disparado:
 	.uleb128 0x20
 	.sleb128 2
 	.byte	0x1
-	.long	0x279
-	.uleb128 0x17
-	.long	.LBB26
-	.long	.LBE26
-	.uleb128 0x18
-	.string	"r"
-	.byte	0x1
-	.word	0x14b
-	.long	0x46
-	.long	.LLST6
-	.uleb128 0x17
-	.long	.LBB27
-	.long	.LBE27
-	.uleb128 0x18
-	.string	"c"
-	.byte	0x1
-	.word	0x14c
-	.long	0x46
-	.long	.LLST7
+	.long	0x5c8
+	.uleb128 0x1c
+	.long	.LVL65
+	.long	0x235
+	.uleb128 0x1c
+	.long	.LVL66
+	.long	0x3e7
 	.byte	0
-	.byte	0
-	.byte	0
-	.uleb128 0x1a
+	.uleb128 0x1f
 	.byte	0x1
-	.long	.LASF2278
+	.long	.LASF2280
 	.byte	0x1
-	.byte	0x73
+	.byte	0x7b
 	.byte	0x1
 	.long	0x46
 	.byte	0x1
@@ -1140,134 +1815,92 @@ disparado:
 	.uleb128 0x20
 	.sleb128 2
 	.byte	0x1
-	.long	0x440
-	.uleb128 0x1b
-	.long	.LBB28
-	.long	.LBE28
-	.long	0x2ca
-	.uleb128 0x1c
+	.long	0x6de
+	.uleb128 0x20
+	.long	.LBB100
+	.long	.LBE100
+	.long	0x619
+	.uleb128 0x21
 	.string	"r"
 	.byte	0x1
-	.byte	0x7f
+	.byte	0x87
 	.long	0x46
-	.long	.LLST8
-	.uleb128 0x17
-	.long	.LBB29
-	.long	.LBE29
-	.uleb128 0x1c
+	.long	.LLST38
+	.uleb128 0xf
+	.long	.LBB101
+	.long	.LBE101
+	.uleb128 0x21
 	.string	"c"
 	.byte	0x1
-	.byte	0x80
+	.byte	0x88
 	.long	0x46
-	.long	.LLST9
+	.long	.LLST39
 	.byte	0
 	.byte	0
-	.uleb128 0x1b
-	.long	.LBB30
-	.long	.LBE30
-	.long	0x2fc
-	.uleb128 0x1c
+	.uleb128 0x20
+	.long	.LBB102
+	.long	.LBE102
+	.long	0x64b
+	.uleb128 0x21
 	.string	"r"
 	.byte	0x1
-	.byte	0x85
+	.byte	0x8d
 	.long	0x46
-	.long	.LLST10
-	.uleb128 0x17
-	.long	.LBB31
-	.long	.LBE31
-	.uleb128 0x1c
+	.long	.LLST40
+	.uleb128 0xf
+	.long	.LBB103
+	.long	.LBE103
+	.uleb128 0x21
 	.string	"c"
 	.byte	0x1
-	.byte	0x86
+	.byte	0x8e
 	.long	0x46
-	.long	.LLST11
+	.long	.LLST41
 	.byte	0
 	.byte	0
-	.uleb128 0x1b
-	.long	.LBB32
-	.long	.LBE32
-	.long	0x32a
-	.uleb128 0x1d
-	.string	"r"
-	.byte	0x1
-	.byte	0x89
-	.long	0x46
-	.uleb128 0x17
-	.long	.LBB33
-	.long	.LBE33
-	.uleb128 0x1c
-	.string	"c"
-	.byte	0x1
-	.byte	0x8a
-	.long	0x46
-	.long	.LLST12
-	.byte	0
-	.byte	0
-	.uleb128 0x1e
-	.long	0xe7
-	.long	.LBB34
-	.long	.LBE34
-	.byte	0x1
-	.byte	0xac
-	.long	0x363
-	.uleb128 0x1f
-	.long	0xf4
-	.long	.LLST13
-	.uleb128 0x17
-	.long	.LBB35
-	.long	.LBE35
 	.uleb128 0x20
-	.long	0xff
-	.long	.LLST14
-	.uleb128 0x20
-	.long	0x10a
-	.long	.LLST15
-	.byte	0
-	.byte	0
-	.uleb128 0x1e
-	.long	0xe7
-	.long	.LBB36
-	.long	.LBE36
-	.byte	0x1
-	.byte	0xb9
-	.long	0x39c
-	.uleb128 0x1f
-	.long	0xf4
-	.long	.LLST16
-	.uleb128 0x17
-	.long	.LBB37
-	.long	.LBE37
-	.uleb128 0x20
-	.long	0xff
-	.long	.LLST17
-	.uleb128 0x20
-	.long	0x10a
-	.long	.LLST18
-	.byte	0
-	.byte	0
-	.uleb128 0x21
-	.long	.LVL15
-	.long	0x7f9
-	.uleb128 0x21
-	.long	.LVL16
-	.long	0x806
-	.uleb128 0x21
-	.long	.LVL17
-	.long	0x813
-	.uleb128 0x21
-	.long	.LVL18
-	.long	0x820
-	.uleb128 0x21
-	.long	.LVL19
-	.long	0x82d
-	.uleb128 0x21
-	.long	.LVL20
-	.long	0x83a
+	.long	.LBB104
+	.long	.LBE104
+	.long	0x679
 	.uleb128 0x22
-	.long	.LVL26
-	.long	0x847
-	.long	0x3ee
+	.string	"r"
+	.byte	0x1
+	.byte	0x91
+	.long	0x46
+	.uleb128 0xf
+	.long	.LBB105
+	.long	.LBE105
+	.uleb128 0x21
+	.string	"c"
+	.byte	0x1
+	.byte	0x92
+	.long	0x46
+	.long	.LLST42
+	.byte	0
+	.byte	0
+	.uleb128 0x1c
+	.long	.LVL67
+	.long	0x955
+	.uleb128 0x1c
+	.long	.LVL68
+	.long	0x962
+	.uleb128 0x1c
+	.long	.LVL69
+	.long	0x96f
+	.uleb128 0x1c
+	.long	.LVL70
+	.long	0x97c
+	.uleb128 0x1c
+	.long	.LVL71
+	.long	0x989
+	.uleb128 0x1c
+	.long	.LVL72
+	.long	0x996
 	.uleb128 0x23
+	.long	.LVL78
+	.long	0x9a3
+	.long	0x6cb
+	.uleb128 0x24
 	.byte	0x6
 	.byte	0x68
 	.byte	0x93
@@ -1279,603 +1912,375 @@ disparado:
 	.byte	0x3
 	.long	.LC0
 	.byte	0
-	.uleb128 0x21
-	.long	.LVL35
-	.long	0x22d
-	.uleb128 0x21
-	.long	.LVL36
-	.long	0x854
-	.uleb128 0x21
-	.long	.LVL37
-	.long	0x22d
-	.uleb128 0x21
-	.long	.LVL38
-	.long	0x195
-	.uleb128 0x21
-	.long	.LVL41
-	.long	0x861
-	.uleb128 0x21
-	.long	.LVL42
-	.long	0x86e
-	.uleb128 0x21
-	.long	.LVL43
-	.long	0x22d
-	.uleb128 0x21
-	.long	.LVL44
-	.long	0x1e1
-	.uleb128 0x21
-	.long	.LVL47
-	.long	0x861
+	.uleb128 0x1c
+	.long	.LVL87
+	.long	0x1e9
+	.uleb128 0x1c
+	.long	.LVL88
+	.long	0x59b
 	.byte	0
-	.uleb128 0x16
+	.uleb128 0xe
 	.byte	0x1
-	.long	.LASF2231
+	.long	.LASF2239
 	.byte	0x1
-	.word	0x153
+	.word	0x13d
 	.byte	0x1
-	.long	.LFB76
-	.long	.LFE76
-	.long	.LLST19
+	.long	.LFB81
+	.long	.LFE81
+	.long	.LLST43
 	.byte	0x1
-	.long	0x469
-	.uleb128 0x24
+	.long	0x707
+	.uleb128 0x25
 	.string	"d"
 	.byte	0x1
-	.word	0x155
-	.long	0x469
+	.word	0x13f
+	.long	0x707
 	.byte	0x2
 	.byte	0x8c
 	.sleb128 1
 	.byte	0
 	.uleb128 0x5
 	.long	0x5f
-	.uleb128 0x25
-	.byte	0x1
-	.long	.LASF2279
-	.byte	0x1
-	.word	0x15e
-	.byte	0x1
-	.byte	0x1
-	.long	.LFB77
-	.long	.LFE77
-	.long	.LLST20
-	.byte	0x1
-	.long	0x602
 	.uleb128 0x26
-	.long	.LASF2232
+	.long	.LASF2240
 	.byte	0x1
-	.word	0x160
-	.long	0x602
-	.byte	0x2
-	.byte	0x8c
-	.sleb128 1
-	.uleb128 0x27
-	.long	0x127
-	.long	.LBB38
-	.long	.LBE38
-	.byte	0x1
-	.word	0x165
-	.long	0x4e9
-	.uleb128 0x1f
-	.long	0x152
-	.long	.LLST21
-	.uleb128 0x28
-	.long	0x146
-	.uleb128 0x1f
-	.long	0x13a
-	.long	.LLST22
-	.uleb128 0x17
-	.long	.LBB39
-	.long	.LBE39
-	.uleb128 0x29
-	.long	.LVL49
-	.long	0x87b
-	.uleb128 0x23
-	.byte	0x6
-	.byte	0x66
-	.byte	0x93
-	.uleb128 0x1
-	.byte	0x67
-	.byte	0x93
-	.uleb128 0x1
-	.byte	0x2
-	.byte	0x8c
-	.sleb128 1
-	.uleb128 0x23
-	.byte	0x1
-	.byte	0x64
-	.byte	0x1
-	.byte	0x3a
-	.byte	0
-	.byte	0
-	.byte	0
-	.uleb128 0x27
-	.long	0x127
-	.long	.LBB40
-	.long	.LBE40
-	.byte	0x1
-	.word	0x16a
-	.long	0x539
-	.uleb128 0x1f
-	.long	0x152
-	.long	.LLST23
-	.uleb128 0x28
-	.long	0x146
-	.uleb128 0x1f
-	.long	0x13a
-	.long	.LLST24
-	.uleb128 0x17
-	.long	.LBB41
-	.long	.LBE41
-	.uleb128 0x29
-	.long	.LVL54
-	.long	0x87b
-	.uleb128 0x23
-	.byte	0x6
-	.byte	0x66
-	.byte	0x93
-	.uleb128 0x1
-	.byte	0x67
-	.byte	0x93
-	.uleb128 0x1
-	.byte	0x2
-	.byte	0x8c
-	.sleb128 1
-	.uleb128 0x23
-	.byte	0x1
-	.byte	0x64
-	.byte	0x1
-	.byte	0x3a
-	.byte	0
-	.byte	0
-	.byte	0
-	.uleb128 0x27
-	.long	0xe7
-	.long	.LBB42
-	.long	.LBE42
-	.byte	0x1
-	.word	0x16e
-	.long	0x575
-	.uleb128 0x2a
-	.long	0xf4
-	.byte	0x4
-	.long	0x447a0000
-	.uleb128 0x17
-	.long	.LBB43
-	.long	.LBE43
-	.uleb128 0x2b
-	.long	0xff
-	.byte	0x4
-	.long	0x4b742400
-	.uleb128 0x2c
-	.long	0x10a
-	.long	0xf42400
-	.byte	0
-	.byte	0
-	.uleb128 0x21
-	.long	.LVL48
-	.long	0x889
-	.uleb128 0x22
-	.long	.LVL50
-	.long	0x847
-	.long	0x597
-	.uleb128 0x23
-	.byte	0x6
-	.byte	0x68
-	.byte	0x93
-	.uleb128 0x1
-	.byte	0x69
-	.byte	0x93
-	.uleb128 0x1
-	.byte	0x2
-	.byte	0x8c
-	.sleb128 1
-	.byte	0
-	.uleb128 0x22
-	.long	.LVL51
-	.long	0x896
-	.long	0x5aa
-	.uleb128 0x23
-	.byte	0x1
-	.byte	0x68
-	.byte	0x1
-	.byte	0x39
-	.byte	0
-	.uleb128 0x22
-	.long	.LVL52
-	.long	0x896
-	.long	0x5bd
-	.uleb128 0x23
-	.byte	0x1
-	.byte	0x68
-	.byte	0x1
-	.byte	0x39
-	.byte	0
-	.uleb128 0x21
-	.long	.LVL53
-	.long	0x8a3
-	.uleb128 0x22
-	.long	.LVL55
-	.long	0x847
-	.long	0x5df
-	.uleb128 0x23
-	.byte	0x6
-	.byte	0x68
-	.byte	0x93
-	.uleb128 0x1
-	.byte	0x69
-	.byte	0x93
-	.uleb128 0x1
-	.byte	0x2
-	.byte	0x8c
-	.sleb128 1
-	.byte	0
-	.uleb128 0x22
-	.long	.LVL56
-	.long	0x896
-	.long	0x5f2
-	.uleb128 0x23
-	.byte	0x1
-	.byte	0x68
-	.byte	0x1
-	.byte	0x3d
-	.byte	0
-	.uleb128 0x29
-	.long	.LVL57
-	.long	0x896
-	.uleb128 0x23
-	.byte	0x1
-	.byte	0x68
-	.byte	0x1
-	.byte	0x3a
-	.byte	0
-	.byte	0
-	.uleb128 0x2d
-	.long	0x91
-	.long	0x612
-	.uleb128 0x2e
-	.long	0x612
-	.byte	0x4
-	.byte	0
-	.uleb128 0x2
-	.byte	0x2
-	.byte	0x7
-	.long	.LASF2233
-	.uleb128 0x2f
-	.long	.LASF2234
-	.byte	0x1
-	.byte	0x2f
-	.long	0xd6
+	.byte	0x30
+	.long	0xc5
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	p2disp
-	.uleb128 0x2f
-	.long	.LASF2235
+	.uleb128 0x26
+	.long	.LASF2241
 	.byte	0x1
-	.byte	0x31
-	.long	0xcb
+	.byte	0x32
+	.long	0xba
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	disparado
-	.uleb128 0x2f
-	.long	.LASF2236
+	.uleb128 0x26
+	.long	.LASF2242
 	.byte	0x1
-	.byte	0x32
-	.long	0xcb
+	.byte	0x33
+	.long	0xba
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	hundido
-	.uleb128 0x2f
-	.long	.LASF2237
+	.uleb128 0x26
+	.long	.LASF2243
 	.byte	0x1
-	.byte	0x33
-	.long	0xcb
+	.byte	0x34
+	.long	0xba
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	agua
-	.uleb128 0x2f
-	.long	.LASF2238
+	.uleb128 0x26
+	.long	.LASF2244
 	.byte	0x1
-	.byte	0x34
-	.long	0xcb
+	.byte	0x35
+	.long	0xba
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	tocado
-	.uleb128 0x2f
-	.long	.LASF2239
+	.uleb128 0x26
+	.long	.LASF2245
 	.byte	0x1
-	.byte	0x35
-	.long	0xcb
+	.byte	0x36
+	.long	0xba
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	Apagado
-	.uleb128 0x2f
-	.long	.LASF2240
+	.uleb128 0x26
+	.long	.LASF2246
 	.byte	0x1
-	.byte	0x36
-	.long	0xcb
+	.byte	0x37
+	.long	0xba
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
-	.long	puntero
-	.uleb128 0x2d
-	.long	0xcb
-	.long	0x6ad
-	.uleb128 0x2e
-	.long	0x612
+	.long	punteroP1
+	.uleb128 0x26
+	.long	.LASF2247
+	.byte	0x1
+	.byte	0x38
+	.long	0xba
+	.byte	0x1
+	.byte	0x5
+	.byte	0x3
+	.long	punteroP2
+	.uleb128 0x27
+	.long	0xba
+	.long	0x7b2
+	.uleb128 0x28
+	.long	0x7b2
 	.byte	0x7
-	.uleb128 0x2e
-	.long	0x612
+	.uleb128 0x28
+	.long	0x7b2
 	.byte	0x7
 	.byte	0
-	.uleb128 0x2f
-	.long	.LASF2241
+	.uleb128 0x2
+	.byte	0x2
+	.byte	0x7
+	.long	.LASF2248
+	.uleb128 0x26
+	.long	.LASF2249
 	.byte	0x1
-	.byte	0x37
-	.long	0x697
+	.byte	0x39
+	.long	0x79c
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	Matriz_RGB
-	.uleb128 0x2f
-	.long	.LASF2242
+	.uleb128 0x26
+	.long	.LASF2250
 	.byte	0x1
-	.byte	0x3c
-	.long	0x4d
+	.byte	0x40
+	.long	0x7dd
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	ContadorPuntero
-	.uleb128 0x2f
-	.long	.LASF2243
+	.uleb128 0x5
+	.long	0x4d
+	.uleb128 0x26
+	.long	.LASF2251
 	.byte	0x1
-	.byte	0x3e
-	.long	0x6e3
+	.byte	0x42
+	.long	0x7f4
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	derecha_min
-	.uleb128 0x30
+	.uleb128 0x29
 	.long	0x4d
-	.uleb128 0x2f
-	.long	.LASF2244
+	.uleb128 0x26
+	.long	.LASF2252
 	.byte	0x1
-	.byte	0x3f
-	.long	0x6e3
+	.byte	0x43
+	.long	0x7f4
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	derecha_max
-	.uleb128 0x2f
-	.long	.LASF2245
+	.uleb128 0x26
+	.long	.LASF2253
 	.byte	0x1
-	.byte	0x40
-	.long	0x6e3
+	.byte	0x44
+	.long	0x7f4
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	izquierda_min
-	.uleb128 0x2f
-	.long	.LASF2246
+	.uleb128 0x26
+	.long	.LASF2254
 	.byte	0x1
-	.byte	0x41
-	.long	0x6e3
+	.byte	0x45
+	.long	0x7f4
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	izquierda_max
-	.uleb128 0x2f
-	.long	.LASF2247
+	.uleb128 0x26
+	.long	.LASF2255
 	.byte	0x1
-	.byte	0x42
-	.long	0x6e3
+	.byte	0x46
+	.long	0x7f4
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	abajo_min
-	.uleb128 0x2f
-	.long	.LASF2248
+	.uleb128 0x26
+	.long	.LASF2256
 	.byte	0x1
-	.byte	0x43
-	.long	0x6e3
+	.byte	0x47
+	.long	0x7f4
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	abajo_max
-	.uleb128 0x2f
-	.long	.LASF2249
+	.uleb128 0x26
+	.long	.LASF2257
 	.byte	0x1
-	.byte	0x44
-	.long	0x6e3
+	.byte	0x48
+	.long	0x7f4
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	arriba_min
-	.uleb128 0x2f
-	.long	.LASF2250
+	.uleb128 0x26
+	.long	.LASF2258
 	.byte	0x1
-	.byte	0x45
-	.long	0x6e3
+	.byte	0x49
+	.long	0x7f4
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	arriba_max
-	.uleb128 0x2d
-	.long	0x91
-	.long	0x776
-	.uleb128 0x2e
-	.long	0x612
+	.uleb128 0x27
+	.long	0x80
+	.long	0x887
+	.uleb128 0x28
+	.long	0x7b2
 	.byte	0x19
 	.byte	0
-	.uleb128 0x31
+	.uleb128 0x2a
 	.string	"msg"
 	.byte	0x1
-	.byte	0x52
-	.long	0x766
+	.byte	0x54
+	.long	0x877
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	msg
-	.uleb128 0x2f
-	.long	.LASF2251
+	.uleb128 0x26
+	.long	.LASF2259
 	.byte	0x1
-	.byte	0x54
-	.long	0x79a
+	.byte	0x57
+	.long	0x7dd
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	ijoy
-	.uleb128 0x5
-	.long	0x4d
-	.uleb128 0x2f
-	.long	.LASF2252
+	.uleb128 0x26
+	.long	.LASF2260
 	.byte	0x1
-	.byte	0x55
-	.long	0x79a
+	.byte	0x58
+	.long	0x7dd
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	jjoy
-	.uleb128 0x2f
-	.long	.LASF2253
+	.uleb128 0x26
+	.long	.LASF2261
 	.byte	0x1
-	.byte	0x62
-	.long	0x697
+	.byte	0x5b
+	.long	0x7b
+	.byte	0x1
+	.byte	0x5
+	.byte	0x3
+	.long	Player1_Hits
+	.uleb128 0x26
+	.long	.LASF2262
+	.byte	0x1
+	.byte	0x5c
+	.long	0x7b
+	.byte	0x1
+	.byte	0x5
+	.byte	0x3
+	.long	Player2_Hits
+	.uleb128 0x26
+	.long	.LASF2263
+	.byte	0x1
+	.byte	0x64
+	.long	0x79c
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	Matriz_P1
-	.uleb128 0x2f
-	.long	.LASF2254
+	.uleb128 0x26
+	.long	.LASF2264
 	.byte	0x1
-	.byte	0x63
-	.long	0x697
+	.byte	0x65
+	.long	0x79c
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	Matriz_P2
-	.uleb128 0x2f
-	.long	.LASF2255
+	.uleb128 0x26
+	.long	.LASF2265
 	.byte	0x1
-	.byte	0x6d
-	.long	0x86
+	.byte	0x75
+	.long	0x917
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	ispressed
-	.uleb128 0x2f
-	.long	.LASF2256
+	.uleb128 0x5
+	.long	0x46
+	.uleb128 0x26
+	.long	.LASF2266
 	.byte	0x1
-	.byte	0x6f
-	.long	0x86
+	.byte	0x77
+	.long	0x7b
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	Turno
-	.uleb128 0x32
+	.uleb128 0x2b
 	.byte	0x1
 	.byte	0x1
-	.long	.LASF2257
-	.long	.LASF2257
+	.long	.LASF2267
+	.long	.LASF2267
 	.byte	0x1
-	.byte	0x4a
-	.uleb128 0x32
+	.byte	0x60
+	.uleb128 0x2b
 	.byte	0x1
 	.byte	0x1
-	.long	.LASF2258
-	.long	.LASF2258
+	.long	.LASF2268
+	.long	.LASF2268
+	.byte	0x1
+	.byte	0x4f
+	.uleb128 0x2b
+	.byte	0x1
+	.byte	0x1
+	.long	.LASF2269
+	.long	.LASF2269
+	.byte	0x1
+	.byte	0x61
+	.uleb128 0x2b
+	.byte	0x1
+	.byte	0x1
+	.long	.LASF2270
+	.long	.LASF2270
+	.byte	0x1
+	.byte	0x4e
+	.uleb128 0x2b
+	.byte	0x1
+	.byte	0x1
+	.long	.LASF2271
+	.long	.LASF2271
 	.byte	0x5
 	.byte	0xb
-	.uleb128 0x32
+	.uleb128 0x2b
 	.byte	0x1
 	.byte	0x1
-	.long	.LASF2259
-	.long	.LASF2259
+	.long	.LASF2272
+	.long	.LASF2272
 	.byte	0x6
 	.byte	0xb
-	.uleb128 0x32
+	.uleb128 0x2b
 	.byte	0x1
 	.byte	0x1
-	.long	.LASF2260
-	.long	.LASF2260
+	.long	.LASF2273
+	.long	.LASF2273
 	.byte	0x7
 	.byte	0xe
-	.uleb128 0x32
+	.uleb128 0x2b
 	.byte	0x1
 	.byte	0x1
-	.long	.LASF2261
-	.long	.LASF2261
+	.long	.LASF2274
+	.long	.LASF2274
 	.byte	0x1
-	.byte	0x6a
-	.uleb128 0x32
-	.byte	0x1
-	.byte	0x1
-	.long	.LASF2262
-	.long	.LASF2262
-	.byte	0x1
-	.byte	0x5a
-	.uleb128 0x32
+	.byte	0x72
+	.uleb128 0x2b
 	.byte	0x1
 	.byte	0x1
-	.long	.LASF2263
-	.long	.LASF2263
+	.long	.LASF2275
+	.long	.LASF2275
+	.byte	0x1
+	.byte	0x5f
+	.uleb128 0x2b
+	.byte	0x1
+	.byte	0x1
+	.long	.LASF2276
+	.long	.LASF2276
 	.byte	0x6
 	.byte	0xf
-	.uleb128 0x32
-	.byte	0x1
-	.byte	0x1
-	.long	.LASF2264
-	.long	.LASF2264
-	.byte	0x1
-	.byte	0x5b
-	.uleb128 0x32
-	.byte	0x1
-	.byte	0x1
-	.long	.LASF2265
-	.long	.LASF2265
-	.byte	0x1
-	.byte	0x4b
-	.uleb128 0x32
-	.byte	0x1
-	.byte	0x1
-	.long	.LASF2266
-	.long	.LASF2266
-	.byte	0x1
-	.byte	0x5c
-	.uleb128 0x33
-	.byte	0x1
-	.byte	0x1
-	.long	.LASF2267
-	.long	.LASF2267
-	.byte	0x3
-	.word	0x1b6
-	.uleb128 0x32
-	.byte	0x1
-	.byte	0x1
-	.long	.LASF2268
-	.long	.LASF2268
-	.byte	0x7
-	.byte	0x10
-	.uleb128 0x32
-	.byte	0x1
-	.byte	0x1
-	.long	.LASF2269
-	.long	.LASF2269
-	.byte	0x6
-	.byte	0xe
-	.uleb128 0x32
-	.byte	0x1
-	.byte	0x1
-	.long	.LASF2270
-	.long	.LASF2270
-	.byte	0x7
-	.byte	0x11
 	.byte	0
 	.section	.debug_abbrev,"",@progbits
 .Ldebug_abbrev0:
@@ -1945,15 +2350,6 @@ disparado:
 	.byte	0
 	.byte	0
 	.uleb128 0x6
-	.uleb128 0xf
-	.byte	0
-	.uleb128 0xb
-	.uleb128 0xb
-	.uleb128 0x49
-	.uleb128 0x13
-	.byte	0
-	.byte	0
-	.uleb128 0x7
 	.uleb128 0x13
 	.byte	0x1
 	.uleb128 0xb
@@ -1966,11 +2362,26 @@ disparado:
 	.uleb128 0x13
 	.byte	0
 	.byte	0
-	.uleb128 0x8
+	.uleb128 0x7
 	.uleb128 0xd
 	.byte	0
 	.uleb128 0x3
 	.uleb128 0xe
+	.uleb128 0x3a
+	.uleb128 0xb
+	.uleb128 0x3b
+	.uleb128 0xb
+	.uleb128 0x49
+	.uleb128 0x13
+	.uleb128 0x38
+	.uleb128 0xa
+	.byte	0
+	.byte	0
+	.uleb128 0x8
+	.uleb128 0xd
+	.byte	0
+	.uleb128 0x3
+	.uleb128 0x8
 	.uleb128 0x3a
 	.uleb128 0xb
 	.uleb128 0x3b
@@ -1982,18 +2393,12 @@ disparado:
 	.byte	0
 	.byte	0
 	.uleb128 0x9
-	.uleb128 0xd
+	.uleb128 0xf
 	.byte	0
-	.uleb128 0x3
-	.uleb128 0x8
-	.uleb128 0x3a
 	.uleb128 0xb
-	.uleb128 0x3b
 	.uleb128 0xb
 	.uleb128 0x49
 	.uleb128 0x13
-	.uleb128 0x38
-	.uleb128 0xa
 	.byte	0
 	.byte	0
 	.uleb128 0xa
@@ -2052,115 +2457,17 @@ disparado:
 	.uleb128 0xb
 	.uleb128 0x27
 	.uleb128 0xc
-	.uleb128 0x20
-	.uleb128 0xb
-	.byte	0
-	.byte	0
-	.uleb128 0xe
-	.uleb128 0x2e
-	.byte	0x1
-	.uleb128 0x3f
-	.uleb128 0xc
-	.uleb128 0x3
-	.uleb128 0xe
-	.uleb128 0x3a
-	.uleb128 0xb
-	.uleb128 0x3b
-	.uleb128 0x5
-	.uleb128 0x27
-	.uleb128 0xc
-	.uleb128 0x49
-	.uleb128 0x13
-	.uleb128 0x20
-	.uleb128 0xb
-	.uleb128 0x1
-	.uleb128 0x13
-	.byte	0
-	.byte	0
-	.uleb128 0xf
-	.uleb128 0x5
-	.byte	0
-	.uleb128 0x3
-	.uleb128 0xe
-	.uleb128 0x3a
-	.uleb128 0xb
-	.uleb128 0x3b
-	.uleb128 0x5
-	.uleb128 0x49
-	.uleb128 0x13
-	.byte	0
-	.byte	0
-	.uleb128 0x10
-	.uleb128 0x5
-	.byte	0
-	.uleb128 0x3
-	.uleb128 0x8
-	.uleb128 0x3a
-	.uleb128 0xb
-	.uleb128 0x3b
-	.uleb128 0x5
-	.uleb128 0x49
-	.uleb128 0x13
-	.byte	0
-	.byte	0
 	.uleb128 0x11
-	.uleb128 0xb
-	.byte	0x1
 	.uleb128 0x1
-	.uleb128 0x13
-	.byte	0
-	.byte	0
 	.uleb128 0x12
-	.uleb128 0x2e
-	.byte	0x1
-	.uleb128 0x3f
+	.uleb128 0x1
+	.uleb128 0x40
+	.uleb128 0xa
+	.uleb128 0x2117
 	.uleb128 0xc
-	.uleb128 0x3
+	.byte	0
+	.byte	0
 	.uleb128 0xe
-	.uleb128 0x3a
-	.uleb128 0xb
-	.uleb128 0x3b
-	.uleb128 0x5
-	.uleb128 0x27
-	.uleb128 0xc
-	.uleb128 0x49
-	.uleb128 0x13
-	.uleb128 0x3c
-	.uleb128 0xc
-	.byte	0
-	.byte	0
-	.uleb128 0x13
-	.uleb128 0x5
-	.byte	0
-	.uleb128 0x49
-	.uleb128 0x13
-	.byte	0
-	.byte	0
-	.uleb128 0x14
-	.uleb128 0xb
-	.byte	0x1
-	.byte	0
-	.byte	0
-	.uleb128 0x15
-	.uleb128 0x2e
-	.byte	0
-	.uleb128 0x3f
-	.uleb128 0xc
-	.uleb128 0x3
-	.uleb128 0xe
-	.uleb128 0x3a
-	.uleb128 0xb
-	.uleb128 0x3b
-	.uleb128 0x5
-	.uleb128 0x27
-	.uleb128 0xc
-	.uleb128 0x49
-	.uleb128 0x13
-	.uleb128 0x20
-	.uleb128 0xb
-	.byte	0
-	.byte	0
-	.uleb128 0x16
 	.uleb128 0x2e
 	.byte	0x1
 	.uleb128 0x3f
@@ -2185,7 +2492,7 @@ disparado:
 	.uleb128 0x13
 	.byte	0
 	.byte	0
-	.uleb128 0x17
+	.uleb128 0xf
 	.uleb128 0xb
 	.byte	0x1
 	.uleb128 0x11
@@ -2194,7 +2501,7 @@ disparado:
 	.uleb128 0x1
 	.byte	0
 	.byte	0
-	.uleb128 0x18
+	.uleb128 0x10
 	.uleb128 0x34
 	.byte	0
 	.uleb128 0x3
@@ -2209,7 +2516,7 @@ disparado:
 	.uleb128 0x6
 	.byte	0
 	.byte	0
-	.uleb128 0x19
+	.uleb128 0x11
 	.uleb128 0x2e
 	.byte	0x1
 	.uleb128 0x3f
@@ -2234,7 +2541,190 @@ disparado:
 	.uleb128 0x13
 	.byte	0
 	.byte	0
+	.uleb128 0x12
+	.uleb128 0x2e
+	.byte	0x1
+	.uleb128 0x3f
+	.uleb128 0xc
+	.uleb128 0x3
+	.uleb128 0xe
+	.uleb128 0x3a
+	.uleb128 0xb
+	.uleb128 0x3b
+	.uleb128 0xb
+	.uleb128 0x27
+	.uleb128 0xc
+	.uleb128 0x11
+	.uleb128 0x1
+	.uleb128 0x12
+	.uleb128 0x1
+	.uleb128 0x40
+	.uleb128 0x6
+	.uleb128 0x2117
+	.uleb128 0xc
+	.uleb128 0x1
+	.uleb128 0x13
+	.byte	0
+	.byte	0
+	.uleb128 0x13
+	.uleb128 0x1d
+	.byte	0x1
+	.uleb128 0x31
+	.uleb128 0x13
+	.uleb128 0x52
+	.uleb128 0x1
+	.uleb128 0x55
+	.uleb128 0x6
+	.uleb128 0x58
+	.uleb128 0xb
+	.uleb128 0x59
+	.uleb128 0xb
+	.uleb128 0x1
+	.uleb128 0x13
+	.byte	0
+	.byte	0
+	.uleb128 0x14
+	.uleb128 0x5
+	.byte	0
+	.uleb128 0x31
+	.uleb128 0x13
+	.uleb128 0x2
+	.uleb128 0x6
+	.byte	0
+	.byte	0
+	.uleb128 0x15
+	.uleb128 0xb
+	.byte	0x1
+	.uleb128 0x55
+	.uleb128 0x6
+	.byte	0
+	.byte	0
+	.uleb128 0x16
+	.uleb128 0x34
+	.byte	0
+	.uleb128 0x31
+	.uleb128 0x13
+	.uleb128 0x2
+	.uleb128 0x6
+	.byte	0
+	.byte	0
+	.uleb128 0x17
+	.uleb128 0x1d
+	.byte	0x1
+	.uleb128 0x31
+	.uleb128 0x13
+	.uleb128 0x52
+	.uleb128 0x1
+	.uleb128 0x55
+	.uleb128 0x6
+	.uleb128 0x58
+	.uleb128 0xb
+	.uleb128 0x59
+	.uleb128 0xb
+	.byte	0
+	.byte	0
+	.uleb128 0x18
+	.uleb128 0x1d
+	.byte	0x1
+	.uleb128 0x31
+	.uleb128 0x13
+	.uleb128 0x11
+	.uleb128 0x1
+	.uleb128 0x12
+	.uleb128 0x1
+	.uleb128 0x58
+	.uleb128 0xb
+	.uleb128 0x59
+	.uleb128 0xb
+	.uleb128 0x1
+	.uleb128 0x13
+	.byte	0
+	.byte	0
+	.uleb128 0x19
+	.uleb128 0x1d
+	.byte	0x1
+	.uleb128 0x31
+	.uleb128 0x13
+	.uleb128 0x11
+	.uleb128 0x1
+	.uleb128 0x12
+	.uleb128 0x1
+	.uleb128 0x58
+	.uleb128 0xb
+	.uleb128 0x59
+	.uleb128 0xb
+	.byte	0
+	.byte	0
 	.uleb128 0x1a
+	.uleb128 0x5
+	.byte	0
+	.uleb128 0x31
+	.uleb128 0x13
+	.uleb128 0x1c
+	.uleb128 0xa
+	.byte	0
+	.byte	0
+	.uleb128 0x1b
+	.uleb128 0x34
+	.byte	0
+	.uleb128 0x31
+	.uleb128 0x13
+	.uleb128 0x1c
+	.uleb128 0xa
+	.byte	0
+	.byte	0
+	.uleb128 0x1c
+	.uleb128 0x4109
+	.byte	0
+	.uleb128 0x11
+	.uleb128 0x1
+	.uleb128 0x31
+	.uleb128 0x13
+	.byte	0
+	.byte	0
+	.uleb128 0x1d
+	.uleb128 0x1d
+	.byte	0x1
+	.uleb128 0x31
+	.uleb128 0x13
+	.uleb128 0x11
+	.uleb128 0x1
+	.uleb128 0x12
+	.uleb128 0x1
+	.uleb128 0x58
+	.uleb128 0xb
+	.uleb128 0x59
+	.uleb128 0x5
+	.uleb128 0x1
+	.uleb128 0x13
+	.byte	0
+	.byte	0
+	.uleb128 0x1e
+	.uleb128 0x2e
+	.byte	0x1
+	.uleb128 0x3f
+	.uleb128 0xc
+	.uleb128 0x3
+	.uleb128 0xe
+	.uleb128 0x3a
+	.uleb128 0xb
+	.uleb128 0x3b
+	.uleb128 0xb
+	.uleb128 0x27
+	.uleb128 0xc
+	.uleb128 0x11
+	.uleb128 0x1
+	.uleb128 0x12
+	.uleb128 0x1
+	.uleb128 0x40
+	.uleb128 0xa
+	.uleb128 0x2117
+	.uleb128 0xc
+	.uleb128 0x1
+	.uleb128 0x13
+	.byte	0
+	.byte	0
+	.uleb128 0x1f
 	.uleb128 0x2e
 	.byte	0x1
 	.uleb128 0x3f
@@ -2263,101 +2753,57 @@ disparado:
 	.uleb128 0x13
 	.byte	0
 	.byte	0
-	.uleb128 0x1b
-	.uleb128 0xb
-	.byte	0x1
-	.uleb128 0x11
-	.uleb128 0x1
-	.uleb128 0x12
-	.uleb128 0x1
-	.uleb128 0x1
-	.uleb128 0x13
-	.byte	0
-	.byte	0
-	.uleb128 0x1c
-	.uleb128 0x34
-	.byte	0
-	.uleb128 0x3
-	.uleb128 0x8
-	.uleb128 0x3a
-	.uleb128 0xb
-	.uleb128 0x3b
-	.uleb128 0xb
-	.uleb128 0x49
-	.uleb128 0x13
-	.uleb128 0x2
-	.uleb128 0x6
-	.byte	0
-	.byte	0
-	.uleb128 0x1d
-	.uleb128 0x34
-	.byte	0
-	.uleb128 0x3
-	.uleb128 0x8
-	.uleb128 0x3a
-	.uleb128 0xb
-	.uleb128 0x3b
-	.uleb128 0xb
-	.uleb128 0x49
-	.uleb128 0x13
-	.byte	0
-	.byte	0
-	.uleb128 0x1e
-	.uleb128 0x1d
-	.byte	0x1
-	.uleb128 0x31
-	.uleb128 0x13
-	.uleb128 0x11
-	.uleb128 0x1
-	.uleb128 0x12
-	.uleb128 0x1
-	.uleb128 0x58
-	.uleb128 0xb
-	.uleb128 0x59
-	.uleb128 0xb
-	.uleb128 0x1
-	.uleb128 0x13
-	.byte	0
-	.byte	0
-	.uleb128 0x1f
-	.uleb128 0x5
-	.byte	0
-	.uleb128 0x31
-	.uleb128 0x13
-	.uleb128 0x2
-	.uleb128 0x6
-	.byte	0
-	.byte	0
 	.uleb128 0x20
-	.uleb128 0x34
-	.byte	0
-	.uleb128 0x31
+	.uleb128 0xb
+	.byte	0x1
+	.uleb128 0x11
+	.uleb128 0x1
+	.uleb128 0x12
+	.uleb128 0x1
+	.uleb128 0x1
 	.uleb128 0x13
-	.uleb128 0x2
-	.uleb128 0x6
 	.byte	0
 	.byte	0
 	.uleb128 0x21
-	.uleb128 0x4109
+	.uleb128 0x34
 	.byte	0
-	.uleb128 0x11
-	.uleb128 0x1
-	.uleb128 0x31
+	.uleb128 0x3
+	.uleb128 0x8
+	.uleb128 0x3a
+	.uleb128 0xb
+	.uleb128 0x3b
+	.uleb128 0xb
+	.uleb128 0x49
 	.uleb128 0x13
+	.uleb128 0x2
+	.uleb128 0x6
 	.byte	0
 	.byte	0
 	.uleb128 0x22
-	.uleb128 0x4109
-	.byte	0x1
-	.uleb128 0x11
-	.uleb128 0x1
-	.uleb128 0x31
-	.uleb128 0x13
-	.uleb128 0x1
+	.uleb128 0x34
+	.byte	0
+	.uleb128 0x3
+	.uleb128 0x8
+	.uleb128 0x3a
+	.uleb128 0xb
+	.uleb128 0x3b
+	.uleb128 0xb
+	.uleb128 0x49
 	.uleb128 0x13
 	.byte	0
 	.byte	0
 	.uleb128 0x23
+	.uleb128 0x4109
+	.byte	0x1
+	.uleb128 0x11
+	.uleb128 0x1
+	.uleb128 0x31
+	.uleb128 0x13
+	.uleb128 0x1
+	.uleb128 0x13
+	.byte	0
+	.byte	0
+	.uleb128 0x24
 	.uleb128 0x410a
 	.byte	0
 	.uleb128 0x2
@@ -2366,7 +2812,7 @@ disparado:
 	.uleb128 0xa
 	.byte	0
 	.byte	0
-	.uleb128 0x24
+	.uleb128 0x25
 	.uleb128 0x34
 	.byte	0
 	.uleb128 0x3
@@ -2381,33 +2827,6 @@ disparado:
 	.uleb128 0xa
 	.byte	0
 	.byte	0
-	.uleb128 0x25
-	.uleb128 0x2e
-	.byte	0x1
-	.uleb128 0x3f
-	.uleb128 0xc
-	.uleb128 0x3
-	.uleb128 0xe
-	.uleb128 0x3a
-	.uleb128 0xb
-	.uleb128 0x3b
-	.uleb128 0x5
-	.uleb128 0x27
-	.uleb128 0xc
-	.uleb128 0x87
-	.uleb128 0xc
-	.uleb128 0x11
-	.uleb128 0x1
-	.uleb128 0x12
-	.uleb128 0x1
-	.uleb128 0x40
-	.uleb128 0x6
-	.uleb128 0x2117
-	.uleb128 0xc
-	.uleb128 0x1
-	.uleb128 0x13
-	.byte	0
-	.byte	0
 	.uleb128 0x26
 	.uleb128 0x34
 	.byte	0
@@ -2416,74 +2835,16 @@ disparado:
 	.uleb128 0x3a
 	.uleb128 0xb
 	.uleb128 0x3b
-	.uleb128 0x5
+	.uleb128 0xb
 	.uleb128 0x49
 	.uleb128 0x13
+	.uleb128 0x3f
+	.uleb128 0xc
 	.uleb128 0x2
 	.uleb128 0xa
 	.byte	0
 	.byte	0
 	.uleb128 0x27
-	.uleb128 0x1d
-	.byte	0x1
-	.uleb128 0x31
-	.uleb128 0x13
-	.uleb128 0x11
-	.uleb128 0x1
-	.uleb128 0x12
-	.uleb128 0x1
-	.uleb128 0x58
-	.uleb128 0xb
-	.uleb128 0x59
-	.uleb128 0x5
-	.uleb128 0x1
-	.uleb128 0x13
-	.byte	0
-	.byte	0
-	.uleb128 0x28
-	.uleb128 0x5
-	.byte	0
-	.uleb128 0x31
-	.uleb128 0x13
-	.byte	0
-	.byte	0
-	.uleb128 0x29
-	.uleb128 0x4109
-	.byte	0x1
-	.uleb128 0x11
-	.uleb128 0x1
-	.uleb128 0x31
-	.uleb128 0x13
-	.byte	0
-	.byte	0
-	.uleb128 0x2a
-	.uleb128 0x5
-	.byte	0
-	.uleb128 0x31
-	.uleb128 0x13
-	.uleb128 0x1c
-	.uleb128 0xa
-	.byte	0
-	.byte	0
-	.uleb128 0x2b
-	.uleb128 0x34
-	.byte	0
-	.uleb128 0x31
-	.uleb128 0x13
-	.uleb128 0x1c
-	.uleb128 0xa
-	.byte	0
-	.byte	0
-	.uleb128 0x2c
-	.uleb128 0x34
-	.byte	0
-	.uleb128 0x31
-	.uleb128 0x13
-	.uleb128 0x1c
-	.uleb128 0x6
-	.byte	0
-	.byte	0
-	.uleb128 0x2d
 	.uleb128 0x1
 	.byte	0x1
 	.uleb128 0x49
@@ -2492,7 +2853,7 @@ disparado:
 	.uleb128 0x13
 	.byte	0
 	.byte	0
-	.uleb128 0x2e
+	.uleb128 0x28
 	.uleb128 0x21
 	.byte	0
 	.uleb128 0x49
@@ -2501,31 +2862,14 @@ disparado:
 	.uleb128 0xb
 	.byte	0
 	.byte	0
-	.uleb128 0x2f
-	.uleb128 0x34
-	.byte	0
-	.uleb128 0x3
-	.uleb128 0xe
-	.uleb128 0x3a
-	.uleb128 0xb
-	.uleb128 0x3b
-	.uleb128 0xb
-	.uleb128 0x49
-	.uleb128 0x13
-	.uleb128 0x3f
-	.uleb128 0xc
-	.uleb128 0x2
-	.uleb128 0xa
-	.byte	0
-	.byte	0
-	.uleb128 0x30
+	.uleb128 0x29
 	.uleb128 0x26
 	.byte	0
 	.uleb128 0x49
 	.uleb128 0x13
 	.byte	0
 	.byte	0
-	.uleb128 0x31
+	.uleb128 0x2a
 	.uleb128 0x34
 	.byte	0
 	.uleb128 0x3
@@ -2542,7 +2886,7 @@ disparado:
 	.uleb128 0xa
 	.byte	0
 	.byte	0
-	.uleb128 0x32
+	.uleb128 0x2b
 	.uleb128 0x2e
 	.byte	0
 	.uleb128 0x3f
@@ -2557,30 +2901,13 @@ disparado:
 	.uleb128 0xb
 	.uleb128 0x3b
 	.uleb128 0xb
-	.byte	0
-	.byte	0
-	.uleb128 0x33
-	.uleb128 0x2e
-	.byte	0
-	.uleb128 0x3f
-	.uleb128 0xc
-	.uleb128 0x3c
-	.uleb128 0xc
-	.uleb128 0x2007
-	.uleb128 0xe
-	.uleb128 0x3
-	.uleb128 0xe
-	.uleb128 0x3a
-	.uleb128 0xb
-	.uleb128 0x3b
-	.uleb128 0x5
 	.byte	0
 	.byte	0
 	.byte	0
 	.section	.debug_loc,"",@progbits
 .Ldebug_loc0:
 .LLST0:
-	.long	.LFB73
+	.long	.LFB78
 	.long	.LCFI0
 	.word	0x3
 	.byte	0x92
@@ -2593,7 +2920,7 @@ disparado:
 	.uleb128 0x20
 	.sleb128 3
 	.long	.LCFI1
-	.long	.LFE73
+	.long	.LFE78
 	.word	0x3
 	.byte	0x92
 	.uleb128 0x20
@@ -2617,7 +2944,7 @@ disparado:
 	.long	0
 	.long	0
 .LLST3:
-	.long	.LFB74
+	.long	.LFB79
 	.long	.LCFI2
 	.word	0x3
 	.byte	0x92
@@ -2630,7 +2957,7 @@ disparado:
 	.uleb128 0x20
 	.sleb128 3
 	.long	.LCFI3
-	.long	.LFE74
+	.long	.LFE79
 	.word	0x3
 	.byte	0x92
 	.uleb128 0x20
@@ -2670,100 +2997,6 @@ disparado:
 	.long	0
 	.long	0
 .LLST8:
-	.long	.LVL21
-	.long	.LVL22
-	.word	0x2
-	.byte	0x30
-	.byte	0x9f
-	.long	0
-	.long	0
-.LLST9:
-	.long	.LVL24
-	.long	.LVL25
-	.word	0x2
-	.byte	0x30
-	.byte	0x9f
-	.long	0
-	.long	0
-.LLST10:
-	.long	.LVL26
-	.long	.LVL27
-	.word	0x2
-	.byte	0x30
-	.byte	0x9f
-	.long	0
-	.long	0
-.LLST11:
-	.long	.LVL29
-	.long	.LVL30
-	.word	0x2
-	.byte	0x30
-	.byte	0x9f
-	.long	0
-	.long	0
-.LLST12:
-	.long	.LVL33
-	.long	.LVL34
-	.word	0x2
-	.byte	0x30
-	.byte	0x9f
-	.long	0
-	.long	0
-.LLST13:
-	.long	.LVL39
-	.long	.LVL40
-	.word	0x6
-	.byte	0x9e
-	.uleb128 0x4
-	.long	0x42480000
-	.long	0
-	.long	0
-.LLST14:
-	.long	.LVL39
-	.long	.LVL40
-	.word	0x6
-	.byte	0x9e
-	.uleb128 0x4
-	.long	0x49435000
-	.long	0
-	.long	0
-.LLST15:
-	.long	.LVL39
-	.long	.LVL40
-	.word	0x6
-	.byte	0xc
-	.long	0xc3500
-	.byte	0x9f
-	.long	0
-	.long	0
-.LLST16:
-	.long	.LVL45
-	.long	.LVL46
-	.word	0x6
-	.byte	0x9e
-	.uleb128 0x4
-	.long	0x42480000
-	.long	0
-	.long	0
-.LLST17:
-	.long	.LVL45
-	.long	.LVL46
-	.word	0x6
-	.byte	0x9e
-	.uleb128 0x4
-	.long	0x49435000
-	.long	0
-	.long	0
-.LLST18:
-	.long	.LVL45
-	.long	.LVL46
-	.word	0x6
-	.byte	0xc
-	.long	0xc3500
-	.byte	0x9f
-	.long	0
-	.long	0
-.LLST19:
 	.long	.LFB76
 	.long	.LCFI4
 	.word	0x3
@@ -2777,26 +3010,520 @@ disparado:
 	.uleb128 0x20
 	.sleb128 3
 	.long	.LCFI5
-	.long	.LCFI6
+	.long	.LFE76
 	.word	0x3
 	.byte	0x92
 	.uleb128 0x20
 	.sleb128 4
+	.long	0
+	.long	0
+.LLST9:
+	.long	.LVL23
+	.long	.LVL27
+	.word	0x6
+	.byte	0x9e
+	.uleb128 0x4
+	.long	0x42480000
+	.long	0
+	.long	0
+.LLST10:
+	.long	.LVL23
+	.long	.LVL27
+	.word	0x6
+	.byte	0x9e
+	.uleb128 0x4
+	.long	0x48435000
+	.long	0
+	.long	0
+.LLST11:
+	.long	.LVL23
+	.long	.LVL24
+	.word	0x4
+	.byte	0xa
+	.word	0x1f4
+	.byte	0x9f
+	.long	.LVL24
+	.long	.LVL25
+	.word	0x6
+	.byte	0x68
+	.byte	0x93
+	.uleb128 0x1
+	.byte	0x69
+	.byte	0x93
+	.uleb128 0x1
+	.long	.LVL25
+	.long	.LVL26
+	.word	0x3
+	.byte	0x88
+	.sleb128 -1
+	.byte	0x9f
+	.long	.LVL26
+	.long	.LVL27
+	.word	0x6
+	.byte	0x68
+	.byte	0x93
+	.uleb128 0x1
+	.byte	0x69
+	.byte	0x93
+	.uleb128 0x1
+	.long	0
+	.long	0
+.LLST12:
+	.long	.LVL24
+	.long	.LVL25
+	.word	0x4
+	.byte	0xa
+	.word	0x190
+	.byte	0x9f
+	.long	0
+	.long	0
+.LLST13:
+	.long	.LVL17
+	.long	.LVL21
+	.word	0x6
+	.byte	0x9e
+	.uleb128 0x4
+	.long	0x42480000
+	.long	0
+	.long	0
+.LLST14:
+	.long	.LVL17
+	.long	.LVL21
+	.word	0x6
+	.byte	0x9e
+	.uleb128 0x4
+	.long	0x48435000
+	.long	0
+	.long	0
+.LLST15:
+	.long	.LVL17
+	.long	.LVL18
+	.word	0x4
+	.byte	0xa
+	.word	0x1f4
+	.byte	0x9f
+	.long	.LVL18
+	.long	.LVL19
+	.word	0x6
+	.byte	0x68
+	.byte	0x93
+	.uleb128 0x1
+	.byte	0x69
+	.byte	0x93
+	.uleb128 0x1
+	.long	.LVL19
+	.long	.LVL20
+	.word	0x3
+	.byte	0x88
+	.sleb128 -1
+	.byte	0x9f
+	.long	.LVL20
+	.long	.LVL21
+	.word	0x6
+	.byte	0x68
+	.byte	0x93
+	.uleb128 0x1
+	.byte	0x69
+	.byte	0x93
+	.uleb128 0x1
+	.long	0
+	.long	0
+.LLST16:
+	.long	.LVL18
+	.long	.LVL19
+	.word	0x4
+	.byte	0xa
+	.word	0x190
+	.byte	0x9f
+	.long	0
+	.long	0
+.LLST17:
+	.long	.LVL31
+	.long	.LVL35
+	.word	0x6
+	.byte	0x9e
+	.uleb128 0x4
+	.long	0x41a00000
+	.long	0
+	.long	0
+.LLST18:
+	.long	.LVL31
+	.long	.LVL35
+	.word	0x6
+	.byte	0x9e
+	.uleb128 0x4
+	.long	0x479c4000
+	.long	0
+	.long	0
+.LLST19:
+	.long	.LVL31
+	.long	.LVL32
+	.word	0x3
+	.byte	0x8
+	.byte	0xc8
+	.byte	0x9f
+	.long	.LVL32
+	.long	.LVL33
+	.word	0x6
+	.byte	0x68
+	.byte	0x93
+	.uleb128 0x1
+	.byte	0x69
+	.byte	0x93
+	.uleb128 0x1
+	.long	.LVL33
+	.long	.LVL34
+	.word	0x3
+	.byte	0x88
+	.sleb128 -1
+	.byte	0x9f
+	.long	.LVL34
+	.long	.LVL35
+	.word	0x6
+	.byte	0x68
+	.byte	0x93
+	.uleb128 0x1
+	.byte	0x69
+	.byte	0x93
+	.uleb128 0x1
+	.long	0
+	.long	0
+.LLST20:
+	.long	.LVL32
+	.long	.LVL33
+	.word	0x4
+	.byte	0xa
+	.word	0x190
+	.byte	0x9f
+	.long	0
+	.long	0
+.LLST21:
+	.long	.LVL36
+	.long	.LVL37
+	.word	0x4
+	.byte	0xa
+	.word	0x4e20
+	.byte	0x9f
+	.long	.LVL37
+	.long	.LVL38
+	.word	0x6
+	.byte	0x68
+	.byte	0x93
+	.uleb128 0x1
+	.byte	0x69
+	.byte	0x93
+	.uleb128 0x1
+	.long	.LVL38
+	.long	.LVL39
+	.word	0x3
+	.byte	0x88
+	.sleb128 -1
+	.byte	0x9f
+	.long	.LVL39
+	.long	.LFE76
+	.word	0x6
+	.byte	0x68
+	.byte	0x93
+	.uleb128 0x1
+	.byte	0x69
+	.byte	0x93
+	.uleb128 0x1
+	.long	0
+	.long	0
+.LLST22:
+	.long	.LVL37
+	.long	.LVL38
+	.word	0x4
+	.byte	0xa
+	.word	0x190
+	.byte	0x9f
+	.long	0
+	.long	0
+.LLST23:
+	.long	.LFB77
+	.long	.LCFI6
+	.word	0x3
+	.byte	0x92
+	.uleb128 0x20
+	.sleb128 2
 	.long	.LCFI6
 	.long	.LCFI7
 	.word	0x3
 	.byte	0x92
 	.uleb128 0x20
-	.sleb128 8
+	.sleb128 3
 	.long	.LCFI7
-	.long	.LFE76
+	.long	.LFE77
+	.word	0x3
+	.byte	0x92
+	.uleb128 0x20
+	.sleb128 4
+	.long	0
+	.long	0
+.LLST24:
+	.long	.LVL48
+	.long	.LVL52
+	.word	0x6
+	.byte	0x9e
+	.uleb128 0x4
+	.long	0x42480000
+	.long	0
+	.long	0
+.LLST25:
+	.long	.LVL48
+	.long	.LVL52
+	.word	0x6
+	.byte	0x9e
+	.uleb128 0x4
+	.long	0x48435000
+	.long	0
+	.long	0
+.LLST26:
+	.long	.LVL48
+	.long	.LVL49
+	.word	0x4
+	.byte	0xa
+	.word	0x1f4
+	.byte	0x9f
+	.long	.LVL49
+	.long	.LVL50
+	.word	0x6
+	.byte	0x68
+	.byte	0x93
+	.uleb128 0x1
+	.byte	0x69
+	.byte	0x93
+	.uleb128 0x1
+	.long	.LVL50
+	.long	.LVL51
+	.word	0x3
+	.byte	0x88
+	.sleb128 -1
+	.byte	0x9f
+	.long	.LVL51
+	.long	.LVL52
+	.word	0x6
+	.byte	0x68
+	.byte	0x93
+	.uleb128 0x1
+	.byte	0x69
+	.byte	0x93
+	.uleb128 0x1
+	.long	0
+	.long	0
+.LLST27:
+	.long	.LVL49
+	.long	.LVL50
+	.word	0x4
+	.byte	0xa
+	.word	0x190
+	.byte	0x9f
+	.long	0
+	.long	0
+.LLST28:
+	.long	.LVL42
+	.long	.LVL46
+	.word	0x6
+	.byte	0x9e
+	.uleb128 0x4
+	.long	0x42480000
+	.long	0
+	.long	0
+.LLST29:
+	.long	.LVL42
+	.long	.LVL46
+	.word	0x6
+	.byte	0x9e
+	.uleb128 0x4
+	.long	0x48435000
+	.long	0
+	.long	0
+.LLST30:
+	.long	.LVL42
+	.long	.LVL43
+	.word	0x4
+	.byte	0xa
+	.word	0x1f4
+	.byte	0x9f
+	.long	.LVL43
+	.long	.LVL44
+	.word	0x6
+	.byte	0x68
+	.byte	0x93
+	.uleb128 0x1
+	.byte	0x69
+	.byte	0x93
+	.uleb128 0x1
+	.long	.LVL44
+	.long	.LVL45
+	.word	0x3
+	.byte	0x88
+	.sleb128 -1
+	.byte	0x9f
+	.long	.LVL45
+	.long	.LVL46
+	.word	0x6
+	.byte	0x68
+	.byte	0x93
+	.uleb128 0x1
+	.byte	0x69
+	.byte	0x93
+	.uleb128 0x1
+	.long	0
+	.long	0
+.LLST31:
+	.long	.LVL43
+	.long	.LVL44
+	.word	0x4
+	.byte	0xa
+	.word	0x190
+	.byte	0x9f
+	.long	0
+	.long	0
+.LLST32:
+	.long	.LVL56
+	.long	.LVL60
+	.word	0x6
+	.byte	0x9e
+	.uleb128 0x4
+	.long	0x41a00000
+	.long	0
+	.long	0
+.LLST33:
+	.long	.LVL56
+	.long	.LVL60
+	.word	0x6
+	.byte	0x9e
+	.uleb128 0x4
+	.long	0x479c4000
+	.long	0
+	.long	0
+.LLST34:
+	.long	.LVL56
+	.long	.LVL57
+	.word	0x3
+	.byte	0x8
+	.byte	0xc8
+	.byte	0x9f
+	.long	.LVL57
+	.long	.LVL58
+	.word	0x6
+	.byte	0x68
+	.byte	0x93
+	.uleb128 0x1
+	.byte	0x69
+	.byte	0x93
+	.uleb128 0x1
+	.long	.LVL58
+	.long	.LVL59
+	.word	0x3
+	.byte	0x88
+	.sleb128 -1
+	.byte	0x9f
+	.long	.LVL59
+	.long	.LVL60
+	.word	0x6
+	.byte	0x68
+	.byte	0x93
+	.uleb128 0x1
+	.byte	0x69
+	.byte	0x93
+	.uleb128 0x1
+	.long	0
+	.long	0
+.LLST35:
+	.long	.LVL57
+	.long	.LVL58
+	.word	0x4
+	.byte	0xa
+	.word	0x190
+	.byte	0x9f
+	.long	0
+	.long	0
+.LLST36:
+	.long	.LVL61
+	.long	.LVL62
+	.word	0x4
+	.byte	0xa
+	.word	0x4e20
+	.byte	0x9f
+	.long	.LVL62
+	.long	.LVL63
+	.word	0x6
+	.byte	0x68
+	.byte	0x93
+	.uleb128 0x1
+	.byte	0x69
+	.byte	0x93
+	.uleb128 0x1
+	.long	.LVL63
+	.long	.LVL64
+	.word	0x3
+	.byte	0x88
+	.sleb128 -1
+	.byte	0x9f
+	.long	.LVL64
+	.long	.LFE77
+	.word	0x6
+	.byte	0x68
+	.byte	0x93
+	.uleb128 0x1
+	.byte	0x69
+	.byte	0x93
+	.uleb128 0x1
+	.long	0
+	.long	0
+.LLST37:
+	.long	.LVL62
+	.long	.LVL63
+	.word	0x4
+	.byte	0xa
+	.word	0x190
+	.byte	0x9f
+	.long	0
+	.long	0
+.LLST38:
+	.long	.LVL73
+	.long	.LVL74
 	.word	0x2
-	.byte	0x8c
-	.sleb128 8
+	.byte	0x30
+	.byte	0x9f
 	.long	0
 	.long	0
-.LLST20:
-	.long	.LFB77
+.LLST39:
+	.long	.LVL76
+	.long	.LVL77
+	.word	0x2
+	.byte	0x30
+	.byte	0x9f
+	.long	0
+	.long	0
+.LLST40:
+	.long	.LVL78
+	.long	.LVL79
+	.word	0x2
+	.byte	0x30
+	.byte	0x9f
+	.long	0
+	.long	0
+.LLST41:
+	.long	.LVL81
+	.long	.LVL82
+	.word	0x2
+	.byte	0x30
+	.byte	0x9f
+	.long	0
+	.long	0
+.LLST42:
+	.long	.LVL85
+	.long	.LVL86
+	.word	0x2
+	.byte	0x30
+	.byte	0x9f
+	.long	0
+	.long	0
+.LLST43:
+	.long	.LFB81
 	.long	.LCFI8
 	.word	0x3
 	.byte	0x92
@@ -2819,56 +3546,16 @@ disparado:
 	.word	0x3
 	.byte	0x92
 	.uleb128 0x20
-	.sleb128 9
+	.sleb128 8
 	.long	.LCFI11
-	.long	.LFE77
+	.long	.LFE81
 	.word	0x2
 	.byte	0x8c
-	.sleb128 9
-	.long	0
-	.long	0
-.LLST21:
-	.long	.LVL48
-	.long	.LVL49
-	.word	0x2
-	.byte	0x3a
-	.byte	0x9f
-	.long	0
-	.long	0
-.LLST22:
-	.long	.LVL48
-	.long	.LVL49-1
-	.word	0x6
-	.byte	0x68
-	.byte	0x93
-	.uleb128 0x1
-	.byte	0x69
-	.byte	0x93
-	.uleb128 0x1
-	.long	0
-	.long	0
-.LLST23:
-	.long	.LVL53
-	.long	.LVL54
-	.word	0x2
-	.byte	0x3a
-	.byte	0x9f
-	.long	0
-	.long	0
-.LLST24:
-	.long	.LVL53
-	.long	.LVL54-1
-	.word	0x6
-	.byte	0x68
-	.byte	0x93
-	.uleb128 0x1
-	.byte	0x69
-	.byte	0x93
-	.uleb128 0x1
+	.sleb128 8
 	.long	0
 	.long	0
 	.section	.debug_aranges,"",@progbits
-	.long	0x44
+	.long	0x64
 	.word	0x2
 	.long	.Ldebug_info0
 	.byte	0x4
@@ -2879,30 +3566,70 @@ disparado:
 	.long	.LFE73-.LFB73
 	.long	.LFB74
 	.long	.LFE74-.LFB74
-	.long	.LFB75
-	.long	.LFE75-.LFB75
-	.long	.LFB72
-	.long	.LFE72-.LFB72
+	.long	.LFB78
+	.long	.LFE78-.LFB78
+	.long	.LFB79
+	.long	.LFE79-.LFB79
+	.long	.LFB80
+	.long	.LFE80-.LFB80
 	.long	.LFB76
 	.long	.LFE76-.LFB76
 	.long	.LFB77
 	.long	.LFE77-.LFB77
+	.long	.LFB75
+	.long	.LFE75-.LFB75
+	.long	.LFB72
+	.long	.LFE72-.LFB72
+	.long	.LFB81
+	.long	.LFE81-.LFB81
 	.long	0
 	.long	0
 	.section	.debug_ranges,"",@progbits
 .Ldebug_ranges0:
+	.long	.LBB60
+	.long	.LBE60
+	.long	.LBB71
+	.long	.LBE71
+	.long	0
+	.long	0
+	.long	.LBB62
+	.long	.LBE62
+	.long	.LBB65
+	.long	.LBE65
+	.long	0
+	.long	0
+	.long	.LBB80
+	.long	.LBE80
+	.long	.LBB91
+	.long	.LBE91
+	.long	0
+	.long	0
+	.long	.LBB82
+	.long	.LBE82
+	.long	.LBB85
+	.long	.LBE85
+	.long	0
+	.long	0
 	.long	.LFB73
 	.long	.LFE73
 	.long	.LFB74
 	.long	.LFE74
-	.long	.LFB75
-	.long	.LFE75
-	.long	.LFB72
-	.long	.LFE72
+	.long	.LFB78
+	.long	.LFE78
+	.long	.LFB79
+	.long	.LFE79
+	.long	.LFB80
+	.long	.LFE80
 	.long	.LFB76
 	.long	.LFE76
 	.long	.LFB77
 	.long	.LFE77
+	.long	.LFB75
+	.long	.LFE75
+	.long	.LFB72
+	.long	.LFE72
+	.long	.LFB81
+	.long	.LFE81
 	.long	0
 	.long	0
 	.section	.debug_macro,"",@progbits
@@ -4362,9 +5089,10 @@ disparado:
 	.byte	0x7
 	.long	.Ldebug_macro13
 	.byte	0x4
+	.file 25 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\stdlib.h"
 	.byte	0x3
 	.uleb128 0x33
-	.uleb128 0x3
+	.uleb128 0x19
 	.byte	0x7
 	.long	.Ldebug_macro14
 	.byte	0x3
@@ -4378,17 +5106,17 @@ disparado:
 	.byte	0x4
 	.byte	0x7
 	.long	.Ldebug_macro17
-	.file 25 "../src/ASF/common/utils/interrupt.h"
+	.file 26 "../src/ASF/common/utils/interrupt.h"
 	.byte	0x3
 	.uleb128 0x9e
-	.uleb128 0x19
+	.uleb128 0x1a
 	.byte	0x5
 	.uleb128 0x25
 	.long	.LASF1829
-	.file 26 "../src/ASF/common/utils/interrupt/interrupt_avr8.h"
+	.file 27 "../src/ASF/common/utils/interrupt/interrupt_avr8.h"
 	.byte	0x3
 	.uleb128 0x2a
-	.uleb128 0x1a
+	.uleb128 0x1b
 	.byte	0x5
 	.uleb128 0x25
 	.long	.LASF1830
@@ -4396,10 +5124,10 @@ disparado:
 	.uleb128 0x27
 	.uleb128 0xc
 	.byte	0x4
-	.file 27 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\avr\\interrupt.h"
+	.file 28 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\avr\\interrupt.h"
 	.byte	0x3
 	.uleb128 0x45
-	.uleb128 0x1b
+	.uleb128 0x1c
 	.byte	0x7
 	.long	.Ldebug_macro18
 	.byte	0x4
@@ -4407,17 +5135,17 @@ disparado:
 	.long	.Ldebug_macro19
 	.byte	0x4
 	.byte	0x4
-	.file 28 "../src/ASF/mega/utils/progmem.h"
+	.file 29 "../src/ASF/mega/utils/progmem.h"
 	.byte	0x3
 	.uleb128 0x9f
-	.uleb128 0x1c
+	.uleb128 0x1d
 	.byte	0x5
 	.uleb128 0x26
 	.long	.LASF1852
-	.file 29 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\avr\\pgmspace.h"
+	.file 30 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\avr\\pgmspace.h"
 	.byte	0x3
 	.uleb128 0x37
-	.uleb128 0x1d
+	.uleb128 0x1e
 	.byte	0x7
 	.long	.Ldebug_macro20
 	.byte	0x3
@@ -4435,17 +5163,17 @@ disparado:
 	.byte	0x7
 	.long	.Ldebug_macro23
 	.byte	0x4
-	.file 30 "../src/ASF/common/services/ioport/ioport.h"
+	.file 31 "../src/ASF/common/services/ioport/ioport.h"
 	.byte	0x3
 	.uleb128 0x29
-	.uleb128 0x1e
+	.uleb128 0x1f
 	.byte	0x5
 	.uleb128 0x26
 	.long	.LASF1932
-	.file 31 "../src/ASF/common/services/ioport/mega/ioport.h"
+	.file 32 "../src/ASF/common/services/ioport/mega/ioport.h"
 	.byte	0x3
 	.uleb128 0x7e
-	.uleb128 0x1f
+	.uleb128 0x20
 	.byte	0x7
 	.long	.Ldebug_macro24
 	.byte	0x4
@@ -4454,23 +5182,23 @@ disparado:
 	.long	.Ldebug_macro25
 	.byte	0x4
 	.byte	0x4
-	.file 32 "../src/ASF/common/boards/board.h"
+	.file 33 "../src/ASF/common/boards/board.h"
 	.byte	0x3
 	.uleb128 0x3b
-	.uleb128 0x20
+	.uleb128 0x21
 	.byte	0x7
 	.long	.Ldebug_macro26
-	.file 33 "../src/ASF/mega/boards/atmega328p_xplained_mini/atmega328p_xplained_mini.h"
+	.file 34 "../src/ASF/mega/boards/atmega328p_xplained_mini/atmega328p_xplained_mini.h"
 	.byte	0x3
 	.uleb128 0x16b
-	.uleb128 0x21
+	.uleb128 0x22
 	.byte	0x5
 	.uleb128 0x2a
 	.long	.LASF2070
-	.file 34 "../src/ASF/mega/boards/atmega328p_xplained_mini/led.h"
+	.file 35 "../src/ASF/mega/boards/atmega328p_xplained_mini/led.h"
 	.byte	0x3
 	.uleb128 0x2d
-	.uleb128 0x22
+	.uleb128 0x23
 	.byte	0x7
 	.long	.Ldebug_macro27
 	.byte	0x4
@@ -4478,10 +5206,10 @@ disparado:
 	.long	.Ldebug_macro28
 	.byte	0x4
 	.byte	0x4
-	.file 35 "../src/ASF/mega/utils/status_codes.h"
+	.file 36 "../src/ASF/mega/utils/status_codes.h"
 	.byte	0x3
 	.uleb128 0x45
-	.uleb128 0x23
+	.uleb128 0x24
 	.byte	0x5
 	.uleb128 0x28
 	.long	.LASF2089
@@ -4490,43 +5218,22 @@ disparado:
 	.byte	0x5
 	.uleb128 0x3
 	.long	.LASF2090
+	.file 37 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\stdio.h"
 	.byte	0x3
 	.uleb128 0x4
-	.uleb128 0x2
-	.byte	0x7
-	.long	.Ldebug_macro29
-	.file 36 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay_basic.h"
-	.byte	0x3
-	.uleb128 0x2d
-	.uleb128 0x24
-	.byte	0x5
-	.uleb128 0x23
-	.long	.LASF2093
-	.byte	0x4
-	.file 37 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h"
-	.byte	0x3
-	.uleb128 0x2e
 	.uleb128 0x25
-	.byte	0x7
-	.long	.Ldebug_macro30
-	.byte	0x4
-	.byte	0x4
-	.file 38 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\stdio.h"
-	.byte	0x3
-	.uleb128 0x5
-	.uleb128 0x26
 	.byte	0x5
 	.uleb128 0x28
-	.long	.LASF2146
-	.file 39 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\lib\\gcc\\avr\\5.4.0\\include\\stdarg.h"
+	.long	.LASF2091
+	.file 38 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\lib\\gcc\\avr\\5.4.0\\include\\stdarg.h"
 	.byte	0x3
 	.uleb128 0x2d
-	.uleb128 0x27
+	.uleb128 0x26
 	.byte	0x7
-	.long	.Ldebug_macro31
+	.long	.Ldebug_macro29
 	.byte	0x4
 	.byte	0x7
-	.long	.Ldebug_macro32
+	.long	.Ldebug_macro30
 	.byte	0x3
 	.uleb128 0x32
 	.uleb128 0x18
@@ -4534,55 +5241,78 @@ disparado:
 	.long	.Ldebug_macro15
 	.byte	0x4
 	.byte	0x7
+	.long	.Ldebug_macro31
+	.byte	0x4
+	.byte	0x5
+	.uleb128 0x6
+	.long	.LASF2140
+	.byte	0x3
+	.uleb128 0x7
+	.uleb128 0x3
+	.byte	0x7
+	.long	.Ldebug_macro32
+	.byte	0x3
+	.uleb128 0x2d
+	.uleb128 0x2
+	.byte	0x5
+	.uleb128 0x23
+	.long	.LASF2143
+	.byte	0x4
+	.file 39 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h"
+	.byte	0x3
+	.uleb128 0x2e
+	.uleb128 0x27
+	.byte	0x7
 	.long	.Ldebug_macro33
 	.byte	0x4
+	.byte	0x4
 	.byte	0x3
-	.uleb128 0x9
+	.uleb128 0xa
 	.uleb128 0x6
 	.byte	0x5
 	.uleb128 0xa
-	.long	.LASF2195
+	.long	.LASF2196
 	.byte	0x4
 	.byte	0x3
-	.uleb128 0xa
+	.uleb128 0xb
 	.uleb128 0x7
 	.byte	0x7
 	.long	.Ldebug_macro34
 	.byte	0x4
 	.byte	0x3
-	.uleb128 0xb
-	.uleb128 0x5
-	.byte	0x5
-	.uleb128 0xa
-	.long	.LASF2199
-	.byte	0x4
-	.file 40 "../src/JoystickButton.h"
-	.byte	0x3
 	.uleb128 0xc
-	.uleb128 0x28
+	.uleb128 0x5
 	.byte	0x5
 	.uleb128 0xa
 	.long	.LASF2200
 	.byte	0x4
-	.file 41 "../src/C_CheckByte.h"
+	.file 40 "../src/JoystickButton.h"
 	.byte	0x3
 	.uleb128 0xd
-	.uleb128 0x29
+	.uleb128 0x28
 	.byte	0x5
 	.uleb128 0xa
 	.long	.LASF2201
 	.byte	0x4
-	.file 42 "../src/Display_ss.h"
+	.file 41 "../src/C_CheckByte.h"
 	.byte	0x3
 	.uleb128 0xe
-	.uleb128 0x2a
+	.uleb128 0x29
 	.byte	0x5
 	.uleb128 0xa
 	.long	.LASF2202
 	.byte	0x4
+	.file 42 "../src/Display_ss.h"
+	.byte	0x3
+	.uleb128 0xf
+	.uleb128 0x2a
+	.byte	0x5
+	.uleb128 0xa
+	.long	.LASF2203
+	.byte	0x4
 	.file 43 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\string.h"
 	.byte	0x3
-	.uleb128 0x10
+	.uleb128 0x11
 	.uleb128 0x2b
 	.byte	0x7
 	.long	.Ldebug_macro35
@@ -4594,14 +5324,20 @@ disparado:
 	.byte	0x4
 	.byte	0x5
 	.uleb128 0x5d
-	.long	.LASF2204
+	.long	.LASF2205
 	.byte	0x4
 	.byte	0x5
-	.uleb128 0x39
-	.long	.LASF2205
-	.byte	0x5
-	.uleb128 0x3a
+	.uleb128 0x3b
 	.long	.LASF2206
+	.byte	0x5
+	.uleb128 0x3c
+	.long	.LASF2207
+	.byte	0x5
+	.uleb128 0x3d
+	.long	.LASF2208
+	.byte	0x5
+	.uleb128 0x3e
+	.long	.LASF2209
 	.byte	0x4
 	.byte	0
 	.section	.debug_macro,"G",@progbits,wm4.parts.h.38.424177e1c4c7502bdf2cd6eac0e66f1e,comdat
@@ -9706,208 +10442,221 @@ disparado:
 	.uleb128 0x44
 	.long	.LASF2088
 	.byte	0
-	.section	.debug_macro,"G",@progbits,wm4.delay.h.36.9b049a49ceee302c08fd72aec728bf54,comdat
+	.section	.debug_macro,"G",@progbits,wm4.stdarg.h.31.72c3aa8d68b291953fa52b9471bcdff7,comdat
 .Ldebug_macro29:
 	.word	0x4
 	.byte	0
 	.byte	0x5
-	.uleb128 0x24
-	.long	.LASF2091
-	.byte	0x5
-	.uleb128 0x28
+	.uleb128 0x1f
 	.long	.LASF2092
+	.byte	0x5
+	.uleb128 0x20
+	.long	.LASF2093
+	.byte	0x6
+	.uleb128 0x22
+	.long	.LASF2094
+	.byte	0x5
+	.uleb128 0x27
+	.long	.LASF2095
+	.byte	0x5
+	.uleb128 0x2f
+	.long	.LASF2096
+	.byte	0x5
+	.uleb128 0x30
+	.long	.LASF2097
+	.byte	0x5
+	.uleb128 0x31
+	.long	.LASF2098
+	.byte	0x5
+	.uleb128 0x33
+	.long	.LASF2099
+	.byte	0x5
+	.uleb128 0x35
+	.long	.LASF2100
+	.byte	0x5
+	.uleb128 0x68
+	.long	.LASF2101
+	.byte	0x5
+	.uleb128 0x6b
+	.long	.LASF2102
+	.byte	0x5
+	.uleb128 0x6e
+	.long	.LASF2103
+	.byte	0x5
+	.uleb128 0x71
+	.long	.LASF2104
+	.byte	0x5
+	.uleb128 0x74
+	.long	.LASF2105
 	.byte	0
-	.section	.debug_macro,"G",@progbits,wm4.math.h.49.a63885b3cd597bc58738696048bb49a6,comdat
+	.section	.debug_macro,"G",@progbits,wm4.stdio.h.48.03f793588f1f7fb1580b876d18fe65ca,comdat
 .Ldebug_macro30:
 	.word	0x4
 	.byte	0
 	.byte	0x5
+	.uleb128 0x30
+	.long	.LASF1801
+	.byte	0x5
 	.uleb128 0x31
-	.long	.LASF2094
-	.byte	0x5
-	.uleb128 0x47
-	.long	.LASF2095
-	.byte	0x5
-	.uleb128 0x4a
-	.long	.LASF2096
-	.byte	0x5
-	.uleb128 0x4d
-	.long	.LASF2097
-	.byte	0x5
-	.uleb128 0x50
-	.long	.LASF2098
-	.byte	0x5
-	.uleb128 0x53
-	.long	.LASF2099
-	.byte	0x5
-	.uleb128 0x56
-	.long	.LASF2100
-	.byte	0x5
-	.uleb128 0x59
-	.long	.LASF2101
-	.byte	0x5
-	.uleb128 0x5c
-	.long	.LASF2102
-	.byte	0x5
-	.uleb128 0x5f
-	.long	.LASF2103
-	.byte	0x5
-	.uleb128 0x62
-	.long	.LASF2104
-	.byte	0x5
-	.uleb128 0x65
-	.long	.LASF2105
-	.byte	0x5
-	.uleb128 0x68
-	.long	.LASF2106
-	.byte	0x5
-	.uleb128 0x6b
-	.long	.LASF2107
-	.byte	0x5
-	.uleb128 0x6e
-	.long	.LASF2108
-	.byte	0x5
-	.uleb128 0x71
-	.long	.LASF2109
-	.byte	0x5
-	.uleb128 0x80
-	.long	.LASF2110
-	.byte	0x5
-	.uleb128 0x86
-	.long	.LASF2111
-	.byte	0x5
-	.uleb128 0x8c
-	.long	.LASF2112
-	.byte	0x5
-	.uleb128 0x93
-	.long	.LASF2113
-	.byte	0x5
-	.uleb128 0x9a
-	.long	.LASF2114
-	.byte	0x5
-	.uleb128 0xb9
-	.long	.LASF2115
-	.byte	0x5
-	.uleb128 0xc4
-	.long	.LASF2116
-	.byte	0x5
-	.uleb128 0xcc
-	.long	.LASF2117
-	.byte	0x5
-	.uleb128 0xd3
-	.long	.LASF2118
-	.byte	0x5
-	.uleb128 0xda
-	.long	.LASF2119
-	.byte	0x5
-	.uleb128 0xec
-	.long	.LASF2120
-	.byte	0x5
-	.uleb128 0xf4
-	.long	.LASF2121
-	.byte	0x5
-	.uleb128 0xfa
-	.long	.LASF2122
-	.byte	0x5
-	.uleb128 0x100
-	.long	.LASF2123
-	.byte	0x5
-	.uleb128 0x106
-	.long	.LASF2124
-	.byte	0x5
-	.uleb128 0x10c
-	.long	.LASF2125
-	.byte	0x5
-	.uleb128 0x114
-	.long	.LASF2126
-	.byte	0x5
-	.uleb128 0x11c
-	.long	.LASF2127
-	.byte	0x5
-	.uleb128 0x123
-	.long	.LASF2128
-	.byte	0x5
-	.uleb128 0x12c
-	.long	.LASF2129
-	.byte	0x5
-	.uleb128 0x132
-	.long	.LASF2130
-	.byte	0x5
-	.uleb128 0x138
-	.long	.LASF2131
-	.byte	0x5
-	.uleb128 0x13e
-	.long	.LASF2132
-	.byte	0x5
-	.uleb128 0x145
-	.long	.LASF2133
-	.byte	0x5
-	.uleb128 0x14f
-	.long	.LASF2134
-	.byte	0x5
-	.uleb128 0x161
-	.long	.LASF2135
-	.byte	0x5
-	.uleb128 0x170
-	.long	.LASF2136
-	.byte	0x5
-	.uleb128 0x17a
-	.long	.LASF2137
-	.byte	0x5
-	.uleb128 0x181
-	.long	.LASF2138
-	.byte	0x5
-	.uleb128 0x18a
-	.long	.LASF2139
-	.byte	0x5
-	.uleb128 0x192
-	.long	.LASF2140
-	.byte	0x5
-	.uleb128 0x19a
-	.long	.LASF2141
-	.byte	0x5
-	.uleb128 0x1a1
-	.long	.LASF2142
-	.byte	0x5
-	.uleb128 0x1ac
-	.long	.LASF2143
-	.byte	0x5
-	.uleb128 0x1b9
-	.long	.LASF2144
-	.byte	0x5
-	.uleb128 0x1c7
-	.long	.LASF2145
+	.long	.LASF1802
 	.byte	0
-	.section	.debug_macro,"G",@progbits,wm4.stdarg.h.31.72c3aa8d68b291953fa52b9471bcdff7,comdat
+	.section	.debug_macro,"G",@progbits,wm4.stdio.h.248.5fbade1a796be71fda180118fce7900d,comdat
 .Ldebug_macro31:
 	.word	0x4
 	.byte	0
 	.byte	0x5
-	.uleb128 0x1f
-	.long	.LASF2147
+	.uleb128 0xf8
+	.long	.LASF2106
 	.byte	0x5
-	.uleb128 0x20
-	.long	.LASF2148
-	.byte	0x6
-	.uleb128 0x22
-	.long	.LASF2149
+	.uleb128 0xf9
+	.long	.LASF2107
 	.byte	0x5
-	.uleb128 0x27
-	.long	.LASF2150
+	.uleb128 0xfa
+	.long	.LASF2108
 	.byte	0x5
-	.uleb128 0x2f
-	.long	.LASF2151
+	.uleb128 0xfb
+	.long	.LASF2109
 	.byte	0x5
-	.uleb128 0x30
-	.long	.LASF2152
+	.uleb128 0xfc
+	.long	.LASF2110
+	.byte	0x5
+	.uleb128 0xfd
+	.long	.LASF2111
+	.byte	0x5
+	.uleb128 0xfe
+	.long	.LASF2112
+	.byte	0x5
+	.uleb128 0xff
+	.long	.LASF2113
+	.byte	0x5
+	.uleb128 0x11e
+	.long	.LASF2114
+	.byte	0x5
+	.uleb128 0x127
+	.long	.LASF2115
+	.byte	0x5
+	.uleb128 0x132
+	.long	.LASF2116
+	.byte	0x5
+	.uleb128 0x13a
+	.long	.LASF2117
+	.byte	0x5
+	.uleb128 0x141
+	.long	.LASF2118
+	.byte	0x5
+	.uleb128 0x145
+	.long	.LASF2119
+	.byte	0x5
+	.uleb128 0x15e
+	.long	.LASF2120
+	.byte	0x5
+	.uleb128 0x167
+	.long	.LASF2121
+	.byte	0x5
+	.uleb128 0x168
+	.long	.LASF2122
+	.byte	0x5
+	.uleb128 0x169
+	.long	.LASF2123
+	.byte	0x5
+	.uleb128 0x170
+	.long	.LASF2124
+	.byte	0x5
+	.uleb128 0x177
+	.long	.LASF2125
+	.byte	0x5
+	.uleb128 0x185
+	.long	.LASF2126
+	.byte	0x5
+	.uleb128 0x1c2
+	.long	.LASF2127
+	.byte	0x5
+	.uleb128 0x280
+	.long	.LASF2128
+	.byte	0x5
+	.uleb128 0x285
+	.long	.LASF2129
+	.byte	0x5
+	.uleb128 0x316
+	.long	.LASF2130
+	.byte	0x5
+	.uleb128 0x31c
+	.long	.LASF2131
+	.byte	0x5
+	.uleb128 0x354
+	.long	.LASF2132
+	.byte	0x5
+	.uleb128 0x35f
+	.long	.LASF2133
+	.byte	0x5
+	.uleb128 0x36a
+	.long	.LASF2134
+	.byte	0x5
+	.uleb128 0x3b4
+	.long	.LASF2135
+	.byte	0x5
+	.uleb128 0x3b5
+	.long	.LASF2136
+	.byte	0x5
+	.uleb128 0x3d5
+	.long	.LASF2137
+	.byte	0x5
+	.uleb128 0x3d6
+	.long	.LASF2138
+	.byte	0x5
+	.uleb128 0x3d7
+	.long	.LASF2139
+	.byte	0
+	.section	.debug_macro,"G",@progbits,wm4.delay.h.36.9b049a49ceee302c08fd72aec728bf54,comdat
+.Ldebug_macro32:
+	.word	0x4
+	.byte	0
+	.byte	0x5
+	.uleb128 0x24
+	.long	.LASF2141
+	.byte	0x5
+	.uleb128 0x28
+	.long	.LASF2142
+	.byte	0
+	.section	.debug_macro,"G",@progbits,wm4.math.h.49.a63885b3cd597bc58738696048bb49a6,comdat
+.Ldebug_macro33:
+	.word	0x4
+	.byte	0
 	.byte	0x5
 	.uleb128 0x31
+	.long	.LASF2144
+	.byte	0x5
+	.uleb128 0x47
+	.long	.LASF2145
+	.byte	0x5
+	.uleb128 0x4a
+	.long	.LASF2146
+	.byte	0x5
+	.uleb128 0x4d
+	.long	.LASF2147
+	.byte	0x5
+	.uleb128 0x50
+	.long	.LASF2148
+	.byte	0x5
+	.uleb128 0x53
+	.long	.LASF2149
+	.byte	0x5
+	.uleb128 0x56
+	.long	.LASF2150
+	.byte	0x5
+	.uleb128 0x59
+	.long	.LASF2151
+	.byte	0x5
+	.uleb128 0x5c
+	.long	.LASF2152
+	.byte	0x5
+	.uleb128 0x5f
 	.long	.LASF2153
 	.byte	0x5
-	.uleb128 0x33
+	.uleb128 0x62
 	.long	.LASF2154
 	.byte	0x5
-	.uleb128 0x35
+	.uleb128 0x65
 	.long	.LASF2155
 	.byte	0x5
 	.uleb128 0x68
@@ -9922,126 +10671,113 @@ disparado:
 	.uleb128 0x71
 	.long	.LASF2159
 	.byte	0x5
-	.uleb128 0x74
+	.uleb128 0x80
 	.long	.LASF2160
-	.byte	0
-	.section	.debug_macro,"G",@progbits,wm4.stdio.h.48.03f793588f1f7fb1580b876d18fe65ca,comdat
-.Ldebug_macro32:
-	.word	0x4
-	.byte	0
 	.byte	0x5
-	.uleb128 0x30
-	.long	.LASF1801
-	.byte	0x5
-	.uleb128 0x31
-	.long	.LASF1802
-	.byte	0
-	.section	.debug_macro,"G",@progbits,wm4.stdio.h.248.5fbade1a796be71fda180118fce7900d,comdat
-.Ldebug_macro33:
-	.word	0x4
-	.byte	0
-	.byte	0x5
-	.uleb128 0xf8
+	.uleb128 0x86
 	.long	.LASF2161
 	.byte	0x5
-	.uleb128 0xf9
+	.uleb128 0x8c
 	.long	.LASF2162
 	.byte	0x5
-	.uleb128 0xfa
+	.uleb128 0x93
 	.long	.LASF2163
 	.byte	0x5
-	.uleb128 0xfb
+	.uleb128 0x9a
 	.long	.LASF2164
 	.byte	0x5
-	.uleb128 0xfc
+	.uleb128 0xb9
 	.long	.LASF2165
 	.byte	0x5
-	.uleb128 0xfd
+	.uleb128 0xc4
 	.long	.LASF2166
 	.byte	0x5
-	.uleb128 0xfe
+	.uleb128 0xcc
 	.long	.LASF2167
 	.byte	0x5
-	.uleb128 0xff
+	.uleb128 0xd3
 	.long	.LASF2168
 	.byte	0x5
-	.uleb128 0x11e
+	.uleb128 0xda
 	.long	.LASF2169
 	.byte	0x5
-	.uleb128 0x127
+	.uleb128 0xec
 	.long	.LASF2170
 	.byte	0x5
-	.uleb128 0x132
+	.uleb128 0xf4
 	.long	.LASF2171
 	.byte	0x5
-	.uleb128 0x13a
+	.uleb128 0xfa
 	.long	.LASF2172
 	.byte	0x5
-	.uleb128 0x141
+	.uleb128 0x100
 	.long	.LASF2173
 	.byte	0x5
-	.uleb128 0x145
+	.uleb128 0x106
 	.long	.LASF2174
 	.byte	0x5
-	.uleb128 0x15e
+	.uleb128 0x10c
 	.long	.LASF2175
 	.byte	0x5
-	.uleb128 0x167
+	.uleb128 0x114
 	.long	.LASF2176
 	.byte	0x5
-	.uleb128 0x168
+	.uleb128 0x11c
 	.long	.LASF2177
 	.byte	0x5
-	.uleb128 0x169
+	.uleb128 0x123
 	.long	.LASF2178
 	.byte	0x5
-	.uleb128 0x170
+	.uleb128 0x12c
 	.long	.LASF2179
 	.byte	0x5
-	.uleb128 0x177
+	.uleb128 0x132
 	.long	.LASF2180
 	.byte	0x5
-	.uleb128 0x185
+	.uleb128 0x138
 	.long	.LASF2181
 	.byte	0x5
-	.uleb128 0x1c2
+	.uleb128 0x13e
 	.long	.LASF2182
 	.byte	0x5
-	.uleb128 0x280
+	.uleb128 0x145
 	.long	.LASF2183
 	.byte	0x5
-	.uleb128 0x285
+	.uleb128 0x14f
 	.long	.LASF2184
 	.byte	0x5
-	.uleb128 0x316
+	.uleb128 0x161
 	.long	.LASF2185
 	.byte	0x5
-	.uleb128 0x31c
+	.uleb128 0x170
 	.long	.LASF2186
 	.byte	0x5
-	.uleb128 0x354
+	.uleb128 0x17a
 	.long	.LASF2187
 	.byte	0x5
-	.uleb128 0x35f
+	.uleb128 0x181
 	.long	.LASF2188
 	.byte	0x5
-	.uleb128 0x36a
+	.uleb128 0x18a
 	.long	.LASF2189
 	.byte	0x5
-	.uleb128 0x3b4
+	.uleb128 0x192
 	.long	.LASF2190
 	.byte	0x5
-	.uleb128 0x3b5
+	.uleb128 0x19a
 	.long	.LASF2191
 	.byte	0x5
-	.uleb128 0x3d5
+	.uleb128 0x1a1
 	.long	.LASF2192
 	.byte	0x5
-	.uleb128 0x3d6
+	.uleb128 0x1ac
 	.long	.LASF2193
 	.byte	0x5
-	.uleb128 0x3d7
+	.uleb128 0x1b9
 	.long	.LASF2194
+	.byte	0x5
+	.uleb128 0x1c7
+	.long	.LASF2195
 	.byte	0
 	.section	.debug_macro,"G",@progbits,wm4.ADC.h.10.4375d630963ad1b8b9d883a341299c49,comdat
 .Ldebug_macro34:
@@ -10049,13 +10785,13 @@ disparado:
 	.byte	0
 	.byte	0x5
 	.uleb128 0xa
-	.long	.LASF2196
-	.byte	0x5
-	.uleb128 0xb
 	.long	.LASF2197
 	.byte	0x5
-	.uleb128 0xc
+	.uleb128 0xb
 	.long	.LASF2198
+	.byte	0x5
+	.uleb128 0xc
+	.long	.LASF2199
 	.byte	0
 	.section	.debug_macro,"G",@progbits,wm4.string.h.41.8b0fd4b8464d7737ca6ec77d9c41c5e8,comdat
 .Ldebug_macro35:
@@ -10063,7 +10799,7 @@ disparado:
 	.byte	0
 	.byte	0x5
 	.uleb128 0x29
-	.long	.LASF2203
+	.long	.LASF2204
 	.byte	0x5
 	.uleb128 0x2c
 	.long	.LASF1801
@@ -10106,17 +10842,17 @@ disparado:
 	.string	"_SFR_DWORD(sfr) _MMIO_DWORD(_SFR_ADDR(sfr))"
 .LASF1108:
 	.string	"GPIOR25 5"
-.LASF2184:
+.LASF2129:
 	.string	"putchar(__c) fputc(__c, stdout)"
-.LASF2144:
+.LASF2194:
 	.string	"lroundf lround"
 .LASF1145:
 	.string	"SM1 2"
-.LASF2189:
+.LASF2134:
 	.string	"ferror(s) ((s)->flags & __SERR)"
-.LASF2229:
+.LASF2234:
 	.string	"Mostrar_Matriz_1"
-.LASF2228:
+.LASF2233:
 	.string	"Mostrar_Matriz_2"
 .LASF1293:
 	.string	"MUX2 2"
@@ -10184,7 +10920,7 @@ disparado:
 	.string	"ADCSRB _SFR_MEM8(0x7B)"
 .LASF704:
 	.string	"_AVR_IO_H_ "
-.LASF2107:
+.LASF2157:
 	.string	"M_SQRT1_2 0.70710678118654752440"
 .LASF868:
 	.string	"SCNuFAST16 \"u\""
@@ -10226,7 +10962,7 @@ disparado:
 	.string	"__SA_FBIT__ 15"
 .LASF185:
 	.string	"__DEC128_MIN_EXP__ (-6142)"
-.LASF2201:
+.LASF2202:
 	.string	"C_CHECKBYTE_H_ "
 .LASF303:
 	.string	"__UDA_FBIT__ 32"
@@ -10234,6 +10970,8 @@ disparado:
 	.string	"TCNT2_1 1"
 .LASF2001:
 	.string	"STK600_RC032X 48"
+.LASF269:
+	.string	"__ULLACCUM_MAX__ 0XFFFFFFFFFFFFFFFFP-48ULLK"
 .LASF438:
 	.string	"BOARD ATMEGA328P_XPLAINED_MINI"
 .LASF571:
@@ -10262,8 +11000,8 @@ disparado:
 	.string	"SCNd32 \"ld\""
 .LASF294:
 	.string	"__SA_IBIT__ 16"
-.LASF2128:
-	.string	"atanf atan"
+.LASF2092:
+	.string	"_STDARG_H "
 .LASF150:
 	.string	"__DBL_MIN__ ((double)1.17549435e-38L)"
 .LASF304:
@@ -10290,7 +11028,7 @@ disparado:
 	.string	"_AVR_LOCK_H_ 1"
 .LASF1797:
 	.string	"NULL ((void *)0)"
-.LASF2199:
+.LASF2200:
 	.string	"TIMER_H_ "
 .LASF688:
 	.string	"SAM4CP_1 (SAM4CP16_1)"
@@ -10328,7 +11066,7 @@ disparado:
 	.string	"SAMDA1_XPLAINED_PRO 78"
 .LASF144:
 	.string	"__DBL_MIN_EXP__ (-125)"
-.LASF2115:
+.LASF2165:
 	.string	"cbrtf cbrt"
 .LASF1475:
 	.string	"TWD5 5"
@@ -10336,7 +11074,7 @@ disparado:
 	.string	"__ATTR_CONST__ __attribute__((__const__))"
 .LASF751:
 	.string	"INTMAX_MAX INT64_MAX"
-.LASF2114:
+.LASF2164:
 	.string	"fmodf fmod"
 .LASF66:
 	.string	"__INTPTR_TYPE__ int"
@@ -10362,11 +11100,11 @@ disparado:
 	.string	"TCN2UB 4"
 .LASF735:
 	.string	"UINT_LEAST64_MAX UINT64_MAX"
-.LASF2123:
+.LASF2173:
 	.string	"coshf cosh"
 .LASF140:
 	.string	"__FLT_HAS_INFINITY__ 1"
-.LASF2235:
+.LASF2241:
 	.string	"disparado"
 .LASF1895:
 	.string	"PROGMEM_READ_WORD(x) pgm_read_word(x)"
@@ -10374,7 +11112,7 @@ disparado:
 	.string	"SAMD10DS ( SAM_PART_IS_DEFINED(SAMD10D12AS) || SAM_PART_IS_DEFINED(SAMD10D13AS) || SAM_PART_IS_DEFINED(SAMD10D14AS) )"
 .LASF850:
 	.string	"SCNiLEAST32 \"li\""
-.LASF2210:
+.LASF2213:
 	.string	"uint16_t"
 .LASF461:
 	.string	"UC3L3_L4 (UC3L3 || UC3L4)"
@@ -10427,9 +11165,9 @@ disparado:
 	.string	"PCINT0_vect_num 3"
 .LASF1909:
 	.string	"CLE64_TO_CPU_ENDIAN(x) (x)"
-.LASF2225:
+.LASF2227:
 	.string	"__ms"
-.LASF2174:
+.LASF2119:
 	.string	"fdev_get_udata(stream) ((stream)->udata)"
 .LASF715:
 	.string	"INT16_MAX 0x7fff"
@@ -10473,7 +11211,7 @@ disparado:
 	.string	"bit_is_clear(sfr,bit) (!(_SFR_BYTE(sfr) & _BV(bit)))"
 .LASF1444:
 	.string	"TWBR0 0"
-.LASF2158:
+.LASF2103:
 	.string	"_VA_LIST_DEFINED "
 .LASF61:
 	.string	"__INT_FAST64_TYPE__ long long int"
@@ -10503,7 +11241,7 @@ disparado:
 	.string	"PRId32 \"ld\""
 .LASF1591:
 	.string	"ANALOG_COMP_vect_num 23"
-.LASF2135:
+.LASF2185:
 	.string	"isfinitef isfinite"
 .LASF1102:
 	.string	"GPIOR2 _SFR_IO8(0x2B)"
@@ -10521,7 +11259,7 @@ disparado:
 	.string	"__UTA_IBIT__ 16"
 .LASF781:
 	.string	"PRIdLEAST16 \"d\""
-.LASF2124:
+.LASF2174:
 	.string	"sinhf sinh"
 .LASF705:
 	.string	"_AVR_SFR_DEFS_H_ 1"
@@ -10566,8 +11304,6 @@ disparado:
 .LASF1866:
 	.ascii	"__LPM_dword_tiny__(addr) (__ext"
 	.string	"ension__({ uint16_t __addr16 = (uint16_t)(addr) + __AVR_TINY_PM_BASE_ADDRESS__; uint32_t __result; __asm__ ( \"ld %A0, z+\" \"\\n\\t\" \"ld %B0, z+\" \"\\n\\t\" \"ld %C0, z+\" \"\\n\\t\" \"ld %D0, z\" \"\\n\\t\" : \"=r\" (__result), \"=z\" (__addr16) : \"1\" (__addr16) ); __result; }))"
-.LASF2213:
-	.string	"uint32_t"
 .LASF1109:
 	.string	"GPIOR26 6"
 .LASF184:
@@ -10582,7 +11318,7 @@ disparado:
 	.string	"_T_PTRDIFF_ "
 .LASF1726:
 	.string	"FUSEMEM __attribute__((__used__, __section__ (\".fuse\")))"
-.LASF2149:
+.LASF2094:
 	.string	"__need___va_list"
 .LASF1919:
 	.string	"convert_spec_16_bit_to_byte_array(value,data) ((*(uint16_t *)(data)) = (uint16_t)(value))"
@@ -10600,7 +11336,7 @@ disparado:
 	.string	"OCR2B _SFR_MEM8(0xB4)"
 .LASF1882:
 	.string	"pgm_read_dword(address_short) pgm_read_dword_near(address_short)"
-.LASF2253:
+.LASF2263:
 	.string	"Matriz_P1"
 .LASF2009:
 	.string	"XMEGA_RF233_ZIGBIT 56"
@@ -10620,7 +11356,7 @@ disparado:
 	.string	"MEGA_XX0_1 (MEGA_XX0 || MEGA_XX1)"
 .LASF275:
 	.string	"__SQ_FBIT__ 31"
-.LASF2195:
+.LASF2196:
 	.string	"UART_H_ "
 .LASF1088:
 	.string	"OCR0B_3 3"
@@ -10632,7 +11368,7 @@ disparado:
 	.string	"PINB4 4"
 .LASF1602:
 	.string	"XRAMEND RAMEND"
-.LASF2168:
+.LASF2113:
 	.string	"__SMALLOC 0x80"
 .LASF1172:
 	.string	"WDE 3"
@@ -10648,11 +11384,9 @@ disparado:
 	.string	"OCR1BH3 3"
 .LASF1963:
 	.string	"UC3L_EK 7"
-.LASF1238:
-	.string	"PCINT19 3"
 .LASF1435:
 	.string	"ASSR _SFR_MEM8(0xB6)"
-.LASF2203:
+.LASF2204:
 	.string	"_STRING_H_ 1"
 .LASF1996:
 	.string	"ARDUINO_DUE_X 43"
@@ -10676,7 +11410,7 @@ disparado:
 	.string	"__BIGGEST_ALIGNMENT__ 1"
 .LASF699:
 	.string	"SAMS70B (SAMS70JB || SAMS70NB || SAMS70QB)"
-.LASF2160:
+.LASF2105:
 	.string	"__va_list__ "
 .LASF664:
 	.string	"SAMD11 (SAMD11C || SAMD11DS || SAMD11DM || SAMD11DU)"
@@ -10750,7 +11484,7 @@ disparado:
 	.string	"__BUILTIN_AVR_WDR 1"
 .LASF232:
 	.string	"__SACCUM_IBIT__ 8"
-.LASF2143:
+.LASF2193:
 	.string	"roundf round"
 .LASF1941:
 	.string	"IOPORT_MODE_PULLUP (0x00)"
@@ -10758,7 +11492,7 @@ disparado:
 	.string	"SPR0 0"
 .LASF1843:
 	.string	"ISR_NOBLOCK __attribute__((interrupt))"
-.LASF2221:
+.LASF2223:
 	.string	"P2RGB"
 .LASF2019:
 	.string	"SAMG53_XPLAINED_PRO 66"
@@ -10776,13 +11510,13 @@ disparado:
 	.ascii	"SAMD20G ( SAM_PART_IS_DEFINED(SAMD20G14) || SAM_PART_IS_DEFI"
 	.ascii	"NED(SAMD20G15) || SAM_PART_IS_DEFINED"
 	.string	"(SAMD20G16) || SAM_PART_IS_DEFINED(SAMD20G14B) || SAM_PART_IS_DEFINED(SAMD20G15B) || SAM_PART_IS_DEFINED(SAMD20G16B) || SAM_PART_IS_DEFINED(SAMD20G17) || SAM_PART_IS_DEFINED(SAMD20G17U) || SAM_PART_IS_DEFINED(SAMD20G18) || SAM_PART_IS_DEFINED(SAMD20G18U) )"
-.LASF2146:
+.LASF2091:
 	.string	"_STDIO_H_ 1"
-.LASF2093:
+.LASF2143:
 	.string	"_UTIL_DELAY_BASIC_H_ 1"
 .LASF958:
 	.string	"PORTC6 6"
-.LASF2212:
+.LASF2215:
 	.string	"long int"
 .LASF1476:
 	.string	"TWD6 6"
@@ -10873,7 +11607,7 @@ disparado:
 	.string	"PINB0 0"
 .LASF1560:
 	.string	"TIMER2_COMPA_vect _VECTOR(7)"
-.LASF2248:
+.LASF2256:
 	.string	"abajo_max"
 .LASF1552:
 	.string	"PCINT0_vect _VECTOR(3)"
@@ -10937,7 +11671,7 @@ disparado:
 	.string	"EIMSK _SFR_IO8(0x1D)"
 .LASF1076:
 	.string	"OCR0A_0 0"
-.LASF2172:
+.LASF2117:
 	.string	"EOF (-1)"
 .LASF988:
 	.string	"OCF0A 1"
@@ -10953,12 +11687,12 @@ disparado:
 	.string	"TWDR _SFR_MEM8(0xBB)"
 .LASF827:
 	.string	"PRIX32 \"lX\""
-.LASF2165:
+.LASF2110:
 	.string	"__SERR 0x0010"
 .LASF2082:
 	.string	"TWID_SCL IOPORT_CREATE_PIN(PORTC, 5)"
-.LASF2273:
-	.string	"D:\\\\descargas\\\\GccMatrixWS2812 V3\\\\GccMatrixWS2812 V3\\\\Debug"
+.LASF2265:
+	.string	"ispressed"
 .LASF719:
 	.string	"INT32_MIN (-INT32_MAX - 1L)"
 .LASF363:
@@ -10967,16 +11701,14 @@ disparado:
 	.string	"STK600_RCUC3L0 6"
 .LASF1034:
 	.string	"EEAR _SFR_IO16(0x21)"
-.LASF62:
-	.string	"__UINT_FAST8_TYPE__ unsigned char"
+.LASF1982:
+	.string	"STK600_RC100X_LCDX 29"
 .LASF1885:
 	.string	"pgm_get_far_address(var) ({ uint_farptr_t tmp; __asm__ __volatile__( \"ldi\t%A0, lo8(%1)\" \"\\n\\t\" \"ldi\t%B0, hi8(%1)\" \"\\n\\t\" \"ldi\t%C0, hh8(%1)\" \"\\n\\t\" \"clr\t%D0\" \"\\n\\t\" : \"=d\" (tmp) : \"p\" (&(var)) ); tmp; })"
 .LASF365:
 	.string	"__BUILTIN_AVR_ROUNDLR 1"
 .LASF358:
 	.string	"__BUILTIN_AVR_ABSLLR 1"
-.LASF2147:
-	.string	"_STDARG_H "
 .LASF1194:
 	.string	"__AVR_HAVE_PRR_PRSPI "
 .LASF1382:
@@ -10985,11 +11717,7 @@ disparado:
 	.string	"SAMDA1 (SAMDA1J || SAMDA1G || SAMDA1E)"
 .LASF802:
 	.string	"PRIxFAST8 \"x\""
-.LASF2268:
-	.string	"read_VRX"
-.LASF2270:
-	.string	"read_VRY"
-.LASF2092:
+.LASF2142:
 	.string	"__HAS_DELAY_CYCLES 1"
 .LASF1675:
 	.string	"PC1 PORTC1"
@@ -11005,7 +11733,7 @@ disparado:
 	.string	"__GCC_ATOMIC_POINTER_LOCK_FREE 1"
 .LASF1223:
 	.string	"PCINT5 5"
-.LASF2262:
+.LASF2275:
 	.string	"display_init"
 .LASF425:
 	.string	"__BUILTIN_AVR_ULKBITS 1"
@@ -11064,7 +11792,7 @@ disparado:
 	.string	"SAMC21J ( SAM_PART_IS_DEFINED(SAMC21J15A) || SAM_PART_IS_DEFINED(SAMC21J16A) || SAM_PART_IS_DEFINED(SAMC21J17A) || SAM_PART_IS_DEFINED(SAMC21J18A) )"
 .LASF288:
 	.string	"__UDQ_IBIT__ 0"
-.LASF2161:
+.LASF2106:
 	.string	"__SRD 0x0001"
 .LASF233:
 	.string	"__SACCUM_MIN__ (-0X1P7HK-0X1P7HK)"
@@ -11095,7 +11823,7 @@ disparado:
 	.string	"PRIiLEAST16 \"i\""
 .LASF175:
 	.string	"__DEC32_EPSILON__ 1E-6DF"
-.LASF2111:
+.LASF2161:
 	.string	"sinf sin"
 .LASF601:
 	.string	"SAM4C32 (SAM4C32_0 || SAM4C32_1)"
@@ -11103,8 +11831,6 @@ disparado:
 	.string	"ACBG 6"
 .LASF1403:
 	.string	"WGM20 0"
-.LASF2279:
-	.string	"ADCTestBench"
 .LASF799:
 	.string	"PRIuFAST8 \"u\""
 .LASF501:
@@ -11121,7 +11847,7 @@ disparado:
 	.string	"TCCR1A _SFR_MEM8(0x80)"
 .LASF606:
 	.string	"SAM4CMP16_1 ( SAM_PART_IS_DEFINED(SAM4CMP16C_1) )"
-.LASF2095:
+.LASF2145:
 	.string	"M_E 2.7182818284590452354"
 .LASF893:
 	.string	"_SFR_MEM_ADDR(sfr) ((uint16_t) &(sfr))"
@@ -11143,8 +11869,8 @@ disparado:
 	.string	"SAM3S8 ( SAM_PART_IS_DEFINED(SAM3S8B) || SAM_PART_IS_DEFINED(SAM3S8C) )"
 .LASF319:
 	.string	"__GCC_ATOMIC_TEST_AND_SET_TRUEVAL 1"
-.LASF2267:
-	.string	"__itoa_ncheck"
+.LASF48:
+	.string	"__UINT32_TYPE__ long unsigned int"
 .LASF205:
 	.string	"__FRACT_EPSILON__ 0x1P-15R"
 .LASF1022:
@@ -11159,6 +11885,8 @@ disparado:
 	.string	"CS22 2"
 .LASF1946:
 	.string	"gpio_pin_is_low(io_id) ioport_pin_is_low(io_id)"
+.LASF1531:
+	.string	"UBRR0_6 6"
 .LASF1096:
 	.string	"GPIOR12 2"
 .LASF686:
@@ -11171,7 +11899,7 @@ disparado:
 	.string	"SAMV70J ( SAM_PART_IS_DEFINED(SAMV70J19) || SAM_PART_IS_DEFINED(SAMV70J20) )"
 .LASF219:
 	.string	"__ULFRACT_MAX__ 0XFFFFFFFFP-32ULR"
-.LASF2196:
+.LASF2197:
 	.string	"ADC_H_ "
 .LASF1167:
 	.string	"SPMIE 7"
@@ -11189,7 +11917,7 @@ disparado:
 	.string	"SPR1 1"
 .LASF426:
 	.string	"__BUILTIN_AVR_ULLKBITS 1"
-.LASF2208:
+.LASF2211:
 	.string	"unsigned char"
 .LASF895:
 	.string	"_SFR_IO_REG_P(sfr) (_SFR_MEM_ADDR(sfr) < 0x40 + __SFR_OFFSET)"
@@ -11209,8 +11937,8 @@ disparado:
 	.string	"PORTD2 2"
 .LASF27:
 	.string	"__ORDER_LITTLE_ENDIAN__ 1234"
-.LASF1759:
-	.string	"_PTRDIFF_T_DECLARED "
+.LASF1061:
+	.string	"CS01 1"
 .LASF975:
 	.string	"DDD6 6"
 .LASF1704:
@@ -11273,6 +12001,8 @@ disparado:
 	.string	"WLR089U0 ( SAM_PART_IS_DEFINED(WLR089U0) )"
 .LASF24:
 	.string	"__SIZEOF_SIZE_T__ 2"
+.LASF1759:
+	.string	"_PTRDIFF_T_DECLARED "
 .LASF775:
 	.string	"PRIdLEAST8 \"d\""
 .LASF188:
@@ -11304,15 +12034,15 @@ disparado:
 	.string	"PCIFR _SFR_IO8(0x1B)"
 .LASF624:
 	.string	"SAM4CP16_1 ( SAM_PART_IS_DEFINED(SAM4CP16B_1) )"
-.LASF2183:
+.LASF2128:
 	.string	"putc(__c,__stream) fputc(__c, __stream)"
-.LASF2103:
+.LASF2153:
 	.string	"M_1_PI 0.31830988618379067154"
 .LASF580:
 	.string	"SAMC20E ( SAM_PART_IS_DEFINED(SAMC20E15A) || SAM_PART_IS_DEFINED(SAMC20E16A) || SAM_PART_IS_DEFINED(SAMC20E17A) || SAM_PART_IS_DEFINED(SAMC20E18A) )"
 .LASF1929:
 	.string	"Swap64(u64) ((U64)(((U64)Swap32((U64)(u64) >> 32)) | ((U64)Swap32((U64)(u64)) << 32)))"
-.LASF2177:
+.LASF2122:
 	.string	"_FDEV_SETUP_WRITE __SWR"
 .LASF598:
 	.string	"SAM4C16 (SAM4C16_0 || SAM4C16_1)"
@@ -11338,7 +12068,7 @@ disparado:
 	.string	"__BUILTIN_AVR_ROUNDHK 1"
 .LASF1158:
 	.string	"SPMCSR _SFR_IO8(0x37)"
-.LASF2219:
+.LASF2221:
 	.string	"blue"
 .LASF286:
 	.string	"__USQ_IBIT__ 0"
@@ -11430,19 +12160,19 @@ disparado:
 	.string	"__ULACCUM_FBIT__ 32"
 .LASF1327:
 	.string	"TCNT1L _SFR_MEM8(0x84)"
-.LASF2155:
+.LASF2100:
 	.string	"__va_copy(d,s) __builtin_va_copy(d,s)"
 .LASF1457:
 	.string	"TWS5 5"
 .LASF531:
 	.string	"SAM4SD32 ( SAM_PART_IS_DEFINED(SAM4SD32B) || SAM_PART_IS_DEFINED(SAM4SD32C) )"
-.LASF2152:
-	.string	"va_end(v) __builtin_va_end(v)"
 .LASF536:
 	.ascii	"SAMD20E ( SAM_PART_IS_DEFIN"
 	.string	"ED(SAMD20E14) || SAM_PART_IS_DEFINED(SAMD20E15) || SAM_PART_IS_DEFINED(SAMD20E16) || SAM_PART_IS_DEFINED(SAMD20E14B) || SAM_PART_IS_DEFINED(SAMD20E15B) || SAM_PART_IS_DEFINED(SAMD20E16B) || SAM_PART_IS_DEFINED(SAMD20E17) || SAM_PART_IS_DEFINED(SAMD20E18) )"
 .LASF629:
 	.string	"SAMG55 ( SAM_PART_IS_DEFINED(SAMG55G18) || SAM_PART_IS_DEFINED(SAMG55G19) || SAM_PART_IS_DEFINED(SAMG55J18) || SAM_PART_IS_DEFINED(SAMG55J19) || SAM_PART_IS_DEFINED(SAMG55N19) )"
+.LASF1954:
+	.string	"gpio_set_pin_group_low(port_id,mask) ioport_set_group_low(port_id, mask)"
 .LASF841:
 	.string	"SCNdLEAST16 \"d\""
 .LASF1550:
@@ -11451,7 +12181,7 @@ disparado:
 	.string	"WDT_vect _VECTOR(6)"
 .LASF2013:
 	.string	"SAM4L8_XPLAINED_PRO 60"
-.LASF2237:
+.LASF2243:
 	.string	"agua"
 .LASF2021:
 	.string	"SAM4E_XPLAINED_PRO 68"
@@ -11470,9 +12200,9 @@ disparado:
 .LASF497:
 	.ascii	"MEGA_XX ( AVR8_PART_IS_DEFINED"
 	.string	"(ATmega16) || AVR8_PART_IS_DEFINED(ATmega16A) || AVR8_PART_IS_DEFINED(ATmega32) || AVR8_PART_IS_DEFINED(ATmega32A) || AVR8_PART_IS_DEFINED(ATmega64) || AVR8_PART_IS_DEFINED(ATmega64A) || AVR8_PART_IS_DEFINED(ATmega128) || AVR8_PART_IS_DEFINED(ATmega128A) )"
-.LASF2272:
+.LASF2278:
 	.string	"../src/main.c"
-.LASF2205:
+.LASF2206:
 	.string	"submarine (1<<6)"
 .LASF1789:
 	.string	"_WCHAR_T_H "
@@ -11496,7 +12226,7 @@ disparado:
 	.string	"__ATTR_PROGMEM__ __attribute__((__progmem__))"
 .LASF30:
 	.string	"__BYTE_ORDER__ __ORDER_LITTLE_ENDIAN__"
-.LASF2108:
+.LASF2158:
 	.string	"NAN __builtin_nan(\"\")"
 .LASF1317:
 	.string	"CS11 1"
@@ -11544,7 +12274,7 @@ disparado:
 	.string	"PRId16 \"d\""
 .LASF361:
 	.string	"__BUILTIN_AVR_ABSLK 1"
-.LASF2116:
+.LASF2166:
 	.string	"hypotf hypot"
 .LASF85:
 	.string	"__UINTMAX_MAX__ 0xffffffffffffffffULL"
@@ -11560,13 +12290,13 @@ disparado:
 	.string	"__USA_IBIT__ 16"
 .LASF245:
 	.string	"__ACCUM_EPSILON__ 0x1P-15K"
-.LASF2156:
+.LASF2101:
 	.string	"_VA_LIST_ "
 .LASF891:
 	.string	"_SFR_IO8(io_addr) _MMIO_BYTE((io_addr) + __SFR_OFFSET)"
 .LASF254:
 	.string	"__LACCUM_MAX__ 0X7FFFFFFFFFFFFFFFP-31LK"
-.LASF2258:
+.LASF2271:
 	.string	"init_RTI"
 .LASF1541:
 	.string	"UDR0_2 2"
@@ -11600,8 +12330,8 @@ disparado:
 	.string	"SAM3S_EK 32"
 .LASF1655:
 	.string	"DD2 2"
-.LASF2269:
-	.string	"UART_send_data"
+.LASF62:
+	.string	"__UINT_FAST8_TYPE__ unsigned char"
 .LASF1161:
 	.string	"PGERS 1"
 .LASF1097:
@@ -11610,13 +12340,13 @@ disparado:
 	.string	"ACME 6"
 .LASF351:
 	.string	"__BUILTIN_AVR_FMULSU 1"
-.LASF2137:
+.LASF2187:
 	.string	"signbitf signbit"
-.LASF2202:
+.LASF2203:
 	.string	"DISPLAY_SS_H_ "
 .LASF592:
 	.string	"SAM4C4 (SAM4C4_0 || SAM4C4_1)"
-.LASF2129:
+.LASF2179:
 	.string	"atan2f atan2"
 .LASF564:
 	.string	"SAMD11DU ( SAM_PART_IS_DEFINED(SAMD11D14AU) )"
@@ -11628,7 +12358,7 @@ disparado:
 	.string	"IOPORT_PORTB 1"
 .LASF1616:
 	.string	"FUSE_BOOTRST (unsigned char)~_BV(0)"
-.LASF2138:
+.LASF2188:
 	.string	"fdimf fdim"
 .LASF498:
 	.string	"MEGA_XX_A ( AVR8_PART_IS_DEFINED(ATmega16A) || AVR8_PART_IS_DEFINED(ATmega32A) || AVR8_PART_IS_DEFINED(ATmega64A) || AVR8_PART_IS_DEFINED(ATmega128A) )"
@@ -11671,9 +12401,9 @@ disparado:
 	.string	"__SIG_ATOMIC_MAX__ 0x7f"
 .LASF1283:
 	.string	"ADSC 6"
-.LASF2112:
+.LASF2162:
 	.string	"tanf tan"
-.LASF2153:
+.LASF2098:
 	.string	"va_arg(v,l) __builtin_va_arg(v,l)"
 .LASF1849:
 	.string	"Enable_global_interrupt() cpu_irq_enable()"
@@ -11693,13 +12423,13 @@ disparado:
 	.string	"PROGMEM_PTR_T const *"
 .LASF1375:
 	.string	"OCR1AH0 0"
-.LASF2246:
+.LASF2254:
 	.string	"izquierda_max"
 .LASF826:
 	.string	"PRIxFAST32 \"lx\""
 .LASF1266:
 	.string	"ADCL7 7"
-.LASF2102:
+.LASF2152:
 	.string	"M_PI_4 0.78539816339744830962"
 .LASF317:
 	.string	"__GCC_ATOMIC_LONG_LOCK_FREE 1"
@@ -11707,6 +12437,8 @@ disparado:
 	.string	"WGM01 1"
 .LASF1990:
 	.string	"SAM4S_EK 37"
+.LASF289:
+	.string	"__UTQ_FBIT__ 128"
 .LASF1842:
 	.string	"ISR_BLOCK "
 .LASF1198:
@@ -11715,7 +12447,7 @@ disparado:
 	.string	"__BUILTIN_AVR_ROUNDFX 1"
 .LASF283:
 	.string	"__UHQ_FBIT__ 16"
-.LASF2209:
+.LASF2212:
 	.string	"uint8_t"
 .LASF2083:
 	.string	"USART_RX IOPORT_CREATE_PIN(PORTD, 0)"
@@ -11745,7 +12477,7 @@ disparado:
 	.string	"UCSR0C _SFR_MEM8(0xC2)"
 .LASF77:
 	.string	"__WCHAR_MAX__ 0x7fff"
-.LASF2179:
+.LASF2124:
 	.string	"_FDEV_ERR (-1)"
 .LASF398:
 	.string	"__BUILTIN_AVR_BITSLLR 1"
@@ -11761,7 +12493,7 @@ disparado:
 	.string	"COM0A0 6"
 .LASF331:
 	.string	"__AVR_HAVE_LPMX__ 1"
-.LASF2266:
+.LASF2269:
 	.string	"set_P2"
 .LASF637:
 	.string	"SAMV70JB ( SAM_PART_IS_DEFINED(SAMV70J19B) || SAM_PART_IS_DEFINED(SAMV70J20B) )"
@@ -11775,7 +12507,7 @@ disparado:
 	.string	"__BUILTIN_AVR_CLI 1"
 .LASF910:
 	.string	"PINB1 1"
-.LASF2187:
+.LASF2132:
 	.string	"clearerror(s) do { (s)->flags &= ~(__SERR | __SEOF); } while(0)"
 .LASF1668:
 	.string	"PB2 PORTB2"
@@ -11783,7 +12515,7 @@ disparado:
 	.string	"STK600_RCUC3D 16"
 .LASF414:
 	.string	"__BUILTIN_AVR_LLRBITS 1"
-.LASF2134:
+.LASF2184:
 	.string	"isinff isinf"
 .LASF563:
 	.string	"SAMD11DM ( SAM_PART_IS_DEFINED(SAMD11D14AM) )"
@@ -11863,6 +12595,8 @@ disparado:
 	.string	"_ANSI_STDDEF_H "
 .LASF1078:
 	.string	"OCR0A_2 2"
+.LASF2084:
+	.string	"USART_TX IOPORT_CREATE_PIN(PORTD, 1)"
 .LASF1682:
 	.string	"PD1 PORTD1"
 .LASF366:
@@ -11883,7 +12617,7 @@ disparado:
 	.string	"__GCC_HAVE_DWARF2_CFI_ASM 1"
 .LASF1676:
 	.string	"PC2 PORTC2"
-.LASF2148:
+.LASF2093:
 	.string	"_ANSI_STDARG_H_ "
 .LASF1768:
 	.string	"_SIZE_T_ "
@@ -11895,8 +12629,10 @@ disparado:
 	.string	"__SACCUM_EPSILON__ 0x1P-7HK"
 .LASF1458:
 	.string	"TWS6 6"
-.LASF2132:
+.LASF2182:
 	.string	"powf pow"
+.LASF2178:
+	.string	"atanf atan"
 .LASF672:
 	.string	"SAMR35 (SAMR35J)"
 .LASF1669:
@@ -11907,16 +12643,16 @@ disparado:
 	.string	"__ULLFRACT_MAX__ 0XFFFFFFFFFFFFFFFFP-64ULLR"
 .LASF359:
 	.string	"__BUILTIN_AVR_ABSHK 1"
+.LASF2150:
+	.string	"M_PI 3.14159265358979323846"
 .LASF1908:
 	.string	"CLE32_TO_CPU_ENDIAN(x) (x)"
 .LASF290:
 	.string	"__UTQ_IBIT__ 0"
 .LASF658:
 	.string	"SAM4S (SAM4S2 || SAM4S4 || SAM4S8 || SAM4S16 || SAM4SA16 || SAM4SD16 || SAM4SD32)"
-.LASF2231:
+.LASF2239:
 	.string	"softdelay"
-.LASF1614:
-	.string	"FUSE_CKDIV8 (unsigned char)~_BV(7)"
 .LASF291:
 	.string	"__HA_FBIT__ 7"
 .LASF1225:
@@ -11925,7 +12661,7 @@ disparado:
 	.string	"SCNx16 \"x\""
 .LASF248:
 	.string	"__UACCUM_MIN__ 0.0UK"
-.LASF2247:
+.LASF2255:
 	.string	"abajo_min"
 .LASF68:
 	.string	"__has_include(STR) __has_include__(STR)"
@@ -11933,8 +12669,8 @@ disparado:
 	.string	"nop() do { __asm__ __volatile__ (\"nop\"); } while (0)"
 .LASF818:
 	.string	"PRIo32 \"lo\""
-.LASF2277:
-	.string	"__itoa"
+.LASF1614:
+	.string	"FUSE_CKDIV8 (unsigned char)~_BV(7)"
 .LASF662:
 	.string	"SAMD09 (SAMD09C || SAMD09D)"
 .LASF667:
@@ -11959,13 +12695,11 @@ disparado:
 	.string	"SAM3U (SAM3U1 || SAM3U2 || SAM3U4)"
 .LASF177:
 	.string	"__DEC64_MANT_DIG__ 16"
-.LASF123:
-	.string	"__GCC_IEC_559 0"
 .LASF541:
 	.string	"SAMD21EXXL ( SAM_PART_IS_DEFINED(SAMD21E15L) || SAM_PART_IS_DEFINED(SAMD21E16L) || SAM_PART_IS_DEFINED(SAMD21E17L) )"
 .LASF141:
 	.string	"__FLT_HAS_QUIET_NAN__ 1"
-.LASF2271:
+.LASF2277:
 	.string	"GNU C99 5.4.0 -mn-flash=1 -mno-skip-bug -mrelax -mmcu=avr5 -g3 -O1 -std=gnu99 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -fno-strict-aliasing"
 .LASF773:
 	.string	"_GCC_WRAP_STDINT_H "
@@ -11995,7 +12729,7 @@ disparado:
 	.string	"INT_LEAST8_MAX INT8_MAX"
 .LASF1132:
 	.string	"SPDR7 7"
-.LASF2167:
+.LASF2112:
 	.string	"__SUNGET 0x040"
 .LASF938:
 	.string	"PINC2 2"
@@ -12007,6 +12741,8 @@ disparado:
 	.string	"STK600_RC064X_LCDX 28"
 .LASF1677:
 	.string	"PC3 PORTC3"
+.LASF1253:
+	.string	"TOIE2 0"
 .LASF1409:
 	.string	"TCCR2B _SFR_MEM8(0xB1)"
 .LASF856:
@@ -12021,10 +12757,8 @@ disparado:
 	.string	"__LDBL_MAX_10_EXP__ 38"
 .LASF29:
 	.string	"__ORDER_PDP_ENDIAN__ 3412"
-.LASF48:
-	.string	"__UINT32_TYPE__ long unsigned int"
-.LASF11:
-	.string	"__ATOMIC_ACQUIRE 2"
+.LASF1238:
+	.string	"PCINT19 3"
 .LASF1861:
 	.string	"__LPM_enhanced__(addr) (__extension__({ uint16_t __addr16 = (uint16_t)(addr); uint8_t __result; __asm__ __volatile__ ( \"lpm %0, Z\" \"\\n\\t\" : \"=r\" (__result) : \"z\" (__addr16) ); __result; }))"
 .LASF1400:
@@ -12055,7 +12789,7 @@ disparado:
 	.string	"TWA3 4"
 .LASF103:
 	.string	"__INT_LEAST64_MAX__ 0x7fffffffffffffffLL"
-.LASF2162:
+.LASF2107:
 	.string	"__SWR 0x0002"
 .LASF137:
 	.string	"__FLT_EPSILON__ 1.19209290e-7F"
@@ -12087,13 +12821,13 @@ disparado:
 	.string	"UC3L3 ( AVR32_PART_IS_DEFINED(UC64L3U) || AVR32_PART_IS_DEFINED(UC128L3U) || AVR32_PART_IS_DEFINED(UC256L3U) )"
 .LASF1216:
 	.string	"ISC11 3"
-.LASF1509:
-	.string	"UDRIE0 5"
+.LASF1047:
+	.string	"_EEPROM_REG_LOCATIONS_ 1F2021"
 .LASF1275:
 	.string	"ADCH7 7"
 .LASF242:
 	.string	"__ACCUM_IBIT__ 16"
-.LASF2151:
+.LASF2096:
 	.string	"va_start(v,l) __builtin_va_start(v,l)"
 .LASF1422:
 	.string	"TCNT2_5 5"
@@ -12103,9 +12837,9 @@ disparado:
 	.string	"SAM4CP16BMB 67"
 .LASF1808:
 	.string	"__ATTR_PURE__ __attribute__((__pure__))"
-.LASF2139:
+.LASF2189:
 	.string	"fmaf fma"
-.LASF2130:
+.LASF2180:
 	.string	"logf log"
 .LASF338:
 	.string	"__AVR_HAVE_SPH__ 1"
@@ -12141,14 +12875,12 @@ disparado:
 	.string	"IOPORT_PORTC 2"
 .LASF1838:
 	.string	"EMPTY_INTERRUPT(vector) void vector (void) __attribute__ ((signal,naked,__INTR_ATTRS)); void vector (void) { __asm__ __volatile__ (\"reti\" ::); }"
-.LASF214:
-	.string	"__LFRACT_MAX__ 0X7FFFFFFFP-31LR"
 .LASF1415:
 	.string	"FOC2A 7"
 .LASF1634:
 	.string	"SIGNATURE_2 0x0F"
-.LASF516:
-	.string	"SAM3N00 ( SAM_PART_IS_DEFINED(SAM3N00A) || SAM_PART_IS_DEFINED(SAM3N00B) )"
+.LASF754:
+	.string	"PTRDIFF_MAX INT16_MAX"
 .LASF1688:
 	.string	"PD7 PORTD7"
 .LASF518:
@@ -12157,12 +12889,12 @@ disparado:
 	.string	"IOPORT_MEGA_RF_H "
 .LASF1355:
 	.string	"ICR1H _SFR_MEM8(0x87)"
-.LASF2191:
+.LASF2136:
 	.string	"_IONBF 0"
 .LASF982:
 	.string	"PORTD4 4"
-.LASF2275:
-	.string	"__builtin_avr_delay_cycles"
+.LASF1978:
+	.string	"STK600_RCUC3B0 25"
 .LASF204:
 	.string	"__FRACT_MAX__ 0X7FFFP-15R"
 .LASF1595:
@@ -12173,8 +12905,10 @@ disparado:
 	.string	"__always_inline inline __attribute__((__always_inline__))"
 .LASF412:
 	.string	"__BUILTIN_AVR_RBITS 1"
-.LASF1253:
-	.string	"TOIE2 0"
+.LASF123:
+	.string	"__GCC_IEC_559 0"
+.LASF2236:
+	.string	"TurnoP1"
 .LASF479:
 	.string	"XMEGA_C4 ( AVR8_PART_IS_DEFINED(ATxmega32C4) || AVR8_PART_IS_DEFINED(ATxmega16C4) )"
 .LASF1029:
@@ -12225,7 +12959,7 @@ disparado:
 	.string	"UBRR0_2 2"
 .LASF1793:
 	.string	"_WCHAR_T_DECLARED "
-.LASF2256:
+.LASF2266:
 	.string	"Turno"
 .LASF474:
 	.string	"XMEGA_A3BU ( AVR8_PART_IS_DEFINED(ATxmega256A3BU) )"
@@ -12268,14 +13002,14 @@ disparado:
 	.string	"__INT_FAST16_TYPE__ int"
 .LASF1166:
 	.string	"RWWSB 6"
-.LASF2098:
+.LASF2148:
 	.string	"M_LN2 0.69314718055994530942"
 .LASF1528:
 	.string	"UBRR0_3 3"
-.LASF2264:
+.LASF2267:
 	.string	"set_P1"
-.LASF2226:
-	.string	"__val"
+.LASF2140:
+	.string	"__DELAY_BACKWARD_COMPATIBLE__ "
 .LASF876:
 	.string	"SCNuLEAST32 \"lu\""
 .LASF2059:
@@ -12284,15 +13018,13 @@ disparado:
 	.string	"PRIiLEAST32 \"li\""
 .LASF674:
 	.string	"SAMB11 (SAMB11G || BTLC1000)"
-.LASF2274:
+.LASF2225:
 	.string	"_delay_ms"
-.LASF754:
-	.string	"PTRDIFF_MAX INT16_MAX"
 .LASF758:
 	.string	"SIZE_MAX UINT16_MAX"
 .LASF1859:
 	.string	"__LPM_classic__(addr) (__extension__({ uint16_t __addr16 = (uint16_t)(addr); uint8_t __result; __asm__ __volatile__ ( \"lpm\" \"\\n\\t\" \"mov %0, r0\" \"\\n\\t\" : \"=r\" (__result) : \"z\" (__addr16) : \"r0\" ); __result; }))"
-.LASF2222:
+.LASF2228:
 	.string	"__tmp"
 .LASF2035:
 	.string	"ATMEGA328P_XPLAINED_MINI 82"
@@ -12332,7 +13064,7 @@ disparado:
 	.string	"OCR0A_3 3"
 .LASF1968:
 	.string	"UC3_L0_XPLAINED 15"
-.LASF2245:
+.LASF2253:
 	.string	"izquierda_min"
 .LASF469:
 	.string	"XMEGA_A3 ( AVR8_PART_IS_DEFINED(ATxmega64A3) || AVR8_PART_IS_DEFINED(ATxmega128A3) || AVR8_PART_IS_DEFINED(ATxmega192A3) || AVR8_PART_IS_DEFINED(ATxmega256A3) )"
@@ -12340,7 +13072,7 @@ disparado:
 	.string	"_WCHAR_T "
 .LASF1625:
 	.string	"FUSE_BODLEVEL0 (unsigned char)~_BV(0)"
-.LASF2252:
+.LASF2260:
 	.string	"jjoy"
 .LASF211:
 	.string	"__LFRACT_FBIT__ 31"
@@ -12368,12 +13100,10 @@ disparado:
 	.string	"_WCHAR_T_ "
 .LASF101:
 	.string	"__INT_LEAST32_MAX__ 0x7fffffffL"
-.LASF2121:
+.LASF2171:
 	.string	"ldexpf ldexp"
 .LASF1273:
 	.string	"ADCH5 5"
-.LASF1189:
-	.string	"PRTIM2 6"
 .LASF1865:
 	.ascii	"__LPM_dword_classic__(addr) (__extension__({ uint16_t __addr"
 	.ascii	"16 = (uint16_t)(addr); uint32_t __result; __asm__ __volatile"
@@ -12393,10 +13123,12 @@ disparado:
 	.string	"ICES1 6"
 .LASF507:
 	.string	"MEGA (MEGA_XX0_1 || MEGA_XX4 || MEGA_XX8 || MEGA_XX || MEGA_RF || MEGA_UNSPECIFIED)"
-.LASF2244:
+.LASF2252:
 	.string	"derecha_max"
 .LASF200:
 	.string	"__USFRACT_EPSILON__ 0x1P-8UHR"
+.LASF2226:
+	.string	"__count"
 .LASF84:
 	.string	"__INTMAX_C(c) c ## LL"
 .LASF253:
@@ -12411,7 +13143,7 @@ disparado:
 	.string	"SENSORS_XPLAINED_BREADBOARD 11"
 .LASF797:
 	.string	"PRIu8 \"u\""
-.LASF2154:
+.LASF2099:
 	.string	"va_copy(d,s) __builtin_va_copy(d,s)"
 .LASF1987:
 	.string	"SAM3X_EK 34"
@@ -12551,8 +13283,8 @@ disparado:
 	.string	"UTILS_PROGMEM_H "
 .LASF1099:
 	.string	"GPIOR15 5"
-.LASF2227:
-	.string	"__radix"
+.LASF2262:
+	.string	"Player2_Hits"
 .LASF520:
 	.string	"SAM3N4 ( SAM_PART_IS_DEFINED(SAM3N4A) || SAM_PART_IS_DEFINED(SAM3N4B) || SAM_PART_IS_DEFINED(SAM3N4C) )"
 .LASF1157:
@@ -12561,17 +13293,17 @@ disparado:
 	.string	"__ULLACCUM_MIN__ 0.0ULLK"
 .LASF807:
 	.string	"PRIoLEAST16 \"o\""
-.LASF2233:
+.LASF2168:
+	.string	"floorf floor"
+.LASF2248:
 	.string	"sizetype"
-.LASF2169:
+.LASF2114:
 	.string	"stdin (__iob[0])"
-.LASF2240:
-	.string	"puntero"
 .LASF182:
 	.string	"__DEC64_EPSILON__ 1E-15DD"
 .LASF1628:
 	.string	"EFUSE_DEFAULT (0xFF)"
-.LASF2197:
+.LASF2198:
 	.string	"VRX 5"
 .LASF1798:
 	.string	"__need_NULL"
@@ -12601,7 +13333,7 @@ disparado:
 	.string	"INT32_MAX 0x7fffffffL"
 .LASF983:
 	.string	"PORTD5 5"
-.LASF2099:
+.LASF2149:
 	.string	"M_LN10 2.30258509299404568402"
 .LASF2033:
 	.string	"SAMC21_XPLAINED_PRO 80"
@@ -12611,7 +13343,7 @@ disparado:
 	.string	"SPSR _SFR_IO8(0x2D)"
 .LASF1795:
 	.string	"__need_wchar_t"
-.LASF2094:
+.LASF2144:
 	.string	"__MATH_H "
 .LASF473:
 	.string	"XMEGA_A3U ( AVR8_PART_IS_DEFINED(ATxmega64A3U) || AVR8_PART_IS_DEFINED(ATxmega128A3U) || AVR8_PART_IS_DEFINED(ATxmega192A3U) || AVR8_PART_IS_DEFINED(ATxmega256A3U) )"
@@ -12619,7 +13351,7 @@ disparado:
 	.string	"PCINT10 2"
 .LASF1915:
 	.string	"convert_byte_array_to_16_bit(data) (*(uint16_t *)(data))"
-.LASF2207:
+.LASF2210:
 	.string	"signed char"
 .LASF1484:
 	.string	"TWEA 6"
@@ -12649,6 +13381,8 @@ disparado:
 	.string	"UNUSED(v) (void)(v)"
 .LASF771:
 	.string	"INTMAX_C(c) __INTMAX_C(c)"
+.LASF2237:
+	.string	"TurnoP2"
 .LASF761:
 	.string	"WINT_MAX __WINT_MAX__"
 .LASF616:
@@ -12659,7 +13393,7 @@ disparado:
 	.string	"__CHAR_BIT__ 8"
 .LASF37:
 	.string	"__INTMAX_TYPE__ long long int"
-.LASF2163:
+.LASF2108:
 	.string	"__SSTR 0x0004"
 .LASF885:
 	.string	"_MMIO_WORD(mem_addr) (*(volatile uint16_t *)(mem_addr))"
@@ -12669,7 +13403,7 @@ disparado:
 	.string	"ADC3D 3"
 .LASF1179:
 	.string	"CLKPS1 1"
-.LASF2110:
+.LASF2160:
 	.string	"cosf cos"
 .LASF1391:
 	.string	"OCR1BL6 6"
@@ -12687,7 +13421,7 @@ disparado:
 	.string	"WDIF 7"
 .LASF2017:
 	.string	"SAM4C_EK 64"
-.LASF2218:
+.LASF2220:
 	.string	"green"
 .LASF1489:
 	.string	"TWAM2 2"
@@ -12717,7 +13451,7 @@ disparado:
 	.string	"__AVR_LIBC_MAJOR__ 2"
 .LASF2060:
 	.string	"SENSORS_XPLAINED_INERTIAL_2 4"
-.LASF2185:
+.LASF2130:
 	.string	"getc(__stream) fgetc(__stream)"
 .LASF1173:
 	.string	"WDCE 4"
@@ -12745,7 +13479,7 @@ disparado:
 	.string	"CLKPS2 2"
 .LASF1168:
 	.string	"WDTCSR _SFR_MEM8(0x60)"
-.LASF2250:
+.LASF2258:
 	.string	"arriba_max"
 .LASF1230:
 	.string	"PCINT11 3"
@@ -12755,11 +13489,11 @@ disparado:
 	.string	"DTOSTR_PLUS_SIGN 0x02"
 .LASF952:
 	.string	"PORTC0 0"
-.LASF2113:
+.LASF2163:
 	.string	"fabsf fabs"
 .LASF948:
 	.string	"DDC4 4"
-.LASF2220:
+.LASF2222:
 	.string	"RGBled"
 .LASF1925:
 	.string	"PGM_READ_BYTE(x) pgm_read_byte(x)"
@@ -12771,8 +13505,6 @@ disparado:
 	.string	"__DEC64_MAX_EXP__ 385"
 .LASF932:
 	.string	"PORTB5 5"
-.LASF1450:
-	.string	"TWBR6 6"
 .LASF1481:
 	.string	"TWWC 3"
 .LASF432:
@@ -12803,7 +13535,9 @@ disparado:
 	.string	"SAM3U1 ( SAM_PART_IS_DEFINED(SAM3U1C) || SAM_PART_IS_DEFINED(SAM3U1E) )"
 .LASF1588:
 	.string	"ADC_vect _VECTOR(21)"
-.LASF2109:
+.LASF2261:
+	.string	"Player1_Hits"
+.LASF2159:
 	.string	"INFINITY __builtin_inf()"
 .LASF1934:
 	.string	"IOPORT_CREATE_PIN(port,pin) ((IOPORT_ ## port) * 8 + (pin))"
@@ -12825,15 +13559,15 @@ disparado:
 	.string	"__BUILTIN_AVR_COUNTLSUK 1"
 .LASF1228:
 	.string	"PCINT9 1"
-.LASF2101:
+.LASF2151:
 	.string	"M_PI_2 1.57079632679489661923"
 .LASF1300:
 	.string	"ADC1D 1"
-.LASF2171:
+.LASF2116:
 	.string	"stderr (__iob[2])"
-.LASF2142:
+.LASF2192:
 	.string	"truncf trunc"
-.LASF2105:
+.LASF2155:
 	.string	"M_2_SQRTPI 1.12837916709551257390"
 .LASF199:
 	.string	"__USFRACT_MAX__ 0XFFP-8UHR"
@@ -12848,7 +13582,7 @@ disparado:
 	.string	"_VECTORS_SIZE (26 * 4)"
 .LASF71:
 	.string	"__USING_SJLJ_EXCEPTIONS__ 1"
-.LASF2249:
+.LASF2257:
 	.string	"arriba_min"
 .LASF1342:
 	.string	"TCNT1H5 5"
@@ -12866,7 +13600,7 @@ disparado:
 	.string	"TXCIE0 6"
 .LASF1689:
 	.string	"_AVR_COMMON_H "
-.LASF2096:
+.LASF2146:
 	.string	"M_LOG2E 1.4426950408889634074"
 .LASF1086:
 	.string	"OCR0B_1 1"
@@ -12888,13 +13622,13 @@ disparado:
 	.string	"TCNT0_0 0"
 .LASF1024:
 	.string	"EEPM1 5"
-.LASF2186:
+.LASF2131:
 	.string	"getchar() fgetc(stdin)"
 .LASF307:
 	.string	"__REGISTER_PREFIX__ "
 .LASF940:
 	.string	"PINC4 4"
-.LASF2117:
+.LASF2167:
 	.string	"squaref square"
 .LASF1755:
 	.string	"_PTRDIFF_T_ "
@@ -12910,6 +13644,8 @@ disparado:
 	.string	"TCNT0_3 3"
 .LASF1652:
 	.string	"DD5 5"
+.LASF2238:
+	.string	"Game_Logic"
 .LASF578:
 	.string	"SAMHA0G ( SAM_PART_IS_DEFINED(SAMHA0G14AB) || SAM_PART_IS_DEFINED(SAMHA0G15AB) || SAM_PART_IS_DEFINED(SAMHA0G16AB) )"
 .LASF4:
@@ -12956,7 +13692,7 @@ disparado:
 	.string	"REFS0 6"
 .LASF1544:
 	.string	"UDR0_5 5"
-.LASF2145:
+.LASF2195:
 	.string	"lrintf lrint"
 .LASF1133:
 	.string	"ACSR _SFR_IO8(0x30)"
@@ -12980,8 +13716,8 @@ disparado:
 	.string	"__USACCUM_FBIT__ 8"
 .LASF1820:
 	.string	"unused(v) do { (void)(v); } while(0)"
-.LASF628:
-	.string	"SAMG54 ( SAM_PART_IS_DEFINED(SAMG54G19) || SAM_PART_IS_DEFINED(SAMG54J19) || SAM_PART_IS_DEFINED(SAMG54N19) )"
+.LASF516:
+	.string	"SAM3N00 ( SAM_PART_IS_DEFINED(SAM3N00A) || SAM_PART_IS_DEFINED(SAM3N00B) )"
 .LASF309:
 	.string	"__GNUC_STDC_INLINE__ 1"
 .LASF1780:
@@ -13010,8 +13746,8 @@ disparado:
 	.string	"SECURITY_XPLAINED 12"
 .LASF821:
 	.string	"PRIu32 \"lu\""
-.LASF289:
-	.string	"__UTQ_FBIT__ 128"
+.LASF298:
+	.string	"__TA_IBIT__ 16"
 .LASF435:
 	.string	"__AVR_DEVICE_NAME__ atmega328p"
 .LASF1864:
@@ -13050,6 +13786,8 @@ disparado:
 	.string	"PRR _SFR_MEM8(0x64)"
 .LASF1715:
 	.string	"AVR_STACK_POINTER_LO_REG SPL"
+.LASF11:
+	.string	"__ATOMIC_ACQUIRE 2"
 .LASF1249:
 	.string	"OCIE1A 1"
 .LASF1822:
@@ -13064,7 +13802,7 @@ disparado:
 	.string	"EEDR5 5"
 .LASF1368:
 	.string	"OCR1AL2 2"
-.LASF2157:
+.LASF2102:
 	.string	"_VA_LIST "
 .LASF2024:
 	.string	"SAM4CMP_DB 71"
@@ -13116,8 +13854,8 @@ disparado:
 	.string	"UC3B1 ( AVR32_PART_IS_DEFINED(UC3B164) || AVR32_PART_IS_DEFINED(UC3B1128) || AVR32_PART_IS_DEFINED(UC3B1256) || AVR32_PART_IS_DEFINED(UC3B1512) )"
 .LASF720:
 	.string	"UINT32_MAX (__CONCAT(INT32_MAX, U) * 2UL + 1UL)"
-.LASF1490:
-	.string	"TWAM3 3"
+.LASF1171:
+	.string	"WDP2 2"
 .LASF1766:
 	.string	"_T_SIZE "
 .LASF1727:
@@ -13130,8 +13868,6 @@ disparado:
 	.string	"GPIOR01 1"
 .LASF1187:
 	.string	"PRTIM1 3"
-.LASF2223:
-	.string	"__ticks_dc"
 .LASF1330:
 	.string	"TCNT1L2 2"
 .LASF809:
@@ -13152,8 +13888,10 @@ disparado:
 	.string	"PRIXFAST32 \"lX\""
 .LASF1892:
 	.string	"PROGMEM_BYTE_ARRAY_T uint8_t*"
-.LASF2260:
+.LASF2273:
 	.string	"adc_init"
+.LASF1331:
+	.string	"TCNT1L3 3"
 .LASF1734:
 	.string	"BLB0_MODE_1 (0xFF)"
 .LASF2080:
@@ -13166,8 +13904,8 @@ disparado:
 	.string	"XMEGA_A3_REB_CBB 62"
 .LASF1306:
 	.string	"AIN0D 0"
-.LASF2100:
-	.string	"M_PI 3.14159265358979323846"
+.LASF2127:
+	.string	"fdev_close() ((void)0)"
 .LASF400:
 	.string	"__BUILTIN_AVR_BITSUR 1"
 .LASF410:
@@ -13194,8 +13932,8 @@ disparado:
 	.string	"_AVR_VERSION_H_ "
 .LASF1639:
 	.string	"SLEEP_MODE_STANDBY (0x06<<1)"
-.LASF118:
-	.string	"__UINT_FAST16_MAX__ 0xffffU"
+.LASF1450:
+	.string	"TWBR6 6"
 .LASF1522:
 	.string	"UMSEL01 7"
 .LASF452:
@@ -13226,7 +13964,7 @@ disparado:
 	.string	"__ULFRACT_EPSILON__ 0x1P-32ULR"
 .LASF1313:
 	.string	"COM1A0 6"
-.LASF2178:
+.LASF2123:
 	.string	"_FDEV_SETUP_RW (__SRD|__SWR)"
 .LASF973:
 	.string	"DDD4 4"
@@ -13236,9 +13974,9 @@ disparado:
 	.string	"SAM3S4 ( SAM_PART_IS_DEFINED(SAM3S4A) || SAM_PART_IS_DEFINED(SAM3S4B) || SAM_PART_IS_DEFINED(SAM3S4C) )"
 .LASF341:
 	.string	"__FLASH 1"
-.LASF2131:
+.LASF2181:
 	.string	"log10f log10"
-.LASF2217:
+.LASF2219:
 	.string	"char"
 .LASF581:
 	.string	"SAMC20G ( SAM_PART_IS_DEFINED(SAMC20G15A) || SAM_PART_IS_DEFINED(SAMC20G16A) || SAM_PART_IS_DEFINED(SAMC20G17A) || SAM_PART_IS_DEFINED(SAMC20G18A) )"
@@ -13266,9 +14004,9 @@ disparado:
 	.string	"LFUSE_DEFAULT (FUSE_CKSEL0 & FUSE_CKSEL2 & FUSE_CKSEL3 & FUSE_SUT0 & FUSE_CKDIV8)"
 .LASF779:
 	.string	"PRIiFAST8 \"i\""
-.LASF2091:
+.LASF2141:
 	.string	"_UTIL_DELAY_H_ 1"
-.LASF2230:
+.LASF2235:
 	.string	"clear_disp"
 .LASF15:
 	.string	"__OPTIMIZE__ 1"
@@ -13278,14 +14016,14 @@ disparado:
 	.string	"SAMR34J ( SAM_PART_IS_DEFINED(SAMR34J18A) || SAM_PART_IS_DEFINED(SAMR34J17A) || SAM_PART_IS_DEFINED(SAMR34J16A) || SAM_PART_IS_DEFINED(SAMR34J18B) || SAM_PART_IS_DEFINED(SAMR34J17B) || SAM_PART_IS_DEFINED(SAMR34J16B) )"
 .LASF1323:
 	.string	"TCCR1C _SFR_MEM8(0x82)"
-.LASF2150:
+.LASF2095:
 	.string	"__GNUC_VA_LIST "
 .LASF870:
 	.string	"SCNxLEAST16 \"x\""
 .LASF1763:
 	.string	"_SIZE_T "
-.LASF2127:
-	.string	"asinf asin"
+.LASF2097:
+	.string	"va_end(v) __builtin_va_end(v)"
 .LASF224:
 	.string	"__LLFRACT_MAX__ 0X7FFFFFFFFFFFFFFFP-63LLR"
 .LASF1943:
@@ -13306,8 +14044,6 @@ disparado:
 	.string	"CAL1 1"
 .LASF645:
 	.string	"SAMS70NB ( SAM_PART_IS_DEFINED(SAMS70N19B) || SAM_PART_IS_DEFINED(SAMS70N20B) || SAM_PART_IS_DEFINED(SAMS70N21B) )"
-.LASF1978:
-	.string	"STK600_RCUC3B0 25"
 .LASF832:
 	.string	"PRIxPTR PRIx16"
 .LASF1410:
@@ -13379,7 +14115,7 @@ disparado:
 	.string	"SENSORS_XPLAINED_LIGHTPROX_1 6"
 .LASF1545:
 	.string	"UDR0_6 6"
-.LASF2206:
+.LASF2207:
 	.string	"cargoBoat (1<<7)"
 .LASF81:
 	.string	"__PTRDIFF_MAX__ 0x7fff"
@@ -13393,7 +14129,7 @@ disparado:
 	.string	"ACO 5"
 .LASF1218:
 	.string	"PCINT0 0"
-.LASF2136:
+.LASF2186:
 	.string	"copysignf copysign"
 .LASF1280:
 	.string	"ADIE 3"
@@ -13413,8 +14149,6 @@ disparado:
 	.string	"SCNuFAST8 \"hhu\""
 .LASF737:
 	.string	"INT_FAST8_MIN INT8_MIN"
-.LASF2232:
-	.string	"buffer"
 .LASF1101:
 	.string	"GPIOR17 7"
 .LASF1353:
@@ -13533,11 +14267,11 @@ disparado:
 	.string	"AVR_STACK_POINTER_LO_ADDR _SFR_IO_ADDR(SPL)"
 .LASF67:
 	.string	"__UINTPTR_TYPE__ unsigned int"
-.LASF2119:
+.LASF2169:
 	.string	"ceilf ceil"
 .LASF16:
 	.string	"__FINITE_MATH_ONLY__ 0"
-.LASF2104:
+.LASF2154:
 	.string	"M_2_PI 0.63661977236758134308"
 .LASF1592:
 	.string	"ANALOG_COMP_vect _VECTOR(23)"
@@ -13553,7 +14287,7 @@ disparado:
 	.string	"__FLT_MIN__ 1.17549435e-38F"
 .LASF1066:
 	.string	"TCNT0 _SFR_IO8(0x26)"
-.LASF2097:
+.LASF2147:
 	.string	"M_LOG10E 0.43429448190325182765"
 .LASF1357:
 	.string	"ICR1H1 1"
@@ -13569,7 +14303,7 @@ disparado:
 	.string	"EERE 0"
 .LASF1351:
 	.string	"ICR1L4 4"
-.LASF2241:
+.LASF2249:
 	.string	"Matriz_RGB"
 .LASF434:
 	.string	"__AVR_ATmega328P__ 1"
@@ -13591,8 +14325,8 @@ disparado:
 	.string	"PCMSK2 _SFR_MEM8(0x6D)"
 .LASF82:
 	.string	"__SIZE_MAX__ 0xffffU"
-.LASF1331:
-	.string	"TCNT1L3 3"
+.LASF1189:
+	.string	"PRTIM2 6"
 .LASF1944:
 	.string	"IOPORT_PULL_DOWN (0 << 2)"
 .LASF104:
@@ -13603,8 +14337,8 @@ disparado:
 	.string	"__BUILTIN_AVR_ROUNDULR 1"
 .LASF2075:
 	.string	"MCU_SOC_NAME \"ATMEGA328P\""
-.LASF1531:
-	.string	"UBRR0_6 6"
+.LASF721:
+	.string	"INT64_MAX 0x7fffffffffffffffLL"
 .LASF1986:
 	.string	"SAM3U_EK 33"
 .LASF295:
@@ -13615,8 +14349,6 @@ disparado:
 	.string	"SAMR34JXXB ( SAM_PART_IS_DEFINED(SAMR34J18B) || SAM_PART_IS_DEFINED(SAMR34J17B) || SAM_PART_IS_DEFINED(SAMR34J16B) )"
 .LASF792:
 	.string	"PRIdPTR PRId16"
-.LASF2278:
-	.string	"main"
 .LASF1385:
 	.string	"OCR1BL0 0"
 .LASF1503:
@@ -13659,13 +14391,11 @@ disparado:
 	.string	"OCF1B 2"
 .LASF31:
 	.string	"__FLOAT_WORD_ORDER__ __ORDER_LITTLE_ENDIAN__"
-.LASF2182:
-	.string	"fdev_close() ((void)0)"
 .LASF587:
 	.string	"SAM4E16 ( SAM_PART_IS_DEFINED(SAM4E16C) || SAM_PART_IS_DEFINED(SAM4E16CB) || SAM_PART_IS_DEFINED(SAM4E16E) )"
 .LASF1082:
 	.string	"OCR0A_6 6"
-.LASF2224:
+.LASF2230:
 	.string	"double"
 .LASF1706:
 	.string	"ZL r30"
@@ -13683,7 +14413,7 @@ disparado:
 	.string	"COM1A1 7"
 .LASF813:
 	.string	"PRIxLEAST16 \"x\""
-.LASF2181:
+.LASF2126:
 	.string	"FDEV_SETUP_STREAM(p,g,f) { .put = p, .get = g, .flags = f, .udata = 0, }"
 .LASF107:
 	.string	"__UINT_LEAST16_MAX__ 0xffffU"
@@ -13691,7 +14421,7 @@ disparado:
 	.string	"__SIZEOF_DOUBLE__ 4"
 .LASF2016:
 	.string	"ATMEGARFX_RCB 63"
-.LASF2166:
+.LASF2111:
 	.string	"__SEOF 0x0020"
 .LASF2036:
 	.string	"ATMEGA328PB_XPLAINED_MINI 83"
@@ -13711,7 +14441,7 @@ disparado:
 	.string	"EEPE 1"
 .LASF1748:
 	.string	"_STDDEF_H "
-.LASF2239:
+.LASF2245:
 	.string	"Apagado"
 .LASF639:
 	.string	"SAMV70NB ( SAM_PART_IS_DEFINED(SAMV70N19B) || SAM_PART_IS_DEFINED(SAMV70N20B) )"
@@ -13719,7 +14449,7 @@ disparado:
 	.string	"AVR_STACK_POINTER_HI_REG SPH"
 .LASF1799:
 	.string	"offsetof(TYPE,MEMBER) __builtin_offsetof (TYPE, MEMBER)"
-.LASF2200:
+.LASF2201:
 	.string	"JOYSTICKBUTTON_H_ "
 .LASF1562:
 	.string	"TIMER2_COMPB_vect _VECTOR(8)"
@@ -13727,8 +14457,8 @@ disparado:
 	.string	"__BUILTIN_AVR_DELAY_CYCLES 1"
 .LASF1548:
 	.string	"INT0_vect _VECTOR(1)"
-.LASF2255:
-	.string	"ispressed"
+.LASF2279:
+	.string	"C:\\\\Users\\\\Michelle\\\\Music\\\\GccMatrixWS2812 V3\\\\GccMatrixWS2812 V3\\\\Debug"
 .LASF83:
 	.string	"__INTMAX_MAX__ 0x7fffffffffffffffLL"
 .LASF1847:
@@ -13741,7 +14471,7 @@ disparado:
 	.string	"UC3C (UC3C0 || UC3C1 || UC3C2)"
 .LASF1142:
 	.string	"SMCR _SFR_IO8(0x33)"
-.LASF2140:
+.LASF2190:
 	.string	"fmaxf fmax"
 .LASF961:
 	.string	"PIND1 1"
@@ -13840,7 +14570,7 @@ disparado:
 	.string	"DD7 7"
 .LASF470:
 	.string	"XMEGA_A3B ( AVR8_PART_IS_DEFINED(ATxmega256A3B) )"
-.LASF2122:
+.LASF2172:
 	.string	"expf exp"
 .LASF1724:
 	.string	"__AVR_LIBC_REVISION__ 0"
@@ -13850,11 +14580,11 @@ disparado:
 	.string	"__ULACCUM_MAX__ 0XFFFFFFFFFFFFFFFFP-32ULK"
 .LASF1291:
 	.string	"MUX0 0"
-.LASF298:
-	.string	"__TA_IBIT__ 16"
-.LASF1047:
-	.string	"_EEPROM_REG_LOCATIONS_ 1F2021"
-.LASF2238:
+.LASF2246:
+	.string	"punteroP1"
+.LASF2247:
+	.string	"punteroP2"
+.LASF2244:
 	.string	"tocado"
 .LASF787:
 	.string	"PRIdLEAST32 \"ld\""
@@ -13910,9 +14640,9 @@ disparado:
 	.string	"PIN4 4"
 .LASF1756:
 	.string	"_BSD_PTRDIFF_T_ "
-.LASF1061:
-	.string	"CS01 1"
-.LASF2236:
+.LASF118:
+	.string	"__UINT_FAST16_MAX__ 0xffffU"
+.LASF2242:
 	.string	"hundido"
 .LASF1165:
 	.string	"SIGRD 5"
@@ -13926,9 +14656,9 @@ disparado:
 	.string	"CMD_ID_OCTET (0)"
 .LASF860:
 	.string	"SCNx8 \"hhx\""
-.LASF2243:
+.LASF2251:
 	.string	"derecha_min"
-.LASF2254:
+.LASF2264:
 	.string	"Matriz_P2"
 .LASF1423:
 	.string	"TCNT2_6 6"
@@ -13938,7 +14668,7 @@ disparado:
 	.string	"AIN1D 1"
 .LASF180:
 	.string	"__DEC64_MIN__ 1E-383DD"
-.LASF2234:
+.LASF2240:
 	.string	"p2disp"
 .LASF100:
 	.string	"__INT16_C(c) c"
@@ -13954,7 +14684,7 @@ disparado:
 	.string	"OCR0B _SFR_IO8(0x28)"
 .LASF113:
 	.string	"__INT_FAST8_MAX__ 0x7f"
-.LASF2126:
+.LASF2176:
 	.string	"acosf acos"
 .LASF760:
 	.string	"WCHAR_MIN __WCHAR_MIN__"
@@ -13964,9 +14694,9 @@ disparado:
 	.string	"SPIE 7"
 .LASF1539:
 	.string	"UDR0_0 0"
-.LASF2133:
+.LASF2183:
 	.string	"isnanf isnan"
-.LASF2216:
+.LASF2218:
 	.string	"long long unsigned int"
 .LASF20:
 	.string	"__SIZEOF_SHORT__ 2"
@@ -13978,7 +14708,7 @@ disparado:
 	.string	"UC3L0 ( AVR32_PART_IS_DEFINED(UC3L016) || AVR32_PART_IS_DEFINED(UC3L032) || AVR32_PART_IS_DEFINED(UC3L064) )"
 .LASF726:
 	.string	"UINT_LEAST8_MAX UINT8_MAX"
-.LASF2257:
+.LASF2270:
 	.string	"init_ws2812"
 .LASF1213:
 	.string	"ISC00 0"
@@ -14016,7 +14746,7 @@ disparado:
 	.string	"TCNT1L4 4"
 .LASF671:
 	.string	"SAMR34 (SAMR34J)"
-.LASF2120:
+.LASF2170:
 	.string	"frexpf frexp"
 .LASF324:
 	.string	"__SIZEOF_WINT_T__ 2"
@@ -14024,7 +14754,7 @@ disparado:
 	.string	"UBRR0_7 7"
 .LASF1075:
 	.string	"OCR0A _SFR_IO8(0x27)"
-.LASF2106:
+.LASF2156:
 	.string	"M_SQRT2 1.41421356237309504880"
 .LASF1586:
 	.string	"USART_TX_vect _VECTOR(20)"
@@ -14032,15 +14762,15 @@ disparado:
 	.string	"SAM4S_XPLAINED 41"
 .LASF1386:
 	.string	"OCR1BL1 1"
-.LASF1954:
-	.string	"gpio_set_pin_group_low(port_id,mask) ioport_set_group_low(port_id, mask)"
+.LASF1490:
+	.string	"TWAM3 3"
 .LASF673:
 	.string	"WLR089 (WLR089U)"
 .LASF1926:
 	.string	"PGM_READ_WORD(x) pgm_read_word(x)"
 .LASF1719:
 	.string	"__AVR_LIBC_VERSION__ 20000UL"
-.LASF2190:
+.LASF2135:
 	.string	"BUFSIZ 1024"
 .LASF297:
 	.string	"__TA_FBIT__ 47"
@@ -14068,7 +14798,7 @@ disparado:
 	.string	"__USFRACT_FBIT__ 8"
 .LASF1498:
 	.string	"DOR0 3"
-.LASF2164:
+.LASF2109:
 	.string	"__SPGM 0x0008"
 .LASF169:
 	.string	"__LDBL_HAS_QUIET_NAN__ 1"
@@ -14098,7 +14828,7 @@ disparado:
 	.string	"__SIZEOF_PTRDIFF_T__ 2"
 .LASF1574:
 	.string	"TIMER0_COMPA_vect _VECTOR(14)"
-.LASF2173:
+.LASF2118:
 	.string	"fdev_set_udata(stream,u) do { (stream)->udata = u; } while(0)"
 .LASF2057:
 	.string	"EXT1102 1"
@@ -14118,19 +14848,19 @@ disparado:
 	.string	"__BUILTIN_AVR_LKBITS 1"
 .LASF1863:
 	.string	"__LPM_word_tiny__(addr) (__extension__({ uint16_t __addr16 = (uint16_t)(addr) + __AVR_TINY_PM_BASE_ADDRESS__; uint16_t __result; __asm__ ( \"ld %A0, z+\" \"\\n\\t\" \"ld %B0, z\" \"\\n\\t\" : \"=r\" (__result), \"=z\" (__addr16) : \"1\" (__addr16) ); __result; }))"
-.LASF2188:
+.LASF2133:
 	.string	"feof(s) ((s)->flags & __SEOF)"
 .LASF634:
 	.string	"SAMV71Q ( SAM_PART_IS_DEFINED(SAMV71Q19) || SAM_PART_IS_DEFINED(SAMV71Q20) || SAM_PART_IS_DEFINED(SAMV71Q21) )"
-.LASF2159:
+.LASF2104:
 	.string	"_VA_LIST_T_H "
-.LASF2198:
+.LASF2199:
 	.string	"VRY 4"
 .LASF594:
 	.string	"SAM4C8_1 ( SAM_PART_IS_DEFINED(SAM4C8C_1) )"
 .LASF164:
 	.string	"__LDBL_MIN__ 1.17549435e-38L"
-.LASF2192:
+.LASF2137:
 	.string	"SEEK_SET 0"
 .LASF370:
 	.string	"__BUILTIN_AVR_ROUNDULLR 1"
@@ -14150,7 +14880,7 @@ disparado:
 	.string	"SCNiPTR SCNi16"
 .LASF163:
 	.string	"__LDBL_MAX__ 3.40282347e+38L"
-.LASF2259:
+.LASF2272:
 	.string	"UART_Init"
 .LASF2022:
 	.string	"SAMD21_XPLAINED_PRO 69"
@@ -14164,7 +14894,7 @@ disparado:
 	.string	"EXIT_FAILURE 1"
 .LASF1052:
 	.string	"TCCR0A _SFR_IO8(0x24)"
-.LASF2170:
+.LASF2115:
 	.string	"stdout (__iob[1])"
 .LASF354:
 	.string	"__BUILTIN_AVR_FLASH_SEGMENT 1"
@@ -14222,7 +14952,7 @@ disparado:
 	.string	"__BUILTIN_AVR_BITSK 1"
 .LASF920:
 	.string	"DDB2 2"
-.LASF2265:
+.LASF2268:
 	.string	"wrt_ws2812"
 .LASF1151:
 	.string	"WDRF 3"
@@ -14244,10 +14974,14 @@ disparado:
 	.string	"INT8_MIN (-INT8_MAX - 1)"
 .LASF1691:
 	.string	"SP _SFR_IO16(0x3D)"
+.LASF1509:
+	.string	"UDRIE0 5"
 .LASF723:
 	.string	"UINT64_MAX (__CONCAT(INT64_MAX, U) * 2ULL + 1ULL)"
 .LASF1876:
 	.string	"pgm_read_word_near(address_short) __LPM_word((uint16_t)(address_short))"
+.LASF2209:
+	.string	"Turn2 2"
 .LASF274:
 	.string	"__HQ_IBIT__ 0"
 .LASF783:
@@ -14256,7 +14990,7 @@ disparado:
 	.string	"ADCH2 2"
 .LASF855:
 	.string	"SCNoLEAST8 \"hho\""
-.LASF2215:
+.LASF2217:
 	.string	"long long int"
 .LASF1714:
 	.string	"AVR_STACK_POINTER_HI_ADDR _SFR_IO_ADDR(SPH)"
@@ -14270,11 +15004,11 @@ disparado:
 	.string	"ADCL2 2"
 .LASF1598:
 	.string	"SPM_PAGESIZE 128"
-.LASF2242:
+.LASF2250:
 	.string	"ContadorPuntero"
 .LASF1297:
 	.string	"REFS1 7"
-.LASF2204:
+.LASF2205:
 	.ascii	"_FFS(x) (1 + (((x) & 1) == 0) + (((x) & 3) == 0) + (((x) & 7"
 	.ascii	") == 0) + (((x) & 017) == 0) + (((x) & 037) == 0) + "
 	.string	"(((x) & 077) == 0) + (((x) & 0177) == 0) + (((x) & 0377) == 0) + (((x) & 0777) == 0) + (((x) & 01777) == 0) + (((x) & 03777) == 0) + (((x) & 07777) == 0) + (((x) & 017777) == 0) + (((x) & 037777) == 0) + (((x) & 077777) == 0) - (((x) & 0177777) == 0) * 16)"
@@ -14306,7 +15040,7 @@ disparado:
 	.string	"PC6 PORTC6"
 .LASF1292:
 	.string	"MUX1 1"
-.LASF2261:
+.LASF2274:
 	.string	"joybutton_Init"
 .LASF1361:
 	.string	"ICR1H5 5"
@@ -14316,7 +15050,7 @@ disparado:
 	.string	"EEDR2 2"
 .LASF2048:
 	.string	"SIMULATOR_XMEGA_A1 97"
-.LASF2175:
+.LASF2120:
 	.string	"fdev_setup_stream(stream,p,g,f) do { (stream)->put = p; (stream)->get = g; (stream)->flags = f; (stream)->udata = 0; } while(0)"
 .LASF1958:
 	.string	"EVK1101 2"
@@ -14324,6 +15058,8 @@ disparado:
 	.string	"XMEGA_A1 ( AVR8_PART_IS_DEFINED(ATxmega64A1) || AVR8_PART_IS_DEFINED(ATxmega128A1) )"
 .LASF1345:
 	.string	"ICR1 _SFR_MEM16(0x86)"
+.LASF628:
+	.string	"SAMG54 ( SAM_PART_IS_DEFINED(SAMG54G19) || SAM_PART_IS_DEFINED(SAMG54J19) || SAM_PART_IS_DEFINED(SAMG54N19) )"
 .LASF731:
 	.string	"INT_LEAST32_MIN INT32_MIN"
 .LASF1210:
@@ -14350,8 +15086,12 @@ disparado:
 	.string	"UCSZ01 2"
 .LASF155:
 	.string	"__DBL_HAS_QUIET_NAN__ 1"
-.LASF2263:
+.LASF2231:
+	.string	"ShootP1"
+.LASF2276:
 	.string	"UART_putstring"
+.LASF2232:
+	.string	"ShootP2"
 .LASF1062:
 	.string	"CS02 2"
 .LASF1395:
@@ -14380,7 +15120,7 @@ disparado:
 	.string	"WGM12 3"
 .LASF1979:
 	.string	"UC3_L0_QT600 26"
-.LASF2214:
+.LASF2216:
 	.string	"long unsigned int"
 .LASF343:
 	.string	"__BUILTIN_AVR_NOP 1"
@@ -14408,7 +15148,7 @@ disparado:
 	.string	"UINT_FAST8_MAX UINT8_MAX"
 .LASF996:
 	.string	"TOV2 0"
-.LASF2176:
+.LASF2121:
 	.string	"_FDEV_SETUP_READ __SRD"
 .LASF23:
 	.string	"__SIZEOF_LONG_DOUBLE__ 4"
@@ -14428,10 +15168,10 @@ disparado:
 	.string	"__WINT_MAX__ 0x7fff"
 .LASF1493:
 	.string	"TWAM6 6"
+.LASF2208:
+	.string	"Turn1 1"
 .LASF139:
 	.string	"__FLT_HAS_DENORM__ 1"
-.LASF1982:
-	.string	"STK600_RC100X_LCDX 29"
 .LASF1700:
 	.string	"SREG_T (6)"
 .LASF1014:
@@ -14440,7 +15180,7 @@ disparado:
 	.string	"AVR_STACK_POINTER_REG SP"
 .LASF1333:
 	.string	"TCNT1L5 5"
-.LASF2194:
+.LASF2139:
 	.string	"SEEK_END 2"
 .LASF1534:
 	.string	"UBRR0_8 0"
@@ -14470,8 +15210,8 @@ disparado:
 	.string	"__SIZEOF_FLOAT__ 4"
 .LASF2008:
 	.string	"ATMEGA256RFR2_ZIGBIT 55"
-.LASF721:
-	.string	"INT64_MAX 0x7fffffffffffffffLL"
+.LASF2280:
+	.string	"main"
 .LASF189:
 	.string	"__DEC128_EPSILON__ 1E-33DL"
 .LASF1762:
@@ -14490,8 +15230,8 @@ disparado:
 	.string	"__UINT_LEAST8_TYPE__ unsigned char"
 .LASF1474:
 	.string	"TWD4 4"
-.LASF2276:
-	.string	"itoa"
+.LASF2177:
+	.string	"asinf asin"
 .LASF1874:
 	.string	"__LPM_float(addr) __LPM_float_enhanced__(addr)"
 .LASF968:
@@ -14500,9 +15240,9 @@ disparado:
 	.string	"__LDBL_DIG__ 6"
 .LASF644:
 	.string	"SAMS70N ( SAM_PART_IS_DEFINED(SAMS70N19) || SAM_PART_IS_DEFINED(SAMS70N20) || SAM_PART_IS_DEFINED(SAMS70N21) )"
-.LASF2193:
+.LASF2138:
 	.string	"SEEK_CUR 1"
-.LASF2125:
+.LASF2175:
 	.string	"tanhf tanh"
 .LASF1262:
 	.string	"ADCL3 3"
@@ -14516,7 +15256,7 @@ disparado:
 	.string	"__always_optimize __attribute__((optimize(3)))"
 .LASF529:
 	.string	"SAM4SA16 ( SAM_PART_IS_DEFINED(SAM4SA16B) || SAM_PART_IS_DEFINED(SAM4SA16C) )"
-.LASF2211:
+.LASF2214:
 	.string	"unsigned int"
 .LASF2014:
 	.string	"SAM4N_XPLAINED_PRO 61"
@@ -14532,7 +15272,7 @@ disparado:
 	.string	"SIGNAL(vector) void vector (void) __attribute__ ((signal, __INTR_ATTRS)); void vector (void)"
 .LASF326:
 	.string	"__AVR 1"
-.LASF2141:
+.LASF2191:
 	.string	"fminf fmin"
 .LASF1701:
 	.string	"SREG_I (7)"
@@ -14562,8 +15302,6 @@ disparado:
 	.string	"SREG_C (0)"
 .LASF1697:
 	.string	"SREG_V (3)"
-.LASF2118:
-	.string	"floorf floor"
 .LASF36:
 	.string	"__WINT_TYPE__ int"
 .LASF436:
@@ -14633,8 +15371,8 @@ disparado:
 	.string	"__AVR_HAVE_PRR_PRTIM1 "
 .LASF618:
 	.string	"SAM4CMS16_1 ( SAM_PART_IS_DEFINED(SAM4CMS16C_1) )"
-.LASF2084:
-	.string	"USART_TX IOPORT_CREATE_PIN(PORTD, 1)"
+.LASF2224:
+	.string	"_delay_loop_2"
 .LASF881:
 	.string	"SCNoPTR SCNo16"
 .LASF1090:
@@ -14645,7 +15383,7 @@ disparado:
 	.string	"BTLC1000 ( SAM_PART_IS_DEFINED(BTLC1000WLCSP) )"
 .LASF963:
 	.string	"PIND3 3"
-.LASF2180:
+.LASF2125:
 	.string	"_FDEV_EOF (-2)"
 .LASF1204:
 	.string	"CAL4 4"
@@ -14683,8 +15421,8 @@ disparado:
 	.string	"UCPHA0 1"
 .LASF1705:
 	.string	"YH r29"
-.LASF1171:
-	.string	"WDP2 2"
+.LASF2229:
+	.string	"__ticks"
 .LASF1610:
 	.string	"FUSE_CKSEL3 (unsigned char)~_BV(3)"
 .LASF95:
@@ -14695,7 +15433,7 @@ disparado:
 	.string	"OCR1AL _SFR_MEM8(0x88)"
 .LASF626:
 	.string	"SAMG51 ( SAM_PART_IS_DEFINED(SAMG51G18) )"
-.LASF2251:
+.LASF2259:
 	.string	"ijoy"
 .LASF1764:
 	.string	"_SYS_SIZE_T_H "
@@ -14703,8 +15441,8 @@ disparado:
 	.string	"__DBL_EPSILON__ ((double)1.19209290e-7L)"
 .LASF7:
 	.string	"__GNUC_PATCHLEVEL__ 0"
-.LASF269:
-	.string	"__ULLACCUM_MAX__ 0XFFFFFFFFFFFFFFFFP-48ULLK"
+.LASF214:
+	.string	"__LFRACT_MAX__ 0X7FFFFFFFP-31LR"
 .LASF344:
 	.string	"__BUILTIN_AVR_SEI 1"
 .LASF446:

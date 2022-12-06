@@ -1,8 +1,9 @@
 #include <asf.h>
 #include <stdint.h>
 #define F_CPU 16000000UL // Defining the CPU Frequency
-#include <util/delay.h>  // Generates a Blocking Delay+
 #include <stdio.h>#include <inttypes.h>
+#define __DELAY_BACKWARD_COMPATIBLE__
+#include <util/delay.h>
 
 
 #include "UART.h"
@@ -50,13 +51,16 @@ RGBled hundido={0,100,0}; // HUNDIDO ROJO
 RGBled agua={0,0,100}; // AGUA AZUL
 RGBled tocado={100,100,25}; // TOCADO AMARILLO
 RGBled Apagado={0,0,0}; // LED APAGADO
-RGBled puntero = {10, 10, 0}; // PUNTERO DEL JOYSTICK
+RGBled punteroP1 = {25, 15, 0}; // PUNTERO DEL JOYSTICK
+RGBled punteroP2 = {40, 5, 25}; // PUNTERO DEL JOYSTICK
 RGBled Matriz_RGB[8][8];
 
 #define submarine (1<<6)
 #define cargoBoat (1<<7)
+#define Turn1 1
+#define Turn2 2
 
-uint16_t ContadorPuntero = 0;
+volatile uint16_t ContadorPuntero;
 
 const uint16_t derecha_min = 800;
 const uint16_t derecha_max = 1023;
@@ -74,45 +78,49 @@ extern void init_ws2812(void);
 extern void wrt_ws2812(P2RGB);
 
 // Local prototypes
-void Mostrar_Matriz_2(void);
-void Mostrar_Matriz_1(void);
 void softdelay(void);
 void clear_disp(void);
 char msg[] = "Hello from ATmega328p\r\n  ";
 
+// Numeros de coordenadas que maneja el joystick.
 volatile uint16_t ijoy; //filas
 volatile uint16_t jjoy; //columnas
 
-void ADCTestBench(void);
+// Numeros que representan los hits que han hecho cada player
+volatile uint8_t Player1_Hits;
+volatile uint8_t Player2_Hits;
 
 // Prototypes Display
 void display_init(void);
 void set_P1(void);
 void set_P2(void);
 
-// void Disparado(uint16_t i, uint16_t j);
-// void Hundido(uint16_t i, uint16_t j);
-// void Tocado(uint16_t i, uint16_t j);
-// void Agua(uint16_t i, uint16_t j);
+// Matrices que representan el tablero de cada jugador.
 RGBled Matriz_P1[8][8]; //matriz jugador 1
 RGBled Matriz_P2[8][8]; //matriz jugador 2
 
-//void mostrar_Matriz(RGBled *);
+// Funciones locales referentes al juego
 void embarcacion(char b[3]);
-void PunteroDelJuegoP1(void);
-void PunteroDelJuegoP2(void);
+void Game_Logic(void);
+void TurnoP1(void);
+void TurnoP2(void);
+void Mostrar_Matriz_1(void);
+void Mostrar_Matriz_2(void); 
+void ShootP1(void);
+void ShootP2(void);
+
 
 extern void joybutton_Init(void);
 
 uint8_t button_press(void);
-volatile uint8_t ispressed;
+volatile int ispressed;
 
 volatile uint8_t Turno;
 
 
 
 int main (void)
-{		
+{
 			init_ws2812();		//Initialize RGB Display driver
 			init_RTI();			//Initialize Periodic Real Time Interrupt(Timer)
 			UART_Init();		//Initialize serial port driver (UART)
@@ -159,129 +167,101 @@ int main (void)
 
 			while(1)
 			{
-				if (Turno == 1)
-				{
-					set_P1();
-					while (Turno == 1)
-					{
-						clear_disp();
-						
-						Mostrar_Matriz_2();
-						Matriz_RGB[ijoy][jjoy] = puntero;
-						_delay_ms(50);
-						wrt_ws2812(p2disp);
-					}
-				}
-				
-				else if (Turno == 2)
-				{
-					set_P2();
-					while (Turno == 2)
-					{
-						clear_disp();
-						Mostrar_Matriz_1();
-						Matriz_RGB[ijoy][jjoy] = puntero;
-						_delay_ms(50);
-						wrt_ws2812(p2disp);
-					}
-				}
+				Game_Logic();
 			}
-
-// 			clear_disp();
-// 	        wrt_ws2812(p2disp);
-// 			
-// 			_delay_ms(500);
-// 			
-// 			
-// 			for(k=0;k<=7;k++)
-// 			{
-// 			Matriz_RGB[k][0]=Rojo;
-// 			Matriz_RGB[k][4]=Verde;
-// 			Matriz_RGB[k][7]=Azul;
-// 			}
-// 
-// 			wrt_ws2812(p2disp);
-// 			
-// 			
-// 			_delay_ms(800);
-// 			clear_disp();
-// 			
-// 			
-// 			for(i=0;i<=3;i++)
-// 			{
-// 				Matriz_RGB[3-i][3-i]=Rojo;
-// 				Matriz_RGB[4+i][3-i]=Verde;
-// 				Matriz_RGB[3-i][4+i]=Verde;
-// 				Matriz_RGB[4+i][4+i]=Rojo;
-// 		
-// 				wrt_ws2812(p2disp);
-// 		
-// 				_delay_ms(500);
-// 				clear_disp();
-// 			}
-// 			
-// 			while(1);
-// 
-// 			//ADCTestBench();
-// 			uart_test();
-// 			//cambiarJugador();
-// 			joybutton_Init();
-// 			//joybuttonpress_Check();
-// 			Matriz_P1[3][5] = 7;
-// 			mostrar_Matriz_1();
-// 			//mostrar_Matriz();
 }
 
 
-// void Disparado(uint16_t i, uint16_t j)
-// {
-// 	Matriz[i][4]=Verde;
-// }
-// 
-// void Hundido(uint16_t i, uint16_t j)
-// {
-// 	Matriz[i][0]=Rojo;
-// }
-// 
-// void Tocado(uint16_t i, uint16_t j)
-// {
-// 	Matriz[i][2]=Amarillo;
-// }
-// 
-// void Agua(uint16_t i, uint16_t j)
-// {
-// 	Matriz[i][7]=Azul;
-// }
-/*
-void mostrar_Matriz( Matriz)
+void ShootP1 (void)
 {
-	int i,j;
-	
-	for (i=1; i<8; i++)
+	Matriz_P2[ijoy][jjoy] = hundido;
+	Player1_Hits += 1;
+	set_P1();
+}
+
+void ShootP2 (void)
+{
+	Matriz_P1[ijoy][jjoy] = hundido;
+	Player2_Hits += 1;
+	set_P2();
+}
+
+
+void Game_Logic(void)
+{
+	if (Turno == Turn1)
 	{
-		for (j=1; j<8; j++)
-		{
-			printf("|%c|\t",Matriz[i][j]);
-		}
-		printf("\n\n");
+		TurnoP1();
+	}
+		
+	else if (Turno == Turn2)
+	{
+		TurnoP2();
 	}
 }
 
-*/
+void TurnoP1(void)
+{
+	set_P1();
+	ispressed = 1;
+	while (ispressed != 0)
+	{
+		if (ContadorPuntero < 90)
+		{
+			Mostrar_Matriz_2();
+			Matriz_RGB[ijoy][jjoy] = punteroP1;
+			_delay_ms(50);
+			wrt_ws2812(p2disp);
+		}
+		
+		else
+		{
+			Mostrar_Matriz_2();
+			_delay_ms(50);
+			wrt_ws2812(p2disp);
+		}
+	}
+	
+	clear_disp();
+	ShootP1();
+	Mostrar_Matriz_2();
+	
+	_delay_ms(20);
+	wrt_ws2812(p2disp);
+	_delay_ms(2000);
+}
 
+void TurnoP2(void)
+{
+	set_P2();
+	ispressed = 1;
+	while (ispressed != 0)
+	{
+		if (ContadorPuntero < 90)
+		{
+			Mostrar_Matriz_1();
+			Matriz_RGB[ijoy][jjoy] = punteroP2;
+			_delay_ms(50);
+			wrt_ws2812(p2disp);
+		}
+		
+		else
+		{
+			Mostrar_Matriz_1();
+			_delay_ms(50);
+			wrt_ws2812(p2disp);
+		}
+	}
+	
+	clear_disp();
+	ShootP2();
+	Mostrar_Matriz_1();
+	
+	_delay_ms(20);
+	wrt_ws2812(p2disp);
+	_delay_ms(2000);
+}
 
-
-
-// void mostrar_Matriz_1(void)
-// {
-// 	for(int r=0;r<=7;r++)
-//	{
-// 		for(int c=0;c<=7;c++)
-// 		{
-// 			Matriz[r][c]=Azul;
-// 		}
-// 	}
-// }
 
 void Mostrar_Matriz_2(void)
 {
@@ -345,24 +325,3 @@ void softdelay(void)
 	
 }
 
-
-void ADCTestBench(void)
-{
-	char buffer[5];
-	
-	while(1){
-		
-		//Read VX
-		itoa(read_VRX(),(char*)buffer, 10);
-		UART_putstring(buffer);
-		UART_send_data('\t');
-		UART_send_data('\t');
-		//Read VY
-		itoa(read_VRY(), (char *)buffer, 10);
-		UART_putstring(buffer);
-		UART_send_data('\r');
-		UART_send_data('\n');
-		_delay_ms(1000); 
-	}
-	
-}

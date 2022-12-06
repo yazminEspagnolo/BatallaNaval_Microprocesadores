@@ -154,17 +154,17 @@ set_P2:
 DisplayCount:
 	.zero	1
 .global	Player2_Hits
-	.section	.data.Player2_Hits,"aw",@progbits
+	.section	.bss.Player2_Hits,"aw",@nobits
 	.type	Player2_Hits, @object
 	.size	Player2_Hits, 1
 Player2_Hits:
-	.byte	2
+	.zero	1
 .global	Player1_Hits
-	.section	.data.Player1_Hits,"aw",@progbits
+	.section	.bss.Player1_Hits,"aw",@nobits
 	.type	Player1_Hits, @object
 	.size	Player1_Hits, 1
 Player1_Hits:
-	.byte	4
+	.zero	1
 	.comm	Digit_values,4,1
 .global	Digit_selector
 	.section	.data.Digit_selector,"aw",@progbits
@@ -204,7 +204,7 @@ SS_table:
 	.file 2 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\stdint.h"
 	.section	.debug_info,"",@progbits
 .Ldebug_info0:
-	.long	0x1ce
+	.long	0x1d3
 	.word	0x2
 	.long	.Ldebug_abbrev0
 	.byte	0x4
@@ -271,7 +271,7 @@ SS_table:
 	.long	0x94
 	.uleb128 0x6
 	.long	.LVL0
-	.long	0x1aa
+	.long	0x1af
 	.byte	0
 	.uleb128 0x7
 	.byte	0x1
@@ -292,13 +292,13 @@ SS_table:
 	.long	.LLST1
 	.uleb128 0x6
 	.long	.LVL3
-	.long	0x1b7
+	.long	0x1bc
 	.uleb128 0x6
 	.long	.LVL5
-	.long	0x1b7
+	.long	0x1bc
 	.uleb128 0x6
 	.long	.LVL6
-	.long	0x1c4
+	.long	0x1c9
 	.byte	0
 	.uleb128 0x9
 	.byte	0x1
@@ -384,16 +384,18 @@ SS_table:
 	.long	.LASF1499
 	.byte	0x1
 	.byte	0x15
-	.long	0x34
+	.long	0x186
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
 	.long	Player1_Hits
+	.uleb128 0xd
+	.long	0x34
 	.uleb128 0xc
 	.long	.LASF1500
 	.byte	0x1
 	.byte	0x16
-	.long	0x34
+	.long	0x186
 	.byte	0x1
 	.byte	0x5
 	.byte	0x3
@@ -407,21 +409,21 @@ SS_table:
 	.byte	0x5
 	.byte	0x3
 	.long	DisplayCount
-	.uleb128 0xd
+	.uleb128 0xe
 	.byte	0x1
 	.byte	0x1
 	.long	.LASF1502
 	.long	.LASF1502
 	.byte	0x1
 	.byte	0x1b
-	.uleb128 0xd
+	.uleb128 0xe
 	.byte	0x1
 	.byte	0x1
 	.long	.LASF1503
 	.long	.LASF1503
 	.byte	0x1
 	.byte	0x1c
-	.uleb128 0xd
+	.uleb128 0xe
 	.byte	0x1
 	.byte	0x1
 	.long	.LASF1504
@@ -622,6 +624,13 @@ SS_table:
 	.byte	0
 	.byte	0
 	.uleb128 0xd
+	.uleb128 0x35
+	.byte	0
+	.uleb128 0x49
+	.uleb128 0x13
+	.byte	0
+	.byte	0
+	.uleb128 0xe
 	.uleb128 0x2e
 	.byte	0
 	.uleb128 0x3f
@@ -6035,8 +6044,8 @@ SS_table:
 	.string	"PINC5 5"
 .LASF204:
 	.string	"__FRACT_MAX__ 0X7FFFP-15R"
-.LASF392:
-	.string	"__BUILTIN_AVR_COUNTLSUK 1"
+.LASF545:
+	.string	"PRIuLEAST16 \"u\""
 .LASF422:
 	.string	"__BUILTIN_AVR_LLKBITS 1"
 .LASF603:
@@ -6395,8 +6404,8 @@ SS_table:
 	.string	"__UINT_LEAST8_MAX__ 0xff"
 .LASF508:
 	.string	"__INTTYPES_H_ "
-.LASF1215:
-	.string	"TWEN 2"
+.LASF876:
+	.string	"ACD 7"
 .LASF1161:
 	.string	"OCR2_0 0"
 .LASF410:
@@ -6641,8 +6650,6 @@ SS_table:
 	.string	"__BUILTIN_AVR_BITSUHK 1"
 .LASF104:
 	.string	"__INT64_C(c) c ## LL"
-.LASF1507:
-	.string	"D:\\\\descargas\\\\GccMatrixWS2812 V3\\\\GccMatrixWS2812 V3\\\\Debug"
 .LASF1180:
 	.string	"TWBR1 1"
 .LASF553:
@@ -6845,6 +6852,8 @@ SS_table:
 	.string	"SCNi32 \"li\""
 .LASF355:
 	.string	"__BUILTIN_AVR_ABSHR 1"
+.LASF1507:
+	.string	"C:\\\\Users\\\\Michelle\\\\Music\\\\GccMatrixWS2812 V3\\\\GccMatrixWS2812 V3\\\\Debug"
 .LASF840:
 	.string	"GPIOR22 2"
 .LASF860:
@@ -7229,8 +7238,8 @@ SS_table:
 	.string	"DIDR0 _SFR_MEM8(0x7E)"
 .LASF1021:
 	.string	"ADTS0 0"
-.LASF1239:
-	.string	"TXB80 0"
+.LASF1215:
+	.string	"TWEN 2"
 .LASF571:
 	.string	"SCNdFAST8 \"hhd\""
 .LASF856:
@@ -7341,6 +7350,8 @@ SS_table:
 	.string	"TWBR _SFR_MEM8(0xB8)"
 .LASF1449:
 	.string	"AVR_STACK_POINTER_HI_ADDR _SFR_IO_ADDR(SPH)"
+.LASF1239:
+	.string	"TXB80 0"
 .LASF515:
 	.string	"PRId16 \"d\""
 .LASF460:
@@ -7349,8 +7360,6 @@ SS_table:
 	.string	"__FLASH 1"
 .LASF444:
 	.string	"INT8_MIN (-INT8_MAX - 1)"
-.LASF545:
-	.string	"PRIuLEAST16 \"u\""
 .LASF1213:
 	.string	"TWCR _SFR_MEM8(0xBC)"
 .LASF474:
@@ -7951,8 +7960,8 @@ SS_table:
 	.string	"PB1 PORTB1"
 .LASF401:
 	.string	"__BUILTIN_AVR_BITSULR 1"
-.LASF876:
-	.string	"ACD 7"
+.LASF392:
+	.string	"__BUILTIN_AVR_COUNTLSUK 1"
 .LASF4:
 	.string	"__STDC_HOSTED__ 1"
 .LASF324:
