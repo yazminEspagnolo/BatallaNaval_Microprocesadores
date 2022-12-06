@@ -39,10 +39,14 @@
 
 uint16_t Joystick_CountTimer = TwoMiliSeg;
 uint16_t Joystickbutton_CountTimer = OneMiliSeg;
+
+volatile uint16_t ContadorPuntero = HalfSeg;
 volatile uint8_t Turno = 1;
-uint8_t digit_display = 0;
+volatile int ispressed;
 
 volatile int ijoy,jjoy;
+
+uint8_t digit_display = 0;
 
 extern void Joystick(void);
 
@@ -94,7 +98,7 @@ ISR(TIMER0_COMPA_vect)
 
 	else
 	{
-		Joystick_CountTimer=OneMiliSeg;
+		Joystick_CountTimer=TwoMiliSeg;
 		Joystick();
 	}
 	if (Joystickbutton_CountTimer)
@@ -119,5 +123,13 @@ ISR(TIMER0_COMPA_vect)
 				Joystickbutton_CountTimer = OneSeg;
 			}
 		}
+	}
+	if (ContadorPuntero)
+	{
+		ContadorPuntero--;
+	}
+	else
+	{
+		ContadorPuntero = HalfSeg;
 	}
 }

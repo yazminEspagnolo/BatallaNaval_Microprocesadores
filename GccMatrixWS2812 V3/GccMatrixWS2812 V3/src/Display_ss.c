@@ -18,8 +18,8 @@ uint8_t SS_table[]={0x03, 0x9F, 0x25, 0x0D, 0x99, 0x49, 0x41, 0x1F, 0x01, 0x09};
 uint8_t Player_table[]={0x31, 0x9E, 0x31, 0x24}; // P 1 P 2  DA 00100100
 uint8_t Digit_selector[]={DIGIT_1,DIGIT_2,DIGIT_3,DIGIT_4}; // Selector de digito
 uint8_t Digit_values[4]; // valores a mostrar (deben estar en formato de 7 segmentos)
-uint8_t Player1_Hits = 4;
-uint8_t Player2_Hits = 2;
+volatile uint8_t Player1_Hits = 0;
+volatile uint8_t Player2_Hits = 0;
 
 uint8_t DisplayCount = 0;
 

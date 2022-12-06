@@ -5460,6 +5460,8 @@ void Joystick(void);
 uint8_t button_check(void);
 # 9 "../src/JoystickButton.c" 2
 
+#define pressed 0
+
 
 volatile int ijoy,jjoy;
 volatile int ispressed;
@@ -5474,7 +5476,6 @@ void Joystick(void)
   if (ijoy < 7)
   {
    ijoy++;
-   send_num(ijoy);
   }
  }
  else if ((read_VRX() == 0) && (read_VRY() >= 0) && (read_VRY() <= 1023))
@@ -5482,7 +5483,6 @@ void Joystick(void)
   if (ijoy > 0)
   {
    ijoy--;
-   send_num(ijoy);
   }
  }
 
@@ -5491,7 +5491,6 @@ void Joystick(void)
   if (jjoy < 7)
   {
    jjoy++;
-   send_num(jjoy);
   }
  }
  else if ((read_VRX() >= 0) && (read_VRX() <= 1023) && (read_VRY() >= 700)&& (read_VRY() <= 1023))
@@ -5499,7 +5498,6 @@ void Joystick(void)
   if (jjoy > 0)
   {
    jjoy--;
-   send_num(jjoy);
   }
  }
  else
@@ -5519,9 +5517,9 @@ void Joystick(void)
 uint8_t button_check(void)
 {
  ispressed = (
-# 68 "../src/JoystickButton.c" 3
+# 66 "../src/JoystickButton.c" 3
              (*(volatile uint8_t *)((0x09) + 0x20)) 
-# 68 "../src/JoystickButton.c"
+# 66 "../src/JoystickButton.c"
                   & (1<<6));
  return (ispressed);
 }

@@ -7,12 +7,14 @@
 #include "Timer.h"
 #include "JoystickButton.h"
 
+#define pressed 0
+
 
 volatile int ijoy,jjoy;
 volatile int ispressed;
 void Joystick(void)
 {
-	if (button_check() == 0)
+	if (button_check() == pressed)
 	{
 		/*UART_putstring("Boton apretado \n");*/
 	}
@@ -21,7 +23,6 @@ void Joystick(void)
 		if (ijoy < 7)
 		{
 			ijoy++; //se mueve 1 a la derecha
-			send_num(ijoy);
 		}
 	}
 	else if ((read_VRX()  ==  0) && (read_VRY()  >=  0) && (read_VRY()  <=  1023))
@@ -29,7 +30,6 @@ void Joystick(void)
 		if (ijoy > 0)
 		{
 			ijoy--; //se mueve 1 a la izquierda
-			send_num(ijoy);
 		}
 	}
 
@@ -38,7 +38,6 @@ void Joystick(void)
 		if (jjoy < 7)
 		{
 			jjoy++; //se mueve 1 hacia arriba
-			send_num(jjoy);
 		}
 	}
 	else if ((read_VRX()  >=  0) && (read_VRX()  <=  1023) && (read_VRY()  >=  700)&& (read_VRY()  <=  1023))
@@ -46,7 +45,6 @@ void Joystick(void)
 		if (jjoy > 0)
 		{
 			jjoy--; //se mueve 1 hacia abajo
-			send_num(jjoy);
 		}
 	}
 	else

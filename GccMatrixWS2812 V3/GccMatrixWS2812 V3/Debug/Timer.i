@@ -1,5 +1,5 @@
 # 1 "../src/Timer.c"
-# 1 "D:\\descargas\\GccMatrixWS2812 V3\\GccMatrixWS2812 V3\\Debug//"
+# 1 "C:\\Users\\Michelle\\Music\\GccMatrixWS2812 V3\\GccMatrixWS2812 V3\\Debug//"
 # 1 "<built-in>"
 #define __STDC__ 1
 #define __STDC_VERSION__ 199901L
@@ -5508,115 +5508,119 @@ void set_P2(void);
 
 uint16_t Joystick_CountTimer = 100;
 uint16_t Joystickbutton_CountTimer = 50;
+
+volatile uint16_t ContadorPuntero = 250;
 volatile uint8_t Turno = 1;
-uint8_t digit_display = 0;
+volatile int ispressed;
 
 volatile int ijoy,jjoy;
+
+uint8_t digit_display = 0;
 
 extern void Joystick(void);
 
 void init_RTI(void)
 {
-# 59 "../src/Timer.c"
+# 63 "../src/Timer.c"
  
-# 59 "../src/Timer.c" 3
+# 63 "../src/Timer.c" 3
 (*(volatile uint8_t *)((0x24) + 0x20))
-# 59 "../src/Timer.c"
+# 63 "../src/Timer.c"
       =(0<<
-# 59 "../src/Timer.c" 3
+# 63 "../src/Timer.c" 3
            7
-# 59 "../src/Timer.c"
+# 63 "../src/Timer.c"
                  )|(0<<
-# 59 "../src/Timer.c" 3
+# 63 "../src/Timer.c" 3
                        6
-# 59 "../src/Timer.c"
+# 63 "../src/Timer.c"
                              )|(0<<
-# 59 "../src/Timer.c" 3
+# 63 "../src/Timer.c" 3
                                    5
-# 59 "../src/Timer.c"
+# 63 "../src/Timer.c"
                                          )|(0<<
-# 59 "../src/Timer.c" 3
+# 63 "../src/Timer.c" 3
                                                4
-# 59 "../src/Timer.c"
+# 63 "../src/Timer.c"
                                                      )|(1<<
-# 59 "../src/Timer.c" 3
+# 63 "../src/Timer.c" 3
                                                            1
-# 59 "../src/Timer.c"
+# 63 "../src/Timer.c"
                                                                 )|(0<<
-# 59 "../src/Timer.c" 3
+# 63 "../src/Timer.c" 3
                                                                       0
-# 59 "../src/Timer.c"
+# 63 "../src/Timer.c"
                                                                            );
 
 
 
 
  
-# 64 "../src/Timer.c" 3
+# 68 "../src/Timer.c" 3
 (*(volatile uint8_t *)((0x25) + 0x20))
-# 64 "../src/Timer.c"
+# 68 "../src/Timer.c"
       =(0<<
-# 64 "../src/Timer.c" 3
+# 68 "../src/Timer.c" 3
            7
-# 64 "../src/Timer.c"
+# 68 "../src/Timer.c"
                 )|(0<<
-# 64 "../src/Timer.c" 3
+# 68 "../src/Timer.c" 3
                       6
-# 64 "../src/Timer.c"
+# 68 "../src/Timer.c"
                            )|(0<<
-# 64 "../src/Timer.c" 3
+# 68 "../src/Timer.c" 3
                                  3
-# 64 "../src/Timer.c"
+# 68 "../src/Timer.c"
                                       )|(1<<
-# 64 "../src/Timer.c" 3
+# 68 "../src/Timer.c" 3
                                         2
-# 64 "../src/Timer.c"
+# 68 "../src/Timer.c"
                                         )|(0<<
-# 64 "../src/Timer.c" 3
+# 68 "../src/Timer.c" 3
                                         1
-# 64 "../src/Timer.c"
+# 68 "../src/Timer.c"
                                         )|(0<<
-# 64 "../src/Timer.c" 3
+# 68 "../src/Timer.c" 3
                                         0
-# 64 "../src/Timer.c"
+# 68 "../src/Timer.c"
                                         );
 
 
 
  
-# 68 "../src/Timer.c" 3
+# 72 "../src/Timer.c" 3
 (*(volatile uint8_t *)((0x27) + 0x20))
-# 68 "../src/Timer.c"
+# 72 "../src/Timer.c"
      =125;
 
 
 
  
-# 72 "../src/Timer.c" 3
+# 76 "../src/Timer.c" 3
 (*(volatile uint8_t *)(0x6E))
-# 72 "../src/Timer.c"
+# 76 "../src/Timer.c"
       =(0<<
-# 72 "../src/Timer.c" 3
+# 76 "../src/Timer.c" 3
            2
-# 72 "../src/Timer.c"
+# 76 "../src/Timer.c"
                  )|(1<<
-# 72 "../src/Timer.c" 3
+# 76 "../src/Timer.c" 3
                        1
-# 72 "../src/Timer.c"
+# 76 "../src/Timer.c"
                              )|(0<<
-# 72 "../src/Timer.c" 3
+# 76 "../src/Timer.c" 3
                                    0
-# 72 "../src/Timer.c"
+# 76 "../src/Timer.c"
                                         );
 }
 
 
 
 
-# 77 "../src/Timer.c" 3
+# 81 "../src/Timer.c" 3
 void __vector_14 (void) __attribute__ ((signal,used, externally_visible)) ; void __vector_14 (void)
 
-# 78 "../src/Timer.c"
+# 82 "../src/Timer.c"
 {
  display_resfesh(digit_display);
  if (digit_display < 3)
@@ -5636,7 +5640,7 @@ void __vector_14 (void) __attribute__ ((signal,used, externally_visible)) ; void
 
  else
  {
-  Joystick_CountTimer=50;
+  Joystick_CountTimer=100;
   Joystick();
  }
  if (Joystickbutton_CountTimer)
@@ -5661,5 +5665,13 @@ void __vector_14 (void) __attribute__ ((signal,used, externally_visible)) ; void
     Joystickbutton_CountTimer = 500;
    }
   }
+ }
+ if (ContadorPuntero)
+ {
+  ContadorPuntero--;
+ }
+ else
+ {
+  ContadorPuntero = 250;
  }
 }

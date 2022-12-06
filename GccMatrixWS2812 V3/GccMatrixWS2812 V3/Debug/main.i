@@ -1,5 +1,5 @@
 # 1 "../src/main.c"
-# 1 "D:\\descargas\\GccMatrixWS2812 V3\\GccMatrixWS2812 V3\\Debug//"
+# 1 "C:\\Users\\Michelle\\Music\\GccMatrixWS2812 V3\\GccMatrixWS2812 V3\\Debug//"
 # 1 "<built-in>"
 #define __STDC__ 1
 #define __STDC_VERSION__ 199901L
@@ -5421,399 +5421,6 @@ typedef enum status_code status_code_t;
 # 2 "../src/main.c" 2
 
 #define F_CPU 16000000UL
-# 1 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 1 3
-# 36 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 3
-#define _UTIL_DELAY_H_ 1
-
-
-
-#define __HAS_DELAY_CYCLES 1
-
-
-
-
-# 1 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay_basic.h" 1 3
-# 35 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay_basic.h" 3
-#define _UTIL_DELAY_BASIC_H_ 1
-
-
-
-
-
-# 40 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay_basic.h" 3
-static __inline__ void _delay_loop_1(uint8_t __count) __attribute__((__always_inline__));
-static __inline__ void _delay_loop_2(uint16_t __count) __attribute__((__always_inline__));
-# 80 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay_basic.h" 3
-void
-_delay_loop_1(uint8_t __count)
-{
- __asm__ volatile (
-  "1: dec %0" "\n\t"
-  "brne 1b"
-  : "=r" (__count)
-  : "0" (__count)
- );
-}
-# 102 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay_basic.h" 3
-void
-_delay_loop_2(uint16_t __count)
-{
- __asm__ volatile (
-  "1: sbiw %0,1" "\n\t"
-  "brne 1b"
-  : "=w" (__count)
-  : "0" (__count)
- );
-}
-# 46 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 2 3
-# 1 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h" 1 3
-# 49 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h" 3
-#define __MATH_H 
-# 71 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h" 3
-#define M_E 2.7182818284590452354
-
-
-#define M_LOG2E 1.4426950408889634074
-
-
-#define M_LOG10E 0.43429448190325182765
-
-
-#define M_LN2 0.69314718055994530942
-
-
-#define M_LN10 2.30258509299404568402
-
-
-#define M_PI 3.14159265358979323846
-
-
-#define M_PI_2 1.57079632679489661923
-
-
-#define M_PI_4 0.78539816339744830962
-
-
-#define M_1_PI 0.31830988618379067154
-
-
-#define M_2_PI 0.63661977236758134308
-
-
-#define M_2_SQRTPI 1.12837916709551257390
-
-
-#define M_SQRT2 1.41421356237309504880
-
-
-#define M_SQRT1_2 0.70710678118654752440
-
-
-#define NAN __builtin_nan("")
-
-
-#define INFINITY __builtin_inf()
-# 127 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h" 3
-extern double cos(double __x) __attribute__((__const__));
-#define cosf cos
-
-
-
-
-extern double sin(double __x) __attribute__((__const__));
-#define sinf sin
-
-
-
-
-extern double tan(double __x) __attribute__((__const__));
-#define tanf tan
-
-
-
-
-
-extern double fabs(double __x) __attribute__((__const__));
-#define fabsf fabs
-
-
-
-
-
-extern double fmod(double __x, double __y) __attribute__((__const__));
-#define fmodf fmod
-# 168 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h" 3
-extern double modf(double __x, double *__iptr);
-
-
-extern float modff (float __x, float *__iptr);
-
-
-
-
-extern double sqrt(double __x) __attribute__((__const__));
-
-
-extern float sqrtf (float) __attribute__((__const__));
-
-
-
-
-extern double cbrt(double __x) __attribute__((__const__));
-#define cbrtf cbrt
-# 195 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h" 3
-extern double hypot (double __x, double __y) __attribute__((__const__));
-#define hypotf hypot
-
-
-
-
-
-
-extern double square(double __x) __attribute__((__const__));
-#define squaref square
-
-
-
-
-
-extern double floor(double __x) __attribute__((__const__));
-#define floorf floor
-
-
-
-
-
-extern double ceil(double __x) __attribute__((__const__));
-#define ceilf ceil
-# 235 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h" 3
-extern double frexp(double __x, int *__pexp);
-#define frexpf frexp
-
-
-
-
-
-
-extern double ldexp(double __x, int __exp) __attribute__((__const__));
-#define ldexpf ldexp
-
-
-
-
-extern double exp(double __x) __attribute__((__const__));
-#define expf exp
-
-
-
-
-extern double cosh(double __x) __attribute__((__const__));
-#define coshf cosh
-
-
-
-
-extern double sinh(double __x) __attribute__((__const__));
-#define sinhf sinh
-
-
-
-
-extern double tanh(double __x) __attribute__((__const__));
-#define tanhf tanh
-
-
-
-
-
-
-extern double acos(double __x) __attribute__((__const__));
-#define acosf acos
-
-
-
-
-
-
-extern double asin(double __x) __attribute__((__const__));
-#define asinf asin
-
-
-
-
-
-extern double atan(double __x) __attribute__((__const__));
-#define atanf atan
-
-
-
-
-
-
-
-extern double atan2(double __y, double __x) __attribute__((__const__));
-#define atan2f atan2
-
-
-
-
-extern double log(double __x) __attribute__((__const__));
-#define logf log
-
-
-
-
-extern double log10(double __x) __attribute__((__const__));
-#define log10f log10
-
-
-
-
-extern double pow(double __x, double __y) __attribute__((__const__));
-#define powf pow
-
-
-
-
-
-extern int isnan(double __x) __attribute__((__const__));
-#define isnanf isnan
-# 334 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h" 3
-extern int isinf(double __x) __attribute__((__const__));
-#define isinff isinf
-
-
-
-
-
-__attribute__((__const__)) static inline int isfinite (double __x)
-{
-    unsigned char __exp;
-    __asm__ (
- "mov	%0, %C1		\n\t"
- "lsl	%0		\n\t"
- "mov	%0, %D1		\n\t"
- "rol	%0		"
- : "=r" (__exp)
- : "r" (__x) );
-    return __exp != 0xff;
-}
-#define isfinitef isfinite
-
-
-
-
-
-__attribute__((__const__)) static inline double copysign (double __x, double __y)
-{
-    __asm__ (
- "bst	%D2, 7	\n\t"
- "bld	%D0, 7	"
- : "=r" (__x)
- : "0" (__x), "r" (__y) );
-    return __x;
-}
-#define copysignf copysign
-# 377 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h" 3
-extern int signbit (double __x) __attribute__((__const__));
-#define signbitf signbit
-
-
-
-
-
-extern double fdim (double __x, double __y) __attribute__((__const__));
-#define fdimf fdim
-
-
-
-
-
-
-
-extern double fma (double __x, double __y, double __z) __attribute__((__const__));
-#define fmaf fma
-
-
-
-
-
-
-extern double fmax (double __x, double __y) __attribute__((__const__));
-#define fmaxf fmax
-
-
-
-
-
-
-extern double fmin (double __x, double __y) __attribute__((__const__));
-#define fminf fmin
-
-
-
-
-
-extern double trunc (double __x) __attribute__((__const__));
-#define truncf trunc
-# 427 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h" 3
-extern double round (double __x) __attribute__((__const__));
-#define roundf round
-# 440 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h" 3
-extern long lround (double __x) __attribute__((__const__));
-#define lroundf lround
-# 454 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h" 3
-extern long lrint (double __x) __attribute__((__const__));
-#define lrintf lrint
-# 47 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 2 3
-# 86 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 3
-static __inline__ void _delay_us(double __us) __attribute__((__always_inline__));
-static __inline__ void _delay_ms(double __ms) __attribute__((__always_inline__));
-# 165 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 3
-void
-_delay_ms(double __ms)
-{
- double __tmp ;
-
-
-
- uint32_t __ticks_dc;
- extern void __builtin_avr_delay_cycles(unsigned long);
- __tmp = ((
-# 174 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h"
-          16000000UL
-# 174 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 3
-               ) / 1e3) * __ms;
-# 184 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 3
-  __ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
-
-
- __builtin_avr_delay_cycles(__ticks_dc);
-# 210 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 3
-}
-# 254 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 3
-void
-_delay_us(double __us)
-{
- double __tmp ;
-
-
-
- uint32_t __ticks_dc;
- extern void __builtin_avr_delay_cycles(unsigned long);
- __tmp = ((
-# 263 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h"
-          16000000UL
-# 263 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 3
-               ) / 1e6) * __us;
-# 273 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 3
-  __ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
-
-
- __builtin_avr_delay_cycles(__ticks_dc);
-# 299 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 3
-}
-# 5 "../src/main.c" 2
 # 1 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\stdio.h" 1 3
 # 40 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\stdio.h" 3
 #define _STDIO_H_ 1
@@ -5832,6 +5439,8 @@ _delay_us(double __us)
 
 
 #define __GNUC_VA_LIST 
+
+# 40 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\lib\\gcc\\avr\\5.4.0\\include\\stdarg.h" 3 4
 typedef __builtin_va_list __gnuc_va_list;
 
 
@@ -6262,8 +5871,426 @@ extern char *tmpnam (char *s);
 #define SEEK_SET 0
 #define SEEK_CUR 1
 #define SEEK_END 2
-# 6 "../src/main.c" 2
+# 5 "../src/main.c" 2
 
+#define __DELAY_BACKWARD_COMPATIBLE__ 
+# 1 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 1 3
+# 36 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 3
+#define _UTIL_DELAY_H_ 1
+
+
+
+#define __HAS_DELAY_CYCLES 1
+
+
+
+
+# 1 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay_basic.h" 1 3
+# 35 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay_basic.h" 3
+#define _UTIL_DELAY_BASIC_H_ 1
+
+
+
+
+static __inline__ void _delay_loop_1(uint8_t __count) __attribute__((__always_inline__));
+static __inline__ void _delay_loop_2(uint16_t __count) __attribute__((__always_inline__));
+# 80 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay_basic.h" 3
+void
+_delay_loop_1(uint8_t __count)
+{
+ __asm__ volatile (
+  "1: dec %0" "\n\t"
+  "brne 1b"
+  : "=r" (__count)
+  : "0" (__count)
+ );
+}
+# 102 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay_basic.h" 3
+void
+_delay_loop_2(uint16_t __count)
+{
+ __asm__ volatile (
+  "1: sbiw %0,1" "\n\t"
+  "brne 1b"
+  : "=w" (__count)
+  : "0" (__count)
+ );
+}
+# 46 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 2 3
+# 1 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h" 1 3
+# 49 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h" 3
+#define __MATH_H 
+# 71 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h" 3
+#define M_E 2.7182818284590452354
+
+
+#define M_LOG2E 1.4426950408889634074
+
+
+#define M_LOG10E 0.43429448190325182765
+
+
+#define M_LN2 0.69314718055994530942
+
+
+#define M_LN10 2.30258509299404568402
+
+
+#define M_PI 3.14159265358979323846
+
+
+#define M_PI_2 1.57079632679489661923
+
+
+#define M_PI_4 0.78539816339744830962
+
+
+#define M_1_PI 0.31830988618379067154
+
+
+#define M_2_PI 0.63661977236758134308
+
+
+#define M_2_SQRTPI 1.12837916709551257390
+
+
+#define M_SQRT2 1.41421356237309504880
+
+
+#define M_SQRT1_2 0.70710678118654752440
+
+
+#define NAN __builtin_nan("")
+
+
+#define INFINITY __builtin_inf()
+# 127 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h" 3
+extern double cos(double __x) __attribute__((__const__));
+#define cosf cos
+
+
+
+
+extern double sin(double __x) __attribute__((__const__));
+#define sinf sin
+
+
+
+
+extern double tan(double __x) __attribute__((__const__));
+#define tanf tan
+
+
+
+
+
+extern double fabs(double __x) __attribute__((__const__));
+#define fabsf fabs
+
+
+
+
+
+extern double fmod(double __x, double __y) __attribute__((__const__));
+#define fmodf fmod
+# 168 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h" 3
+extern double modf(double __x, double *__iptr);
+
+
+extern float modff (float __x, float *__iptr);
+
+
+
+
+extern double sqrt(double __x) __attribute__((__const__));
+
+
+extern float sqrtf (float) __attribute__((__const__));
+
+
+
+
+extern double cbrt(double __x) __attribute__((__const__));
+#define cbrtf cbrt
+# 195 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h" 3
+extern double hypot (double __x, double __y) __attribute__((__const__));
+#define hypotf hypot
+
+
+
+
+
+
+extern double square(double __x) __attribute__((__const__));
+#define squaref square
+
+
+
+
+
+extern double floor(double __x) __attribute__((__const__));
+#define floorf floor
+
+
+
+
+
+extern double ceil(double __x) __attribute__((__const__));
+#define ceilf ceil
+# 235 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h" 3
+extern double frexp(double __x, int *__pexp);
+#define frexpf frexp
+
+
+
+
+
+
+extern double ldexp(double __x, int __exp) __attribute__((__const__));
+#define ldexpf ldexp
+
+
+
+
+extern double exp(double __x) __attribute__((__const__));
+#define expf exp
+
+
+
+
+extern double cosh(double __x) __attribute__((__const__));
+#define coshf cosh
+
+
+
+
+extern double sinh(double __x) __attribute__((__const__));
+#define sinhf sinh
+
+
+
+
+extern double tanh(double __x) __attribute__((__const__));
+#define tanhf tanh
+
+
+
+
+
+
+extern double acos(double __x) __attribute__((__const__));
+#define acosf acos
+
+
+
+
+
+
+extern double asin(double __x) __attribute__((__const__));
+#define asinf asin
+
+
+
+
+
+extern double atan(double __x) __attribute__((__const__));
+#define atanf atan
+
+
+
+
+
+
+
+extern double atan2(double __y, double __x) __attribute__((__const__));
+#define atan2f atan2
+
+
+
+
+extern double log(double __x) __attribute__((__const__));
+#define logf log
+
+
+
+
+extern double log10(double __x) __attribute__((__const__));
+#define log10f log10
+
+
+
+
+extern double pow(double __x, double __y) __attribute__((__const__));
+#define powf pow
+
+
+
+
+
+extern int isnan(double __x) __attribute__((__const__));
+#define isnanf isnan
+# 334 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h" 3
+extern int isinf(double __x) __attribute__((__const__));
+#define isinff isinf
+
+
+
+
+
+__attribute__((__const__)) static inline int isfinite (double __x)
+{
+    unsigned char __exp;
+    __asm__ (
+ "mov	%0, %C1		\n\t"
+ "lsl	%0		\n\t"
+ "mov	%0, %D1		\n\t"
+ "rol	%0		"
+ : "=r" (__exp)
+ : "r" (__x) );
+    return __exp != 0xff;
+}
+#define isfinitef isfinite
+
+
+
+
+
+__attribute__((__const__)) static inline double copysign (double __x, double __y)
+{
+    __asm__ (
+ "bst	%D2, 7	\n\t"
+ "bld	%D0, 7	"
+ : "=r" (__x)
+ : "0" (__x), "r" (__y) );
+    return __x;
+}
+#define copysignf copysign
+# 377 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h" 3
+extern int signbit (double __x) __attribute__((__const__));
+#define signbitf signbit
+
+
+
+
+
+extern double fdim (double __x, double __y) __attribute__((__const__));
+#define fdimf fdim
+
+
+
+
+
+
+
+extern double fma (double __x, double __y, double __z) __attribute__((__const__));
+#define fmaf fma
+
+
+
+
+
+
+extern double fmax (double __x, double __y) __attribute__((__const__));
+#define fmaxf fmax
+
+
+
+
+
+
+extern double fmin (double __x, double __y) __attribute__((__const__));
+#define fminf fmin
+
+
+
+
+
+extern double trunc (double __x) __attribute__((__const__));
+#define truncf trunc
+# 427 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h" 3
+extern double round (double __x) __attribute__((__const__));
+#define roundf round
+# 440 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h" 3
+extern long lround (double __x) __attribute__((__const__));
+#define lroundf lround
+# 454 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\math.h" 3
+extern long lrint (double __x) __attribute__((__const__));
+#define lrintf lrint
+# 47 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 2 3
+# 86 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 3
+static __inline__ void _delay_us(double __us) __attribute__((__always_inline__));
+static __inline__ void _delay_ms(double __ms) __attribute__((__always_inline__));
+# 165 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 3
+void
+_delay_ms(double __ms)
+{
+ double __tmp ;
+# 190 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 3
+ uint16_t __ticks;
+ __tmp = ((
+# 191 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h"
+          16000000UL
+# 191 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 3
+               ) / 4e3) * __ms;
+ if (__tmp < 1.0)
+  __ticks = 1;
+ else if (__tmp > 65535)
+ {
+
+  __ticks = (uint16_t) (__ms * 10.0);
+  while(__ticks)
+  {
+
+   _delay_loop_2(((
+# 201 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h"
+                  16000000UL
+# 201 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 3
+                       ) / 4e3) / 10);
+   __ticks --;
+  }
+  return;
+ }
+ else
+  __ticks = (uint16_t)__tmp;
+ _delay_loop_2(__ticks);
+
+}
+# 254 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 3
+void
+_delay_us(double __us)
+{
+ double __tmp ;
+# 279 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 3
+ uint8_t __ticks;
+ double __tmp2 ;
+ __tmp = ((
+# 281 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h"
+          16000000UL
+# 281 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 3
+               ) / 3e6) * __us;
+ __tmp2 = ((
+# 282 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h"
+           16000000UL
+# 282 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\util\\delay.h" 3
+                ) / 4e6) * __us;
+ if (__tmp < 1.0)
+  __ticks = 1;
+ else if (__tmp2 > 65535)
+ {
+  _delay_ms(__us / 1000.0);
+ }
+ else if (__tmp > 255)
+ {
+  uint16_t __ticks=(uint16_t)__tmp2;
+  _delay_loop_2(__ticks);
+  return;
+ }
+ else
+  __ticks = (uint8_t)__tmp;
+ _delay_loop_1(__ticks);
+
+}
+# 8 "../src/main.c" 2
 
 
 # 1 "../src/UART.h" 1
@@ -6280,7 +6307,7 @@ void UART_putstring(char *);
 void send_num(int numero);
 
 int uart_test(void);
-# 10 "../src/main.c" 2
+# 11 "../src/main.c" 2
 # 1 "../src/ADC.h" 1
 # 10 "../src/ADC.h"
 #define ADC_H_ 
@@ -6291,26 +6318,26 @@ void adc_init(void);
 uint16_t read_adc(uint8_t channel);
 uint16_t read_VRX(void);
 uint16_t read_VRY(void);
-# 11 "../src/main.c" 2
+# 12 "../src/main.c" 2
 # 1 "../src/Timer.h" 1
 # 10 "../src/Timer.h"
 #define TIMER_H_ 
 void init_RTI(void);
 int Timer_TB (void);
-# 12 "../src/main.c" 2
+# 13 "../src/main.c" 2
 # 1 "../src/JoystickButton.h" 1
 # 10 "../src/JoystickButton.h"
 #define JOYSTICKBUTTON_H_ 
 
 void Joystick(void);
 uint8_t button_check(void);
-# 13 "../src/main.c" 2
+# 14 "../src/main.c" 2
 # 1 "../src/C_CheckByte.h" 1
 # 10 "../src/C_CheckByte.h"
 #define C_CHECKBYTE_H_ 
 
 uint8_t CheckByte(uint8_t);
-# 14 "../src/main.c" 2
+# 15 "../src/main.c" 2
 # 1 "../src/Display_ss.h" 1
 # 10 "../src/Display_ss.h"
 #define DISPLAY_SS_H_ 
@@ -6318,7 +6345,7 @@ void display_resfesh(uint8_t);
 void display_init(void);
 void set_P1(void);
 void set_P2(void);
-# 15 "../src/main.c" 2
+# 16 "../src/main.c" 2
 
 # 1 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\string.h" 1 3
 # 41 "c:\\program files (x86)\\atmel\\studio\\7.0\\toolchain\\avr8\\avr8-gnu-toolchain\\avr\\include\\string.h" 3
@@ -6447,10 +6474,10 @@ extern char *strupr(char *);
 extern int strcoll(const char *s1, const char *s2);
 extern char *strerror(int errnum);
 extern size_t strxfrm(char *dest, const char *src, size_t n);
-# 17 "../src/main.c" 2
-# 34 "../src/main.c"
+# 18 "../src/main.c" 2
+# 35 "../src/main.c"
 
-# 34 "../src/main.c"
+# 35 "../src/main.c"
 typedef struct
   {
    uint8_t green;
@@ -6471,13 +6498,16 @@ RGBled hundido={0,100,0};
 RGBled agua={0,0,100};
 RGBled tocado={100,100,25};
 RGBled Apagado={0,0,0};
-RGBled puntero = {10, 10, 0};
+RGBled punteroP1 = {25, 15, 0};
+RGBled punteroP2 = {40, 5, 25};
 RGBled Matriz_RGB[8][8];
 
 #define submarine (1<<6)
 #define cargoBoat (1<<7)
+#define Turn1 1
+#define Turn2 2
 
-uint16_t ContadorPuntero = 0;
+volatile uint16_t ContadorPuntero;
 
 const uint16_t derecha_min = 800;
 const uint16_t derecha_max = 1023;
@@ -6495,16 +6525,17 @@ extern void init_ws2812(void);
 extern void wrt_ws2812(P2RGB);
 
 
-void Mostrar_Matriz_2(void);
-void Mostrar_Matriz_1(void);
 void softdelay(void);
 void clear_disp(void);
 char msg[] = "Hello from ATmega328p\r\n  ";
 
+
 volatile uint16_t ijoy;
 volatile uint16_t jjoy;
 
-void ADCTestBench(void);
+
+volatile uint8_t Player1_Hits;
+volatile uint8_t Player2_Hits;
 
 
 void display_init(void);
@@ -6512,21 +6543,24 @@ void set_P1(void);
 void set_P2(void);
 
 
-
-
-
 RGBled Matriz_P1[8][8];
 RGBled Matriz_P2[8][8];
 
 
 void embarcacion(char b[3]);
-void PunteroDelJuegoP1(void);
-void PunteroDelJuegoP2(void);
+void Game_Logic(void);
+void TurnoP1(void);
+void TurnoP2(void);
+void Mostrar_Matriz_1(void);
+void Mostrar_Matriz_2(void);
+void ShootP1(void);
+void ShootP2(void);
+
 
 extern void joybutton_Init(void);
 
 uint8_t button_press(void);
-volatile uint8_t ispressed;
+volatile int ispressed;
 
 volatile uint8_t Turno;
 
@@ -6559,45 +6593,109 @@ int main (void)
      Matriz_P2[r][c]=Apagado;
 
   clear_disp();
-# 159 "../src/main.c"
+# 167 "../src/main.c"
    
-# 159 "../src/main.c" 3
+# 167 "../src/main.c" 3
   __asm__ __volatile__ ("sei" ::: "memory")
-# 159 "../src/main.c"
+# 167 "../src/main.c"
        ;
 
    while(1)
    {
-    if (Turno == 1)
-    {
-     set_P1();
-     while (Turno == 1)
-     {
-      clear_disp();
-
-      Mostrar_Matriz_2();
-      Matriz_RGB[ijoy][jjoy] = puntero;
-      _delay_ms(50);
-      wrt_ws2812(p2disp);
-     }
-    }
-
-    else if (Turno == 2)
-    {
-     set_P2();
-     while (Turno == 2)
-     {
-      clear_disp();
-      Mostrar_Matriz_1();
-      Matriz_RGB[ijoy][jjoy] = puntero;
-      _delay_ms(50);
-      wrt_ws2812(p2disp);
-     }
-    }
+    Game_Logic();
    }
-# 234 "../src/main.c"
 }
-# 287 "../src/main.c"
+
+
+void ShootP1 (void)
+{
+ Matriz_P2[ijoy][jjoy] = hundido;
+ Player1_Hits += 1;
+}
+
+void ShootP2 (void)
+{
+ Matriz_P1[ijoy][jjoy] = hundido;
+ Player2_Hits += 1;
+}
+
+
+void Game_Logic(void)
+{
+ if (Turno == 1)
+ {
+  TurnoP1();
+ }
+
+ else if (Turno == 2)
+ {
+  TurnoP2();
+ }
+}
+
+void TurnoP1(void)
+{
+ set_P1();
+ ispressed = 1;
+ while (ispressed != 0)
+ {
+  if (ContadorPuntero < 90)
+  {
+   Mostrar_Matriz_2();
+   Matriz_RGB[ijoy][jjoy] = punteroP1;
+   _delay_ms(50);
+   wrt_ws2812(p2disp);
+  }
+
+  else
+  {
+   Mostrar_Matriz_2();
+   _delay_ms(50);
+   wrt_ws2812(p2disp);
+  }
+ }
+
+ clear_disp();
+ ShootP1();
+ Mostrar_Matriz_2();
+
+ _delay_ms(20);
+ wrt_ws2812(p2disp);
+ _delay_ms(2000);
+}
+
+void TurnoP2(void)
+{
+ set_P2();
+ ispressed = 1;
+ while (ispressed != 0)
+ {
+  if (ContadorPuntero < 90)
+  {
+   Mostrar_Matriz_1();
+   Matriz_RGB[ijoy][jjoy] = punteroP2;
+   _delay_ms(50);
+   wrt_ws2812(p2disp);
+  }
+
+  else
+  {
+   Mostrar_Matriz_1();
+   _delay_ms(50);
+   wrt_ws2812(p2disp);
+  }
+ }
+
+ clear_disp();
+ ShootP2();
+ Mostrar_Matriz_1();
+
+ _delay_ms(20);
+ wrt_ws2812(p2disp);
+ _delay_ms(2000);
+}
+
+
 void Mostrar_Matriz_2(void)
 {
  for (int i=0; i<=7; i++)
@@ -6611,21 +6709,21 @@ void Mostrar_Matriz_1(void)
   for (int j=0; j<=7; j++)
    Matriz_RGB[i][j] = Matriz_P1[i][j];
 }
-# 328 "../src/main.c"
+# 306 "../src/main.c"
 void clear_disp(void)
 {
  
-# 330 "../src/main.c" 3
+# 308 "../src/main.c" 3
 __asm__ __volatile__ ("cli" ::: "memory")
-# 330 "../src/main.c"
+# 308 "../src/main.c"
      ;
  for(int r=0;r<=7;r++)
   for(int c=0;c<=7;c++)
     Matriz_RGB[r][c]=Apagado;
  
-# 334 "../src/main.c" 3
+# 312 "../src/main.c" 3
 __asm__ __volatile__ ("sei" ::: "memory")
-# 334 "../src/main.c"
+# 312 "../src/main.c"
      ;
 }
 
@@ -6638,27 +6736,5 @@ void softdelay(void)
  for (d=400000;d;d--)
  {
  };
-
-}
-
-
-void ADCTestBench(void)
-{
- char buffer[5];
-
- while(1){
-
-
-  itoa(read_VRX(),(char*)buffer, 10);
-  UART_putstring(buffer);
-  UART_send_data('\t');
-  UART_send_data('\t');
-
-  itoa(read_VRY(), (char *)buffer, 10);
-  UART_putstring(buffer);
-  UART_send_data('\r');
-  UART_send_data('\n');
-  _delay_ms(1000);
- }
 
 }

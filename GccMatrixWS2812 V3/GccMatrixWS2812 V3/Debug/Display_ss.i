@@ -1,5 +1,5 @@
 # 1 "../src/Display_ss.c"
-# 1 "D:\\descargas\\GccMatrixWS2812 V3\\GccMatrixWS2812 V3\\Debug//"
+# 1 "C:\\Users\\Michelle\\Music\\GccMatrixWS2812 V3\\GccMatrixWS2812 V3\\Debug//"
 # 1 "<built-in>"
 #define __STDC__ 1
 #define __STDC_VERSION__ 199901L
@@ -2501,8 +2501,8 @@ uint8_t SS_table[]={0x03, 0x9F, 0x25, 0x0D, 0x99, 0x49, 0x41, 0x1F, 0x01, 0x09};
 uint8_t Player_table[]={0x31, 0x9E, 0x31, 0x24};
 uint8_t Digit_selector[]={0b10000000,0b01000000,0b00100000,0b00010000};
 uint8_t Digit_values[4];
-uint8_t Player1_Hits = 4;
-uint8_t Player2_Hits = 2;
+volatile uint8_t Player1_Hits = 0;
+volatile uint8_t Player2_Hits = 0;
 
 uint8_t DisplayCount = 0;
 
